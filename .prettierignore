@@ -1,0 +1,8 @@
+.next/
+node_modules/
+pnpm-lock.yaml
+docs/specs/
+docs/system/
+docs/engineering/
+docs/Initial/
+CHANGELOG.md

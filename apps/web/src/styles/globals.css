@@ -1,0 +1,218 @@
+@import 'tailwindcss';
+@import './tokens.css';
+
+/**
+ * Tailwind v4 theme mapping — exposes the tokens above as utilities.
+ * This is the ONLY place a design-system value is mapped to a class name.
+ * See docs/engineering/tech-stack.md §2 — no tailwind.config color palette,
+ * no duplicate source of truth.
+ */
+@theme {
+  /* neutral aliases — theme-reactive via [data-theme] on the section root */
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-border-soft: var(--border-soft);
+  --color-text: var(--text);
+  --color-text-2: var(--text-2);
+  --color-text-3: var(--text-3);
+  --color-accent-text: var(--accent-text);
+
+  /* absolute — used only inside components that are intentionally
+     theme-locked (e.g. the wordmark band, which is always dark) */
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-press: var(--accent-press);
+  --color-accent-on: var(--accent-on);
+  --color-accent-wash: var(--accent-wash);
+  --color-accent-line: var(--accent-line);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
+  --color-info: var(--info);
+
+  --font-display: var(--ff-display);
+  --font-body: var(--ff-body);
+  --font-mono: var(--ff-mono);
+
+  --text-display-xl: var(--fs-display-xl);
+  --text-display-l: var(--fs-display-l);
+  --text-h2: var(--fs-h2);
+  --text-h3: var(--fs-h3);
+  --text-h4: var(--fs-h4);
+  --text-body-l: var(--fs-body-l);
+  --text-body: var(--fs-body);
+  --text-body-s: var(--fs-body-s);
+  --text-label: var(--fs-label);
+  --text-metric: var(--fs-metric);
+  --text-code: var(--fs-code);
+  /* footer wordmark band only — not part of the core type scale in
+     design-system.md §3.2, but still a token rather than an arbitrary value */
+  --text-wordmark: clamp(3.5rem, 14vw, 11rem);
+
+  --spacing-section-y: var(--section-y);
+  --spacing-section-y-compact: var(--section-y-compact);
+  --spacing-gutter: var(--gutter);
+
+  /* --container-* is the namespace Tailwind v4 maps to max-w-* utilities
+     (distinct from --spacing-*, which drives padding/margin/gap sizes). */
+  --container-page: var(--container);
+  --container-content: var(--content);
+  /* design-system.md §3.3 measure rules — headline 18ch, body copy 68ch */
+  --container-headline: 18ch;
+  --container-measure: 68ch;
+
+  --radius-none: var(--r-none);
+  --radius-sm: var(--r-sm);
+  --radius-md: var(--r-md);
+  --radius-lg: var(--r-lg);
+  --radius-xl: var(--r-xl);
+  --radius-full: var(--r-full);
+
+  /* --shadow-elevated is intentionally NOT re-mapped here (yet). It's a
+     per-theme alias declared in tokens.css §2.5, set on each [data-theme]
+     section root. Nothing consumes it as a Tailwind utility today; when
+     something does, give it a distinct @theme key name — see the note
+     below on why reusing the source name breaks. */
+
+  /* Renamed rather than reusing the tokens.css source names — a Tailwind
+     @theme key with the SAME name as the var() it references is a
+     self-referential custom property (CSS resolves it as guaranteed-invalid,
+     so the utility would silently do nothing). */
+  --ease-out-expensive: var(--ease-out);
+  --ease-in-out-symmetric: var(--ease-in-out);
+  --ease-soft-ui: var(--ease-soft);
+
+  /* design-system.md §3.2 — display-xl line-height is 0.92, tighter than
+     Tailwind's leading-none (1). Named rather than arbitrary. */
+  --leading-display-xl: 0.92;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--d-bg);
+    color: var(--d-text);
+    font-family: var(--ff-body);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Design-system.md §1: sophistication through space, not decoration —
+     headlines never rag onto three lines by accident. */
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--ff-display);
+    font-weight: 500;
+    text-wrap: balance;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background: var(--accent-wash);
+    color: var(--d-text);
+  }
+}
+
+@layer utilities {
+  /* Tier 3 ambient reveal — motion-system.md §3. Fires once, 24px, fades opacity.
+     Reduced-motion strips the transform entirely rather than shortening it. */
+  .reveal {
+    opacity: 0;
+    transform: translateY(var(--reveal-y));
+    transition:
+      opacity var(--dur-base) var(--ease-out),
+      transform var(--dur-base) var(--ease-out);
+    transition-delay: calc(var(--reveal-i, 0) * var(--stagger));
+  }
+  .reveal.is-in {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Hero headline reveal — CSS-only @keyframes so it runs with zero JS,
+     satisfying motion-system.md §6 rule 1 ("hero renders complete without
+     JS"). Content is in the DOM immediately; the animation is purely
+     decorative on top of it. Stagger delay is set per-line via
+     --reveal-i (the one place a per-instance inline style is legitimate —
+     see conventions.md §3). */
+  @keyframes mask-reveal-in {
+    from {
+      transform: translateY(105%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+  .mask-reveal-line {
+    overflow: hidden;
+    display: block;
+  }
+  .mask-reveal-line > span {
+    display: block;
+    animation: mask-reveal-in var(--dur-slow) var(--ease-out) both;
+    animation-delay: calc(var(--reveal-i, 0) * 80ms);
+  }
+
+  /* Hero ambient background grid, radially masked. §7.1's hero-has-no-JS
+     rule — pure CSS, no canvas, no JS. */
+  .hero-ambient-grid {
+    background-image:
+      linear-gradient(var(--d-border-soft) 1px, transparent 1px),
+      linear-gradient(90deg, var(--d-border-soft) 1px, transparent 1px);
+    background-size: 72px 72px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, #000 20%, transparent 78%);
+  }
+
+  @keyframes fade-up-in {
+    from {
+      opacity: 0;
+      transform: translateY(var(--reveal-y));
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .fade-up-in {
+    animation: fade-up-in var(--dur-base) var(--ease-out) both;
+    animation-delay: calc(var(--reveal-i, 0) * var(--stagger));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+  .mask-reveal-line > span,
+  .fade-up-in {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

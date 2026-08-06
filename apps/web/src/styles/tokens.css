@@ -1,0 +1,142 @@
+/**
+ * Design tokens — the single source of truth.
+ * Mirrors docs/system/design-system.md exactly. Do not duplicate these
+ * values anywhere else (no tailwind.config color palette, no inline hex).
+ * Contrast ratios cited in comments are verified in design-system.md §2.3.
+ */
+
+:root {
+  color-scheme: dark;
+
+  /* ---- 2.1 Dark canvas (default) ---- */
+  --d-bg: #0a0a0b;
+  --d-surface: #131315;
+  --d-surface-2: #1c1c1f;
+  --d-border: #26262a;
+  --d-border-soft: rgba(245, 244, 242, 0.08);
+  --d-text: #f5f4f2; /* never pure white — vibrates on dark */
+  --d-text-2: #a3a19d;
+  --d-text-3: #6e6c68;
+
+  /* ---- 2.2 Light canvas ---- */
+  --l-bg: #fafaf8;
+  --l-surface: #ffffff;
+  --l-sunken: #f1f0ec;
+  --l-border: #e2e0da;
+  --l-text: #121212;
+  --l-text-2: #57544e;
+  --l-text-3: #8a8781;
+
+  /* ---- 2.3 Accent — Signal Amber ---- */
+  --accent: #ff9130; /* 8.78:1 on dark — text-safe there only */
+  --accent-hover: #ffa954;
+  --accent-ink: #9a4d06; /* 5.82:1 on light — the light-surface text substitute */
+  --accent-press: #e5761a;
+  --accent-on: #1a0e03; /* text/icon sitting on an amber fill */
+  --accent-wash: rgba(255, 145, 48, 0.12);
+  --accent-line: rgba(255, 145, 48, 0.3);
+
+  /* ---- 2.4 Semantic — product UI / forms / agent demo only, never marketing ---- */
+  --success: #4ade80;
+  --warning: #facc15;
+  --error: #f87171;
+  --info: #60a5fa;
+
+  /* ---- 3.1 Type faces ---- */
+  --ff-display: 'Cabinet Grotesk', 'Satoshi', system-ui, sans-serif;
+  --ff-body: 'Satoshi', -apple-system, 'Segoe UI', sans-serif;
+  --ff-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+
+  /* ---- 3.2 Type scale ---- */
+  --fs-display-xl: clamp(3.5rem, 1.8rem + 7vw, 7.5rem);
+  --fs-display-l: clamp(2.75rem, 1.6rem + 4.6vw, 5rem);
+  --fs-h2: clamp(2rem, 1.3rem + 2.8vw, 3.5rem);
+  --fs-h3: clamp(1.5rem, 1.15rem + 1.4vw, 2.25rem);
+  --fs-h4: 1.25rem;
+  --fs-body-l: 1.125rem;
+  --fs-body: 1rem;
+  --fs-body-s: 0.875rem;
+  --fs-label: 0.75rem;
+  --fs-metric: clamp(2.25rem, 1.5rem + 3vw, 4rem);
+  --fs-code: 0.875rem;
+
+  /* ---- 4.1 Spacing scale (4px base) ---- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+  --space-32: 8rem;
+  --space-40: 10rem;
+  --section-y: clamp(5rem, 3rem + 7vw, 10rem);
+  --section-y-compact: clamp(2.5rem, 2rem + 2vw, 4rem);
+
+  /* ---- 4.2 Container & grid ---- */
+  --container: 1280px;
+  --content: 1120px;
+  --gutter: clamp(1.25rem, 0.75rem + 2.5vw, 3rem);
+
+  /* ---- 4.3 Radius ---- */
+  --r-none: 0;
+  --r-sm: 6px;
+  --r-md: 10px;
+  --r-lg: 16px;
+  --r-xl: 24px;
+  --r-full: 999px;
+
+  /* ---- 4.4 Elevation (light canvas only — dark uses surface steps) ---- */
+  --shadow-1: 0 1px 2px rgba(18, 18, 18, 0.04), 0 4px 12px rgba(18, 18, 18, 0.05);
+  --shadow-2: 0 2px 4px rgba(18, 18, 18, 0.05), 0 12px 32px rgba(18, 18, 18, 0.08);
+
+  /* ---- 5. Motion tokens ---- */
+  --dur-instant: 120ms;
+  --dur-fast: 200ms;
+  --dur-base: 320ms;
+  --dur-slow: 520ms;
+  --dur-scene: 800ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-soft: cubic-bezier(0.33, 1, 0.68, 1);
+  --stagger: 60ms;
+  --reveal-y: 24px;
+}
+
+/**
+ * 2.5 Theming mechanism — sections carry the theme, not the page.
+ * Every section root gets data-theme="dark" | "light", which remaps a
+ * single set of neutral aliases. Components MUST consume only these
+ * aliases (--bg, --text, --accent-text, ...) — never --d-* / --l-*
+ * directly, and never branch on theme in JS. See conventions.md §3.
+ */
+[data-theme='dark'] {
+  --bg: var(--d-bg);
+  --surface: var(--d-surface);
+  --surface-2: var(--d-surface-2);
+  --border: var(--d-border);
+  --border-soft: var(--d-border-soft);
+  --text: var(--d-text);
+  --text-2: var(--d-text-2);
+  --text-3: var(--d-text-3);
+  --accent-text: var(--accent);
+  --shadow-elevated: none;
+}
+
+[data-theme='light'] {
+  --bg: var(--l-bg);
+  --surface: var(--l-surface);
+  --surface-2: var(--l-sunken);
+  --border: var(--l-border);
+  --border-soft: rgba(18, 18, 18, 0.08);
+  --text: var(--l-text);
+  --text-2: var(--l-text-2);
+  --text-3: var(--l-text-3);
+  --accent-text: var(--accent-ink); /* #FF9130 is 2.15:1 on light — never as text there */
+  --shadow-elevated: var(--shadow-1);
+}
