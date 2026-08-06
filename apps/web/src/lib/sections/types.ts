@@ -42,6 +42,31 @@ export interface HeroProps extends SectionBase {
   ctaSecondary?: Cta
 }
 
+export interface ProofBarProps extends SectionBase {
+  variant: 'marquee' | 'stat-row' | 'statement'
+  /** Each row scrolls opposite the previous one — motion-system.md §8. */
+  rows: { items: string[] }[]
+}
+
+export interface ServicePillar {
+  key: 'build' | 'automate' | 'grow'
+  title: string
+  body: string
+  subItems: string[]
+  href: string
+}
+
+export interface ServicesProps extends SectionBase {
+  variant: 'pillar-cards' | 'cluster-grid' | 'list-detail'
+  pillars: ServicePillar[]
+}
+
+export interface CtaClosingProps extends SectionBase {
+  variant: 'centered-bold' | 'split-with-form' | 'calendar-embed'
+  /** e.g. "OR EMAIL — hello@anvio.online" */
+  altContact?: string
+}
+
 interface PlaceholderSection extends SectionBase {
   variant: string
   [key: string]: unknown
@@ -49,9 +74,10 @@ interface PlaceholderSection extends SectionBase {
 
 export type SectionInstance =
   | ({ type: 'hero' } & HeroProps)
+  | ({ type: 'proofBar' } & ProofBarProps)
+  | ({ type: 'services' } & ServicesProps)
+  | ({ type: 'ctaClosing' } & CtaClosingProps)
   // Documented in section-library.md, not yet scaffolded:
-  | ({ type: 'proofBar' } & PlaceholderSection)
-  | ({ type: 'services' } & PlaceholderSection)
   | ({ type: 'problem' } & PlaceholderSection)
   | ({ type: 'process' } & PlaceholderSection)
   | ({ type: 'workflowGraph' } & PlaceholderSection)
@@ -63,6 +89,5 @@ export type SectionInstance =
   | ({ type: 'integrations' } & PlaceholderSection)
   | ({ type: 'faq' } & PlaceholderSection)
   | ({ type: 'insights' } & PlaceholderSection)
-  | ({ type: 'ctaClosing' } & PlaceholderSection)
 
 export type SectionType = SectionInstance['type']
