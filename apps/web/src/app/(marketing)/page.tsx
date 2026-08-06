@@ -4,9 +4,8 @@ import { SectionRenderer } from '@/lib/sections/renderer'
 import { buildMetadata } from '@/lib/seo/metadata'
 
 /**
- * home-spec.md. Eight of twelve sections are built — every step-3
- * section now has real content. Agent demo (§4) and Process (§6) are
- * their own budgeted sprints; Insights (§10) needs three real posts
+ * home-spec.md. Nine of twelve sections are built. Agent demo (§4) is
+ * its own budgeted sprint; Insights (§10) needs three real posts
  * before it ships, per its own "cut rather than placeholder" rule.
  *
  * Featured work uses real client names (Baladi Food Stuff, Epicerma —
@@ -16,6 +15,10 @@ import { buildMetadata } from '@/lib/seo/metadata'
  * confirmed facts — correct them if wrong. Engagement model's price
  * ranges are Anvio's own first published pricing, not claims about a
  * third party, and can be adjusted anytime.
+ *
+ * Process (§6) is Home's Tier 1 signature scene — the horizontal-pin
+ * variant is reserved for Home specifically so it stays unique; see
+ * automate-spec.md, which deliberately uses sticky-stack instead.
  */
 const sections: SectionInstance[] = [
   {
@@ -123,6 +126,51 @@ const sections: SectionInstance[] = [
           'Built for clarity and speed — product presentation and checkout designed to keep customers moving forward.',
         stack: ['Web Development', 'Ecommerce'],
         href: '/case-studies/epicerma',
+      },
+    ],
+  },
+  {
+    type: 'process',
+    id: 'process',
+    variant: 'horizontal-pin',
+    theme: 'light',
+    eyebrow: 'Our process',
+    heading: 'Five stages. No mystery about where your project is.',
+    stages: [
+      {
+        number: '01',
+        title: 'Discover',
+        promise: 'We learn how your business actually works.',
+        deliverables: ['Process mapping', 'Stakeholder interviews', 'Systems audit'],
+        duration: '1 week',
+      },
+      {
+        number: '02',
+        title: 'Strategize',
+        promise: 'We decide what to build, and what not to.',
+        deliverables: ['Solution design', 'Scope + estimate', 'Success metrics'],
+        duration: '1 week',
+      },
+      {
+        number: '03',
+        title: 'Build',
+        promise: 'Design and development, in visible increments.',
+        deliverables: ['Weekly demos', 'Staging access', 'Your feedback in the loop'],
+        duration: '2–8 weeks',
+      },
+      {
+        number: '04',
+        title: 'Launch',
+        promise: 'Deploy, integrate, and train your team.',
+        deliverables: ['Migration', 'Integrations', 'Handover docs'],
+        duration: '1 week',
+      },
+      {
+        number: '05',
+        title: 'Grow',
+        promise: 'Measure, tune, extend.',
+        deliverables: ['Analytics', 'Optimization', 'Ongoing support'],
+        duration: 'Ongoing',
       },
     ],
   },

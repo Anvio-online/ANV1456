@@ -71,6 +71,18 @@
   --radius-xl: var(--r-xl);
   --radius-full: var(--r-full);
 
+  /* motion-system.md §5. Distinct namespace (--duration-* vs --dur-*) —
+   * no self-reference risk, but named to match the pattern anyway.
+   * `duration-fast`/`duration-scene` etc. have been used as classNames
+   * since Button was built and were silently no-ops until this line —
+   * every hover/transition using them gets its actual timing only now.
+   */
+  --duration-instant: var(--dur-instant);
+  --duration-fast: var(--dur-fast);
+  --duration-base: var(--dur-base);
+  --duration-slow: var(--dur-slow);
+  --duration-scene: var(--dur-scene);
+
   /* --shadow-elevated is intentionally NOT re-mapped here (yet). It's a
      per-theme alias declared in tokens.css §2.5, set on each [data-theme]
      section root. Nothing consumes it as a Tailwind utility today; when

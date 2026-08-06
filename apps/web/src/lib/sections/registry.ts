@@ -8,19 +8,22 @@ import { WhyUs } from '@/sections/why-us'
 import { Industries } from '@/sections/industries'
 import { FeaturedWork } from '@/sections/featured-work'
 import { EngagementModel } from '@/sections/engagement-model'
+import { Process } from '@/sections/process'
 
 /**
  * type -> component. ADR-0003: adding a section means adding one line
  * here and one folder under src/sections/ — never a new page component.
  *
- * All of home-spec.md's step-3 sections are now wired: featuredWork
- * (real client names, no fabricated metrics) and engagementModel (real
- * price ranges) were the last two, unblocked once the business
- * decisions behind them were made. Every other type is documented in
- * section-library.md and typed in types.ts, but intentionally not
- * registered yet — an unregistered type fails loudly in the renderer
- * (with a console warning) instead of silently rendering nothing, which
- * is the signal that a section folder still needs to be built.
+ * 'process' is Home's Tier 1 signature scene (motion-system.md §7.1) —
+ * the first section whose implementation lives partly outside
+ * src/sections/: the pinned scroll scene itself is in src/scenes/
+ * process-pin/, dynamically imported with ssr:false and
+ * IntersectionObserver-gated, per motion-system.md §6. Every other
+ * type below is documented in section-library.md and typed in
+ * types.ts, but intentionally not registered yet — an unregistered
+ * type fails loudly in the renderer (with a console warning) instead
+ * of silently rendering nothing, which is the signal that a section
+ * folder still needs to be built.
  *
  * The registry itself is necessarily heterogeneous — it maps a union of
  * ~14 distinct prop shapes to one dispatch table. Each entry's real
@@ -38,4 +41,5 @@ export const sectionRegistry: Partial<Record<SectionType, ComponentType<any>>> =
   industries: Industries,
   featuredWork: FeaturedWork,
   engagementModel: EngagementModel,
+  process: Process,
 }

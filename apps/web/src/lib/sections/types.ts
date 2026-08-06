@@ -123,6 +123,20 @@ export interface EngagementModelProps extends SectionBase {
   policyNotes: string[]
 }
 
+export interface ProcessStage {
+  /** e.g. "01" — display-only, not a numeric type since leading zero matters. */
+  number: string
+  title: string
+  promise: string
+  deliverables: string[]
+  duration: string
+}
+
+export interface ProcessProps extends SectionBase {
+  variant: 'horizontal-pin' | 'sticky-stack' | 'vertical-list'
+  stages: ProcessStage[]
+}
+
 interface PlaceholderSection extends SectionBase {
   variant: string
   [key: string]: unknown
@@ -137,9 +151,9 @@ export type SectionInstance =
   | ({ type: 'industries' } & IndustriesProps)
   | ({ type: 'featuredWork' } & FeaturedWorkProps)
   | ({ type: 'engagementModel' } & EngagementModelProps)
+  | ({ type: 'process' } & ProcessProps)
   // Documented in section-library.md, not yet scaffolded:
   | ({ type: 'problem' } & PlaceholderSection)
-  | ({ type: 'process' } & PlaceholderSection)
   | ({ type: 'workflowGraph' } & PlaceholderSection)
   | ({ type: 'agentDemo' } & PlaceholderSection)
   | ({ type: 'integrations' } & PlaceholderSection)
