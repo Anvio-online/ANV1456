@@ -4,19 +4,18 @@ import { SectionRenderer } from '@/lib/sections/renderer'
 import { buildMetadata } from '@/lib/seo/metadata'
 
 /**
- * home-spec.md. Six of twelve sections are built — Hero, Proof bar,
- * Services, Why us, Industries, and the closing CTA. Featured work and
- * Engagement model are step-3 sections too, but are genuinely blocked
- * (Stratseek naming permission; real price ranges) rather than just
- * unbuilt — see home-spec.md "Open items". Agent demo, Process, and
- * Insights are their own budgeted sprints per the build order.
+ * home-spec.md. Eight of twelve sections are built — every step-3
+ * section now has real content. Agent demo (§4) and Process (§6) are
+ * their own budgeted sprints; Insights (§10) needs three real posts
+ * before it ships, per its own "cut rather than placeholder" rule.
  *
- * Known temporary imbalance: every built section is dark-themed, since
- * the three light sections in the spec (Featured work, Process,
- * Engagement model) are exactly the ones still blocked. Once those
- * land, the page alternates per home-spec.md's documented order —
- * don't "fix" this by overriding whyUs/industries to light, they're
- * spec'd dark.
+ * Featured work uses real client names (Baladi Food Stuff, Epicerma —
+ * UAE web development delivered via Stratseek) with NO fabricated
+ * metrics — the `outcome` field is deliberately omitted rather than
+ * invented. Industry labels are inferred from the company names, not
+ * confirmed facts — correct them if wrong. Engagement model's price
+ * ranges are Anvio's own first published pricing, not claims about a
+ * third party, and can be adjusted anytime.
  */
 const sections: SectionInstance[] = [
   {
@@ -94,6 +93,83 @@ const sections: SectionInstance[] = [
         subItems: ['SEO', 'GEO', 'Performance', 'Audits', 'CRO'],
         href: '/services/grow',
       },
+    ],
+  },
+  {
+    type: 'featuredWork',
+    id: 'featured-work',
+    variant: 'two-up-deep',
+    theme: 'light',
+    heading: 'Shipped, in production, for real businesses.',
+    items: [
+      {
+        client: 'Baladi Food Stuff',
+        region: 'UAE',
+        industry: 'Food & FMCG Distribution',
+        problem:
+          'A product catalogue that needed to work the way wholesale buyers actually shop, not just look good.',
+        build:
+          'Designed and built a storefront with real category structure and fast browsing, delivered end-to-end.',
+        stack: ['Web Development', 'Ecommerce'],
+        href: '/case-studies/baladi-food-stuff',
+      },
+      {
+        client: 'Epicerma',
+        region: 'UAE',
+        industry: 'Skincare & Beauty Retail',
+        problem:
+          'A retail storefront that needed to convert visitors into customers, not just display products.',
+        build:
+          'Built for clarity and speed — product presentation and checkout designed to keep customers moving forward.',
+        stack: ['Web Development', 'Ecommerce'],
+        href: '/case-studies/epicerma',
+      },
+    ],
+  },
+  {
+    type: 'engagementModel',
+    id: 'engagement-model',
+    variant: 'phase-timeline',
+    theme: 'light',
+    eyebrow: 'How we work',
+    heading: 'What working with us actually costs.',
+    body: "Most agencies make you book a call to find out. Here's the honest version.",
+    tiers: [
+      {
+        name: 'Automation Sprint',
+        audienceFit: 'One process, automated end to end',
+        timeline: '2–4 weeks',
+        range: '₹75,000 – ₹2,50,000',
+        includes: [
+          'Discovery, build, and integration',
+          'Handover and documentation',
+          '30 days of post-launch support',
+        ],
+      },
+      {
+        name: 'Product Build',
+        audienceFit: 'A website, app, or internal tool',
+        timeline: '6–14 weeks',
+        range: '₹2,00,000 – ₹8,00,000',
+        includes: [
+          'Our full five-stage process',
+          'Weekly demos, staging access',
+          'Migration and team training',
+        ],
+      },
+      {
+        name: 'Growth Retainer',
+        audienceFit: 'Ongoing SEO, performance, and iteration',
+        timeline: 'Monthly',
+        range: '₹35,000 – ₹90,000/mo',
+        includes: ['Audit and roadmap', 'Ongoing execution', 'Monthly reporting'],
+      },
+    ],
+    policyNotes: [
+      'If scope changes mid-project, we quote the difference before starting — no surprise invoices.',
+      "If we're running late, you hear about it before the deadline, not after — with a revised date and the reason why.",
+      'You own everything we build — code, workflows, and documentation, from day one.',
+      'At the end of an engagement, you can take everything and walk away. Most clients don’t, but you could.',
     ],
   },
   {

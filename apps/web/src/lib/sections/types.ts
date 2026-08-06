@@ -88,6 +88,41 @@ export interface IndustriesProps extends SectionBase {
   items: IndustryTile[]
 }
 
+export interface CaseStudyCard {
+  client: string
+  region: string
+  industry: string
+  problem: string
+  build: string
+  /** Optional, deliberately — never fabricate a metric. Omit rather
+   * than invent a number for a real, named business (home-spec.md's
+   * strategic constraint: "no invented numbers"). */
+  outcome?: string
+  stack: string[]
+  href: string
+}
+
+export interface FeaturedWorkProps extends SectionBase {
+  variant: 'two-up-deep' | 'grid' | 'carousel'
+  items: CaseStudyCard[]
+}
+
+export interface EngagementTier {
+  name: string
+  audienceFit: string
+  timeline: string
+  range: string
+  includes: string[]
+}
+
+export interface EngagementModelProps extends SectionBase {
+  variant: 'phase-timeline' | 'tier-cards'
+  tiers: EngagementTier[]
+  /** Plainly-worded policy lines — scope changes, lateness, ownership,
+   * end of engagement. home-spec.md §7. */
+  policyNotes: string[]
+}
+
 interface PlaceholderSection extends SectionBase {
   variant: string
   [key: string]: unknown
@@ -100,15 +135,13 @@ export type SectionInstance =
   | ({ type: 'ctaClosing' } & CtaClosingProps)
   | ({ type: 'whyUs' } & WhyUsProps)
   | ({ type: 'industries' } & IndustriesProps)
-  // Documented in section-library.md, not yet scaffolded — blocked on
-  // real business decisions (Stratseek permission, pricing ranges),
-  // not on engineering. See home-spec.md "Open items".
+  | ({ type: 'featuredWork' } & FeaturedWorkProps)
+  | ({ type: 'engagementModel' } & EngagementModelProps)
+  // Documented in section-library.md, not yet scaffolded:
   | ({ type: 'problem' } & PlaceholderSection)
   | ({ type: 'process' } & PlaceholderSection)
   | ({ type: 'workflowGraph' } & PlaceholderSection)
   | ({ type: 'agentDemo' } & PlaceholderSection)
-  | ({ type: 'featuredWork' } & PlaceholderSection)
-  | ({ type: 'engagementModel' } & PlaceholderSection)
   | ({ type: 'integrations' } & PlaceholderSection)
   | ({ type: 'faq' } & PlaceholderSection)
   | ({ type: 'insights' } & PlaceholderSection)

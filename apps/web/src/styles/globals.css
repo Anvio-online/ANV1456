@@ -77,6 +77,11 @@
      something does, give it a distinct @theme key name — see the note
      below on why reusing the source name breaks. */
 
+  /* design-system.md §4.4 — light-canvas elevation only; dark uses surface
+     steps, never a drop shadow (see design-system.md §4.4 rule 1). */
+  --shadow-card: var(--shadow-1);
+  --shadow-card-lg: var(--shadow-2);
+
   /* Renamed rather than reusing the tokens.css source names — a Tailwind
      @theme key with the SAME name as the var() it references is a
      self-referential custom property (CSS resolves it as guaranteed-invalid,

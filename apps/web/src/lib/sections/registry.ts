@@ -6,21 +6,21 @@ import { Services } from '@/sections/services'
 import { CtaClosing } from '@/sections/cta-closing'
 import { WhyUs } from '@/sections/why-us'
 import { Industries } from '@/sections/industries'
+import { FeaturedWork } from '@/sections/featured-work'
+import { EngagementModel } from '@/sections/engagement-model'
 
 /**
  * type -> component. ADR-0003: adding a section means adding one line
  * here and one folder under src/sections/ — never a new page component.
  *
- * 'hero', 'proofBar', 'services', 'ctaClosing', 'whyUs', and
- * 'industries' are wired. The first four are home-spec.md's "shippable,
- * coherent page" build order; whyUs and industries are step 3 sections
- * that weren't blocked on a business decision (unlike featuredWork and
- * engagementModel — see their PlaceholderSection comment below). Every
- * other type is documented in section-library.md and typed in types.ts,
- * but intentionally not registered yet — an unregistered type fails
- * loudly in the renderer (with a console warning) instead of silently
- * rendering nothing, which is the signal that a section folder still
- * needs to be built.
+ * All of home-spec.md's step-3 sections are now wired: featuredWork
+ * (real client names, no fabricated metrics) and engagementModel (real
+ * price ranges) were the last two, unblocked once the business
+ * decisions behind them were made. Every other type is documented in
+ * section-library.md and typed in types.ts, but intentionally not
+ * registered yet — an unregistered type fails loudly in the renderer
+ * (with a console warning) instead of silently rendering nothing, which
+ * is the signal that a section folder still needs to be built.
  *
  * The registry itself is necessarily heterogeneous — it maps a union of
  * ~14 distinct prop shapes to one dispatch table. Each entry's real
@@ -36,4 +36,6 @@ export const sectionRegistry: Partial<Record<SectionType, ComponentType<any>>> =
   ctaClosing: CtaClosing,
   whyUs: WhyUs,
   industries: Industries,
+  featuredWork: FeaturedWork,
+  engagementModel: EngagementModel,
 }

@@ -3,6 +3,11 @@ import type { NextConfig } from 'next'
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  // Lets a one-off verification build (`NEXT_BUILD_DIR=.next-verify pnpm build`)
+  // run alongside a live `pnpm dev` without deleting/corrupting the dev
+  // server's own .next directory — that collision broke local preview
+  // twice during development. Defaults to the normal '.next'.
+  distDir: process.env.NEXT_BUILD_DIR || '.next',
   images: {
     formats: ['image/avif', 'image/webp'],
   },
