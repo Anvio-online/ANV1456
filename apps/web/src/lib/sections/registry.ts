@@ -4,17 +4,21 @@ import { Hero } from '@/sections/hero'
 import { ProofBar } from '@/sections/proof-bar'
 import { Services } from '@/sections/services'
 import { CtaClosing } from '@/sections/cta-closing'
+import { WhyUs } from '@/sections/why-us'
+import { Industries } from '@/sections/industries'
 
 /**
  * type -> component. ADR-0003: adding a section means adding one line
  * here and one folder under src/sections/ — never a new page component.
  *
- * 'hero', 'proofBar', 'services', and 'ctaClosing' are wired — the four
- * sections needed for home-spec.md's "shippable, coherent page" build
- * order (hero → services → closingCTA → proofBar). Every other type is
- * documented in section-library.md and typed in types.ts, but
- * intentionally not registered yet — an unregistered type fails loudly
- * in the renderer (with a console warning) instead of silently
+ * 'hero', 'proofBar', 'services', 'ctaClosing', 'whyUs', and
+ * 'industries' are wired. The first four are home-spec.md's "shippable,
+ * coherent page" build order; whyUs and industries are step 3 sections
+ * that weren't blocked on a business decision (unlike featuredWork and
+ * engagementModel — see their PlaceholderSection comment below). Every
+ * other type is documented in section-library.md and typed in types.ts,
+ * but intentionally not registered yet — an unregistered type fails
+ * loudly in the renderer (with a console warning) instead of silently
  * rendering nothing, which is the signal that a section folder still
  * needs to be built.
  *
@@ -30,4 +34,6 @@ export const sectionRegistry: Partial<Record<SectionType, ComponentType<any>>> =
   proofBar: ProofBar,
   services: Services,
   ctaClosing: CtaClosing,
+  whyUs: WhyUs,
+  industries: Industries,
 }

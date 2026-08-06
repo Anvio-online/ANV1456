@@ -4,14 +4,19 @@ import { SectionRenderer } from '@/lib/sections/renderer'
 import { buildMetadata } from '@/lib/seo/metadata'
 
 /**
- * home-spec.md. Four of twelve sections are built — Hero, Proof bar,
- * Services, and the closing CTA — matching the build order's step 2:
- * "a shippable, coherent page." The remaining eight (agent demo,
- * featured work, process, engagement model, why us, industries,
- * insights) are documented in home-spec.md and typed in
- * lib/sections/types.ts, but not yet in registry.ts. Add each
- * section's `{ type: '...' }` entry here as its folder lands — the
- * array is the page, in the order home-spec.md §1–12 specifies.
+ * home-spec.md. Six of twelve sections are built — Hero, Proof bar,
+ * Services, Why us, Industries, and the closing CTA. Featured work and
+ * Engagement model are step-3 sections too, but are genuinely blocked
+ * (Stratseek naming permission; real price ranges) rather than just
+ * unbuilt — see home-spec.md "Open items". Agent demo, Process, and
+ * Insights are their own budgeted sprints per the build order.
+ *
+ * Known temporary imbalance: every built section is dark-themed, since
+ * the three light sections in the spec (Featured work, Process,
+ * Engagement model) are exactly the ones still blocked. Once those
+ * land, the page alternates per home-spec.md's documented order —
+ * don't "fix" this by overriding whyUs/industries to light, they're
+ * spec'd dark.
  */
 const sections: SectionInstance[] = [
   {
@@ -88,6 +93,76 @@ const sections: SectionInstance[] = [
         body: 'SEO, GEO, and performance work that gets you found — by search engines and by the AI assistants your customers now ask first.',
         subItems: ['SEO', 'GEO', 'Performance', 'Audits', 'CRO'],
         href: '/services/grow',
+      },
+    ],
+  },
+  {
+    type: 'whyUs',
+    id: 'why-us',
+    variant: 'contrast-table',
+    theme: 'dark',
+    eyebrow: 'Why Anvio',
+    heading: 'Most agencies build you a website. We build you leverage.',
+    rows: [
+      {
+        typical: 'Builds what you asked for',
+        anvio: 'Maps your process first, then builds what actually helps',
+      },
+      {
+        typical: 'AI is a feature they added last year',
+        anvio: "AI-native — it's how we build and what we build",
+      },
+      {
+        typical: 'Website, then goodbye',
+        anvio: 'Build, automate, and grow under one roof',
+      },
+      {
+        typical: 'You get a design file and an invoice',
+        anvio: 'You get the code, the docs, and a team that knows your systems',
+      },
+      {
+        typical: 'Fixed template, flexible truth',
+        anvio: 'Published pricing, published process, weekly demos',
+      },
+    ],
+  },
+  {
+    type: 'industries',
+    id: 'industries',
+    variant: 'compact-grid',
+    theme: 'dark',
+    eyebrow: 'Who we work with',
+    heading: 'Is this for a business like mine?',
+    items: [
+      {
+        name: 'Healthcare',
+        line: 'Patient scheduling, intake, and follow-ups — automated without losing the human touch.',
+        href: '/industries',
+      },
+      {
+        name: 'Ecommerce',
+        line: 'Order confirmations, inventory syncs, and support tickets that used to eat your afternoon.',
+        href: '/industries',
+      },
+      {
+        name: 'Real Estate',
+        line: 'Lead follow-up and listing updates that happen the moment they should, not when someone remembers.',
+        href: '/industries',
+      },
+      {
+        name: 'Accounting & Finance',
+        line: "Invoice entry and reconciliation off your team's desk and into a system that never forgets.",
+        href: '/industries',
+      },
+      {
+        name: 'Education',
+        line: 'Admissions inquiries and enrollment follow-ups answered in minutes, not days.',
+        href: '/industries',
+      },
+      {
+        name: 'Logistics',
+        line: 'Shipment updates and customer queries handled automatically, end to end.',
+        href: '/industries',
       },
     ],
   },

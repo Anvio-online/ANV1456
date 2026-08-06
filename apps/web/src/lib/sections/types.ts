@@ -67,6 +67,27 @@ export interface CtaClosingProps extends SectionBase {
   altContact?: string
 }
 
+export interface ContrastRow {
+  typical: string
+  anvio: string
+}
+
+export interface WhyUsProps extends SectionBase {
+  variant: 'contrast-table' | 'principle-cards' | 'numbered-list'
+  rows: ContrastRow[]
+}
+
+export interface IndustryTile {
+  name: string
+  line: string
+  href: string
+}
+
+export interface IndustriesProps extends SectionBase {
+  variant: 'compact-grid' | 'tabbed-detail'
+  items: IndustryTile[]
+}
+
 interface PlaceholderSection extends SectionBase {
   variant: string
   [key: string]: unknown
@@ -77,15 +98,17 @@ export type SectionInstance =
   | ({ type: 'proofBar' } & ProofBarProps)
   | ({ type: 'services' } & ServicesProps)
   | ({ type: 'ctaClosing' } & CtaClosingProps)
-  // Documented in section-library.md, not yet scaffolded:
+  | ({ type: 'whyUs' } & WhyUsProps)
+  | ({ type: 'industries' } & IndustriesProps)
+  // Documented in section-library.md, not yet scaffolded — blocked on
+  // real business decisions (Stratseek permission, pricing ranges),
+  // not on engineering. See home-spec.md "Open items".
   | ({ type: 'problem' } & PlaceholderSection)
   | ({ type: 'process' } & PlaceholderSection)
   | ({ type: 'workflowGraph' } & PlaceholderSection)
   | ({ type: 'agentDemo' } & PlaceholderSection)
   | ({ type: 'featuredWork' } & PlaceholderSection)
   | ({ type: 'engagementModel' } & PlaceholderSection)
-  | ({ type: 'whyUs' } & PlaceholderSection)
-  | ({ type: 'industries' } & PlaceholderSection)
   | ({ type: 'integrations' } & PlaceholderSection)
   | ({ type: 'faq' } & PlaceholderSection)
   | ({ type: 'insights' } & PlaceholderSection)
