@@ -32,7 +32,6 @@
   --color-warning: var(--warning);
   --color-error: var(--error);
   --color-info: var(--info);
-  --color-nav-condensed: var(--nav-condensed-bg);
 
   --font-display: var(--ff-display);
   --font-body: var(--ff-body);
@@ -320,12 +319,28 @@
     animation-play-state: paused;
   }
 
-  /* design-system.md §6.5 — nav condense-on-scroll. duration-base/
-     ease-soft-ui already carry the timing/curve as Tailwind utilities;
-     only transition-property needs the 3-way list, which has no
-     Tailwind utility (transition-colors excludes backdrop-filter). */
-  .nav-chrome {
-    transition-property: background-color, border-color, backdrop-filter;
+  /* design-system.md §6.5 — nav condense-on-scroll. The scrim lives on a
+     pseudo-element so its bottom edge can fade instead of ending in a
+     hard line across the viewport: over the hero's amber glow, a solid
+     bar with a crisp edge read as a rectangle pasted on top of the light
+     source. Fading it out also replaces the spec's bottom hairline,
+     which was the most visible edge of that rectangle.
+     --nav-condensed-bg is theme-scoped in tokens.css and the nav carries
+     its own data-theme, so this picks up the right canvas automatically. */
+  .nav-chrome::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--nav-condensed-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    mask-image: linear-gradient(to bottom, #000 58%, transparent);
+    opacity: 0;
+    transition: opacity var(--dur-base) var(--ease-soft);
+    pointer-events: none;
+  }
+  .nav-chrome.is-condensed::before {
+    opacity: 1;
   }
 
   /* why-us contrast-table — home-spec.md §8's table is wider than

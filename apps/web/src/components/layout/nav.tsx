@@ -10,7 +10,9 @@ import { NavChrome } from '@/components/layout/nav-chrome'
 export function Nav() {
   return (
     <NavChrome>
-      <div className="h-nav-h max-w-page px-gutter mx-auto flex items-center justify-between">
+      {/* relative + z-10 keeps the nav's own content above .nav-chrome::before,
+          which is absolutely positioned and would otherwise paint over it. */}
+      <div className="h-nav-h max-w-page px-gutter relative z-10 mx-auto flex items-center justify-between">
         <Link href="/" className="font-display text-text text-xl font-bold">
           Anv<span className="text-accent">i</span>o
         </Link>

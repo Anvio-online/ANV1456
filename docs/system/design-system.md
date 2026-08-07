@@ -263,7 +263,11 @@ Left-aligned by default. Centered only for closing CTA and FAQ sections.
 
 ### 6.5 Nav
 
-Reference: agero. Sticky, `72px` tall, transparent over hero → on scroll past `80px` it gains `rgba(10,10,11,0.72)` + `backdrop-filter: blur(12px)` + bottom hairline, over `--dur-base`.
+Reference: agero. Sticky, `72px` tall (`--nav-h`), transparent over hero → on scroll past `80px` it gains `--nav-condensed-bg` + `backdrop-filter: blur(12px)`, over `--dur-base`.
+
+**The scrim is theme-scoped, and the nav retargets its own `data-theme` to whichever section it currently overlaps.** The nav is the one element pinned across sections of both canvases, so a single hardcoded `rgba(10,10,11,0.72)` is only ever right over half the page — over a light section it renders as a flat grey slab. `--nav-condensed-bg` is declared per theme in `tokens.css`; `NavChrome` sets the attribute and CSS still owns every colour value (this is not a violation of the "never branch on theme in JS" rule in conventions.md §3 — no colour is chosen in JS).
+
+**No bottom hairline.** The scrim sits on `.nav-chrome::before` and its bottom edge is masked to fade out. A solid bar with a crisp hairline reads as a rectangle pasted over the hero's amber glow — the hairline is the most visible edge of that rectangle. The fade provides the separation instead. Nav content sits above the pseudo-element via `relative z-10`.
 Structure: `Anvio` wordmark · Services (mega-menu: Build / Automate / Grow, three columns with descriptions) · Products · Case Studies · About · Blog · `[Book a call]` primary button.
 Mobile: full-screen overlay, sections stagger in at `--stagger`, body scroll locked.
 Nav must render server-side and be usable before hydration.
