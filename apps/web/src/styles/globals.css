@@ -227,6 +227,17 @@
   .mask-reveal-line {
     overflow: hidden;
     display: block;
+    /* design-system.md §3.2's display-xl line-height (0.92, via
+       --leading-display-xl) is tighter than the font needs for full
+       ascender-to-descender ink, which is normal for display type — but
+       this element's own overflow-hidden (required so the translateY
+       reveal has something to mask against) then clips any descender
+       that paints past the line-height box, e.g. the "g" in a line
+       ending "...doing." Padding the clip boundary past the line box
+       gives descenders room; the matching negative margin cancels it
+       back out so sibling spacing (eyebrow/body gap) doesn't shift. */
+    padding-bottom: 0.12em;
+    margin-bottom: -0.12em;
   }
   .mask-reveal-line > span {
     display: block;

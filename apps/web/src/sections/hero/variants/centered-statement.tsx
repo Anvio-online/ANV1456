@@ -48,7 +48,13 @@ export function CenteredStatement({
             AI Automation · Software · Growth
           </span>
 
-          <HeadingTagEl className="max-w-headline text-display-xl leading-display-xl mx-auto tracking-tight">
+          {/* flow-root: the last .mask-reveal-line's negative margin-bottom
+              (globals.css — compensates for the descender-clip padding fix)
+              collapses straight through a plain block parent and eats into
+              the mt-6 gap to the body copy below. flow-root establishes a
+              block formatting context to contain it, with no other layout
+              effect on a heading that was already block-level. */}
+          <HeadingTagEl className="max-w-headline text-display-xl leading-display-xl mx-auto flow-root tracking-tight">
             {lines.map((line, i) => (
               <span
                 key={line}

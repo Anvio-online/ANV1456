@@ -49,10 +49,22 @@
   --error: #f87171;
   --info: #60a5fa;
 
-  /* ---- 3.1 Type faces ---- */
-  --ff-display: 'Cabinet Grotesk', 'Satoshi', system-ui, sans-serif;
-  --ff-body: 'Satoshi', -apple-system, 'Segoe UI', sans-serif;
-  --ff-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', monospace;
+  /* ---- 3.1 Type faces ----
+   * NOT declared here. --ff-display/--ff-body/--ff-mono are set by
+   * next/font/local (src/styles/fonts.ts) as CSS variables scoped to a
+   * class on <html> — e.g. `.__variable_xxx { --ff-display: 'fontDisplay',
+   * 'fontDisplay Fallback' }`, pointing at the real self-hosted @font-face.
+   * A :root rule here targets the SAME element (:root IS <html>) at the
+   * SAME specificity (0,1,0), and this file's @import lands later in the
+   * cascade — so a literal value here doesn't layer under next/font's
+   * declaration, it silently wins over it. That was live on every page:
+   * 'Cabinet Grotesk' / 'Satoshi' aren't installed system fonts, so the
+   * stack fell through them straight to system-ui/-apple-system, and the
+   * self-hosted files in public/fonts/ never rendered anywhere despite
+   * being correctly loaded. Fell hardest on the hero: the 0.92 line-height
+   * in --leading-display-xl (§3.2) is tuned to Cabinet Grotesk's metrics,
+   * and system-ui's descenders don't fit the same box.
+   */
 
   /* ---- 3.2 Type scale ---- */
   --fs-display-xl: clamp(3.5rem, 1.8rem + 7vw, 7.5rem);

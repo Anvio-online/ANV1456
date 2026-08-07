@@ -110,6 +110,8 @@ Every component consumes only the neutral aliases (`--bg`, `--text`, `--accent-t
 
 Alternates if you want a different flavour: Display → Clash Display or General Sans; Mono → Geist Mono.
 
+**The fallback stack column above is documentation, not CSS to paste into `tokens.css`.** The real `--ff-display`/`--ff-body`/`--ff-mono` values are set by `next/font/local` (`src/styles/fonts.ts`) as CSS variables scoped to a class on `<html>`. `:root` in `tokens.css` *is* `<html>` — a literal redeclaration there sits at equal specificity and wins by source order, silently overriding next/font's real `@font-face`-linked value with a string that was never loaded (`'Cabinet Grotesk'` isn't an installed system font). That was live on every page at one point: every heading and body line rendered in the OS fallback, invisibly, because both rules "looked" correct in isolation. `tokens.css` intentionally does not declare these three tokens — leave that gap alone.
+
 **Why not Inter for everything:** Inter-only is the visual signature of a template. The three-role split is the cheapest way to look bespoke.
 
 **Loading rules (non-negotiable, these are LCP):**
