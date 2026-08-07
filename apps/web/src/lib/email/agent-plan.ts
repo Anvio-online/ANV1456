@@ -19,14 +19,8 @@ export async function sendAutomationPlanEmail(to: string, plan: AutomationPlan) 
     return
   }
 
-  // Temporary, on request — Resend requires DNS-level domain
-  // verification for any "from" address, and gmail.com can't be
-  // verified this way (it's Google's domain, not ours to add records
-  // to), so this send may simply be rejected by Resend rather than
-  // just risking spam-filtering. Untested — swap back to
-  // hello@anvio.online once that domain is verified in Resend.
   await resend.emails.send({
-    from: 'Anvio <anshika1307goel@gmail.com>',
+    from: 'Anvio <hello@anvio.online>',
     to,
     subject: 'Your automation plan from Anvio',
     text: [
