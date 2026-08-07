@@ -32,7 +32,7 @@ These are the tie-breakers. When two options both look fine, the one that satisf
 | `--d-border-soft` | `rgba(245,244,242,0.08)` | Hairlines, dividers |
 | `--d-text` | `#F5F4F2` | Headlines, primary body |
 | `--d-text-2` | `#A3A19D` | Secondary body, descriptions |
-| `--d-text-3` | `#6E6C68` | Muted, captions, disabled |
+| `--d-text-3` | `#888681` | Muted, captions, disabled, labels |
 
 Note `--d-text` is a warm off-white, never `#FFFFFF`. On a dark screen pure white vibrates and reads cheap.
 
@@ -46,7 +46,7 @@ Note `--d-text` is a warm off-white, never `#FFFFFF`. On a dark screen pure whit
 | `--l-border` | `#E2E0DA` | Standard borders |
 | `--l-text` | `#121212` | Headlines, primary body |
 | `--l-text-2` | `#57544E` | Secondary body |
-| `--l-text-3` | `#8A8781` | Muted, captions |
+| `--l-text-3` | `#706D68` | Muted, captions, labels |
 
 ### 2.3 Accent — Signal Amber
 
@@ -70,9 +70,12 @@ Note `--d-text` is a warm off-white, never `#FFFFFF`. On a dark screen pure whit
 | `#1A0E03` on `#FF9130` | **8.5:1** | ✅ Button labels |
 | `#F5F4F2` on `#0A0A0B` | 17.9:1 | ✅ |
 | `#A3A19D` on `#0A0A0B` | 7.6:1 | ✅ |
-| `#6E6C68` on `#0A0A0B` | 3.5:1 | ⚠️ Large/caption only, never body |
+| `#888681` on `#1C1C1F` (worst-case `--d-text-3` bg) | 4.67:1 | ✅ Any text size, incl. `text-label` |
+| `#706D68` on `#F1F0EC` (worst-case `--l-text-3` bg) | 4.52:1 | ✅ Any text size, incl. `text-label` |
 
 On light surfaces, `--accent` is permitted as **fills, strokes, and icon shapes only** — never as text. This one rule prevents the most common accessibility failure in warm-accent systems.
+
+**2026-08-08 revision:** `--d-text-3`/`--l-text-3` were originally `#6E6C68`/`#8A8781`, both ~3.4–3.8:1 depending on background — passing only at large/caption sizes, per the "never body" caveat this table used to carry. A live-site Lighthouse audit found that carve-out hadn't held: `text-label` (the mono-caps utility every eyebrow, chip, table cell, and form label on the site uses) is small text, and it was built on `--text-3` everywhere. Rather than re-litigate ~70 call sites, the tokens themselves were adjusted to clear 4.5:1 at every surface they actually sit on — same neutral hue, just enough lightness/darkness added that the "large/caption only" exception stops being load-bearing.
 
 ### 2.4 Semantic
 

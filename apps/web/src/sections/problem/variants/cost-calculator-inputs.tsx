@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, type ReactNode } from 'react'
+import { useEffect, useId, useState, type ReactNode } from 'react'
 import type { ProblemProps } from '../problem.types'
 
 type Calculator = NonNullable<ProblemProps['calculator']>
@@ -20,6 +20,8 @@ const integer = new Intl.NumberFormat('en-IN')
  * recalculating continuously as someone types.
  */
 export function CostCalculatorInputs({ calculator }: { calculator: Calculator }) {
+  const uid = useId()
+  const fieldId = (name: string) => `${uid}-${name}`
   const [visitors, setVisitors] = useState(calculator.defaultVisitors)
   const [enquiryRate, setEnquiryRate] = useState(calculator.defaultEnquiryRate)
   const [dealValue, setDealValue] = useState(calculator.defaultDealValue)
@@ -41,8 +43,9 @@ export function CostCalculatorInputs({ calculator }: { calculator: Calculator })
   return (
     <div className="border-border bg-surface shadow-card rounded-xl border p-7">
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-3">
-        <Field label="Monthly visitors">
+        <Field id={fieldId('visitors')} label="Monthly visitors">
           <input
+            id={fieldId('visitors')}
             type="number"
             min={0}
             value={visitors}
@@ -50,9 +53,10 @@ export function CostCalculatorInputs({ calculator }: { calculator: Calculator })
             className="border-border bg-bg font-body text-body text-text focus:border-accent-line focus:ring-3 focus:ring-accent-wash h-11 w-full rounded-sm border px-4 focus:outline-none"
           />
         </Field>
-        <Field label="Enquiry rate">
+        <Field id={fieldId('enquiry-rate')} label="Enquiry rate">
           <div className="relative">
             <input
+              id={fieldId('enquiry-rate')}
               type="number"
               min={0}
               step={0.1}
@@ -65,8 +69,9 @@ export function CostCalculatorInputs({ calculator }: { calculator: Calculator })
             </span>
           </div>
         </Field>
-        <Field label="Average deal value">
+        <Field id={fieldId('deal-value')} label="Average deal value">
           <input
+            id={fieldId('deal-value')}
             type="number"
             min={0}
             value={dealValue}
@@ -107,10 +112,12 @@ function Row({ label, enquiries, revenue }: { label: string; enquiries: number; 
   )
 }
 
-function Field({ label, children }: { label: string; children: ReactNode }) {
+function Field({ id, label, children }: { id: string; label: string; children: ReactNode }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label className="text-label text-text-3 font-mono uppercase tracking-widest">{label}</label>
+      <label htmlFor={id} className="text-label text-text-3 font-mono uppercase tracking-widest">
+        {label}
+      </label>
       {children}
     </div>
   )

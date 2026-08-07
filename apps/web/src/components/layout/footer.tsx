@@ -33,9 +33,14 @@ export function Footer() {
         <div className="mb-14 grid grid-cols-2 gap-8">
           {columns.map((col) => (
             <div key={col.heading}>
-              <h4 className="text-label text-text-3 mb-4 font-mono uppercase tracking-widest">
+              {/* A styled label, not a document heading — footer nav groups
+                  aren't part of the page's content outline. A literal <h4>
+                  here breaks heading-order the moment the page's real
+                  headings don't happen to reach h4 first (design-system.md
+                  §6.6, caught by a live Lighthouse accessibility audit). */}
+              <p className="text-label text-text-3 mb-4 font-mono uppercase tracking-widest">
                 {col.heading}
-              </h4>
+              </p>
               <ul className="flex flex-col gap-2">
                 {col.links.map(([label, href]) => (
                   <li key={href}>
@@ -48,7 +53,18 @@ export function Footer() {
             </div>
           ))}
         </div>
-        <div className="border-border font-display text-wordmark text-surface-2 border-t pt-8 text-center font-bold leading-none tracking-tight">
+        {/* Decorative watermark, not content — the real wordmark is the nav
+            link on every page. aria-hidden rather than brightened: low
+            contrast is the design here (a faint background mark), not a
+            bug. WCAG 1.4.3 explicitly exempts "text that is part of a logo
+            or brand name" from the contrast minimum — axe-core's automated
+            check still flags it (it can't tell logotype from body text),
+            so this will keep showing as one Lighthouse contrast failure by
+            design. Don't brighten it to satisfy the tool. */}
+        <div
+          aria-hidden="true"
+          className="border-border font-display text-wordmark text-surface-2 border-t pt-8 text-center font-bold leading-none tracking-tight"
+        >
           ANVIO
         </div>
       </div>

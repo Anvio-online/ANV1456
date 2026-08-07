@@ -16,7 +16,7 @@
   --d-border-soft: rgba(245, 244, 242, 0.08);
   --d-text: #f5f4f2; /* never pure white — vibrates on dark */
   --d-text-2: #a3a19d;
-  --d-text-3: #6e6c68;
+  --d-text-3: #888681; /* 4.67:1 on --d-surface-2 (worst case) — see design-system.md §2.3 note */
 
   /* ---- 2.2 Light canvas ---- */
   --l-bg: #fafaf8;
@@ -25,7 +25,7 @@
   --l-border: #e2e0da;
   --l-text: #121212;
   --l-text-2: #57544e;
-  --l-text-3: #8a8781;
+  --l-text-3: #706d68; /* 4.52:1 on --l-sunken (worst case) — see design-system.md §2.3 note */
 
   /* ---- 2.3 Accent — Signal Amber ---- */
   --accent: #ff9130; /* 8.78:1 on dark — text-safe there only */

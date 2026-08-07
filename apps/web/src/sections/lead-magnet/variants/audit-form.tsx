@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, type ReactNode } from 'react'
+import { useId, useState, type ReactNode } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { auditRequestSchema, type AuditRequestValues } from '@/lib/forms/audit-schema'
@@ -22,6 +22,8 @@ export function AuditForm() {
     handleSubmit,
     formState: { errors },
   } = useForm<AuditRequestValues>({ resolver: zodResolver(auditRequestSchema) })
+  const uid = useId()
+  const fieldId = (name: string) => `${uid}-${name}`
 
   async function onSubmit(values: AuditRequestValues) {
     setStatus('submitting')
@@ -43,18 +45,20 @@ export function AuditForm() {
       className="border-border bg-surface flex flex-col gap-3 rounded-xl border p-7"
       noValidate
     >
-      <Field label="Website URL" error={errors.url?.message}>
+      <Field id={fieldId('url')} label="Website URL" error={errors.url?.message}>
         <input
           {...register('url')}
+          id={fieldId('url')}
           type="text"
           placeholder="yoursite.com"
           className="border-border bg-bg font-body text-body-s text-text focus:border-accent-line focus:ring-3 focus:ring-accent-wash h-11 w-full rounded-sm border px-4 focus:outline-none"
         />
       </Field>
 
-      <Field label="Work email" error={errors.email?.message}>
+      <Field id={fieldId('email')} label="Work email" error={errors.email?.message}>
         <input
           {...register('email')}
+          id={fieldId('email')}
           type="email"
           placeholder="you@company.com"
           className="border-border bg-bg font-body text-body-s text-text focus:border-accent-line focus:ring-3 focus:ring-accent-wash h-11 w-full rounded-sm border px-4 focus:outline-none"
@@ -76,10 +80,22 @@ export function AuditForm() {
   )
 }
 
-function Field({ label, error, children }: { label: string; error?: string; children: ReactNode }) {
+function Field({
+  id,
+  label,
+  error,
+  children,
+}: {
+  id: string
+  label: string
+  error?: string
+  children: ReactNode
+}) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label className="text-label text-text-3 font-mono uppercase tracking-widest">{label}</label>
+      <label htmlFor={id} className="text-label text-text-3 font-mono uppercase tracking-widest">
+        {label}
+      </label>
       {children}
       {error ? (
         <p role="alert" className="text-body-s text-error">

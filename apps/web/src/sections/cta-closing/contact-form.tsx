@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, type ReactNode } from 'react'
+import { useId, useState, type ReactNode } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
@@ -32,6 +32,8 @@ export function ContactForm({
     handleSubmit,
     formState: { errors },
   } = useForm<ContactFormValues>({ resolver: zodResolver(contactSchema) })
+  const uid = useId()
+  const fieldId = (name: string) => `${uid}-${name}`
 
   async function onSubmit(values: ContactFormValues) {
     setStatus('submitting')
@@ -53,36 +55,40 @@ export function ContactForm({
       className="border-border bg-surface flex flex-col gap-3 rounded-xl border p-7"
       noValidate
     >
-      <Field label="Name" error={errors.name?.message}>
+      <Field id={fieldId('name')} label="Name" error={errors.name?.message}>
         <input
           {...register('name')}
+          id={fieldId('name')}
           type="text"
           placeholder="Your name"
           className="border-border bg-bg font-body text-body-s text-text focus:border-accent-line focus:ring-3 focus:ring-accent-wash h-11 w-full rounded-sm border px-4 focus:outline-none"
         />
       </Field>
 
-      <Field label="Work email" error={errors.email?.message}>
+      <Field id={fieldId('email')} label="Work email" error={errors.email?.message}>
         <input
           {...register('email')}
+          id={fieldId('email')}
           type="email"
           placeholder="you@company.com"
           className="border-border bg-bg font-body text-body-s text-text focus:border-accent-line focus:ring-3 focus:ring-accent-wash h-11 w-full rounded-sm border px-4 focus:outline-none"
         />
       </Field>
 
-      <Field label="Company">
+      <Field id={fieldId('company')} label="Company">
         <input
           {...register('company')}
+          id={fieldId('company')}
           type="text"
           placeholder="Company name"
           className="border-border bg-bg font-body text-body-s text-text focus:border-accent-line focus:ring-3 focus:ring-accent-wash h-11 w-full rounded-sm border px-4 focus:outline-none"
         />
       </Field>
 
-      <Field label="Team size">
+      <Field id={fieldId('team-size')} label="Team size">
         <select
           {...register('teamSize')}
+          id={fieldId('team-size')}
           defaultValue=""
           className="border-border bg-bg font-body text-body-s text-text focus:border-accent-line focus:ring-3 focus:ring-accent-wash h-11 w-full rounded-sm border px-4 focus:outline-none"
         >
@@ -97,9 +103,10 @@ export function ContactForm({
         </select>
       </Field>
 
-      <Field label={messageLabel} error={errors.message?.message}>
+      <Field id={fieldId('message')} label={messageLabel} error={errors.message?.message}>
         <textarea
           {...register('message')}
+          id={fieldId('message')}
           rows={3}
           placeholder="Describe it in a sentence"
           className="border-border bg-bg font-body text-body-s text-text focus:border-accent-line focus:ring-3 focus:ring-accent-wash w-full resize-y rounded-sm border px-4 py-3 focus:outline-none"
@@ -121,10 +128,22 @@ export function ContactForm({
   )
 }
 
-function Field({ label, error, children }: { label: string; error?: string; children: ReactNode }) {
+function Field({
+  id,
+  label,
+  error,
+  children,
+}: {
+  id: string
+  label: string
+  error?: string
+  children: ReactNode
+}) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label className="text-label text-text-3 font-mono uppercase tracking-widest">{label}</label>
+      <label htmlFor={id} className="text-label text-text-3 font-mono uppercase tracking-widest">
+        {label}
+      </label>
       {children}
       {error ? (
         <p role="alert" className="text-body-s text-error">
