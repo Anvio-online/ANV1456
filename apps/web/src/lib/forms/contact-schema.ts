@@ -15,7 +15,19 @@ export const contactSchema = z.object({
   name: z.string().min(1, 'Enter your name.').max(200),
   email: z.string().email('Enter a valid email.'),
   company: z.string().max(200).optional(),
-  teamSize: z.enum(TEAM_SIZE_OPTIONS).optional(),
+  /** The <select>'s unselected state submits '' (matching its disabled
+   * placeholder option's value), not undefined — z.enum(...).optional()
+   * accepts undefined but not '', so leaving this field alone (exactly
+   * what "optional" is supposed to allow) failed validation for every
+   * visitor who did that. Found live on production: skipping this field
+   * blocked the whole form, silently, with no visible error (contact-
+   * form.tsx never wired up error={errors.teamSize?.message} either).
+   * The preprocess step normalizes '' to undefined before the enum check
+   * runs, so an empty selection reads as "not provided," as intended. */
+  teamSize: z.preprocess(
+    (value) => (value === '' ? undefined : value),
+    z.enum(TEAM_SIZE_OPTIONS).optional(),
+  ),
   message: z.string().min(1, "Tell us what's the most repetitive thing your team does.").max(2000),
 })
 

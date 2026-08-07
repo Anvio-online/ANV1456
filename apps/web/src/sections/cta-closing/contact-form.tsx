@@ -75,7 +75,7 @@ export function ContactForm({
         />
       </Field>
 
-      <Field id={fieldId('company')} label="Company">
+      <Field id={fieldId('company')} label="Company" optional>
         <input
           {...register('company')}
           id={fieldId('company')}
@@ -85,7 +85,7 @@ export function ContactForm({
         />
       </Field>
 
-      <Field id={fieldId('team-size')} label="Team size">
+      <Field id={fieldId('team-size')} label="Team size" optional error={errors.teamSize?.message}>
         <select
           {...register('teamSize')}
           id={fieldId('team-size')}
@@ -131,11 +131,13 @@ export function ContactForm({
 function Field({
   id,
   label,
+  optional,
   error,
   children,
 }: {
   id: string
   label: string
+  optional?: boolean
   error?: string
   children: ReactNode
 }) {
@@ -143,6 +145,7 @@ function Field({
     <div className="flex flex-col gap-1.5">
       <label htmlFor={id} className="text-label text-text-3 font-mono uppercase tracking-widest">
         {label}
+        {optional ? <span className="text-text-3/70 normal-case"> (optional)</span> : null}
       </label>
       {children}
       {error ? (
