@@ -10,9 +10,19 @@ export const planNodeSchema = z.object({
   detail: z.string(),
 })
 
+/**
+ * No .max()/.min() on summary or nodes — Claude's structured outputs
+ * (output_config.format) doesn't support string-length or array-length
+ * JSON Schema constraints (claude-api skill: "Not supported: String
+ * constraints (minLength, maxLength) ... Complex array constraints").
+ * Sending them caused every /api/agent plan-stage call to 400. The
+ * 400/7-node bounds are real requirements (section-library.md §5's
+ * node diagram needs a bounded list) — enforced in the prompt instead,
+ * in AGENT_DEMO_PLAN_PROMPT_V1, since the schema can't do it here.
+ */
 export const automationPlanSchema = z.object({
-  summary: z.string().max(400),
-  nodes: z.array(planNodeSchema).min(3).max(7),
+  summary: z.string(),
+  nodes: z.array(planNodeSchema),
   estimatedHoursSavedPerMonth: z.object({ low: z.number(), high: z.number() }),
   complexity: z.enum(['low', 'medium', 'high']),
 })

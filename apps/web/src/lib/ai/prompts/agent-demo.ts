@@ -44,4 +44,8 @@ conversation transcript provided. Output must satisfy the given schema exactly.
 Ground the plan in what was actually said — do not invent tools or
 volumes the visitor didn't mention. estimatedHoursSavedPerMonth should be
 a defensible range, not a guess dressed as precision. Never state a firm
-price anywhere in the output.`
+price anywhere in the output.
+
+Produce between 3 and 7 nodes — enough to show a real workflow, not so
+many the diagram it renders into becomes unreadable. Keep summary to
+roughly 400 characters or fewer — one tight paragraph, not a report.`
