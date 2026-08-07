@@ -254,10 +254,16 @@
   .hero-ambient-glow {
     position: absolute;
     left: 50%;
-    top: -30%;
-    width: min(900px, 110vw);
+    top: 0;
+    width: min(900px, 150vw);
     aspect-ratio: 1;
-    translate: -50% 0;
+    /* The vertical offset is a percentage of the glow's OWN size (that's
+       how the `translate` property resolves percentages), not of the
+       section — so the composition holds at every breakpoint. Anchored to
+       the section height instead, the smaller mobile circle got pushed
+       almost entirely above the fold and clipped away. `translate` also
+       leaves `transform` free for the drift keyframes. */
+    translate: -50% -30%;
     background: radial-gradient(
       circle,
       var(--accent-glow-core) 0%,
