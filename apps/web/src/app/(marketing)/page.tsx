@@ -4,9 +4,15 @@ import { SectionRenderer } from '@/lib/sections/renderer'
 import { buildMetadata } from '@/lib/seo/metadata'
 
 /**
- * home-spec.md. Nine of twelve sections are built. Agent demo (§4) is
- * its own budgeted sprint; Insights (§10) needs three real posts
- * before it ships, per its own "cut rather than placeholder" rule.
+ * home-spec.md. Ten of twelve sections are built. Insights (§10) is
+ * the only one still withheld — it needs three real posts before it
+ * ships, per its own "cut rather than placeholder" rule.
+ *
+ * Agent demo (§4, id 'agent-demo' — matches the hero's primary CTA
+ * anchor) is the differentiator: a live two-stage conversation against
+ * POST /api/agent, gated on a captured email before the expensive plan
+ * call runs (ADR-0005). Falls back to a scripted, non-interactive
+ * preview on any hard failure rather than showing a broken panel.
  *
  * Featured work uses real client names (Baladi Food Stuff, Epicerma —
  * UAE web development delivered via Stratseek) with NO fabricated
@@ -96,6 +102,21 @@ const sections: SectionInstance[] = [
         subItems: ['SEO', 'GEO', 'Performance', 'Audits', 'CRO'],
         href: '/services/grow',
       },
+    ],
+  },
+  {
+    type: 'agentDemo',
+    id: 'agent-demo',
+    variant: 'full',
+    theme: 'dark',
+    eyebrow: 'Try it now',
+    heading: "Tell us what your team does by hand. We'll show you what to automate.",
+    body: 'Describe one repetitive process. Our agent asks a few questions and builds you a real automation plan — the workflow, the tools, and roughly how many hours it saves. Free, no call required.',
+    placeholders: [
+      'We manually enter invoices into Tally…',
+      'Our team answers the same WhatsApp questions all day…',
+      'Someone builds our sales report by hand every Monday…',
+      'We re-type orders from WhatsApp into our CRM…',
     ],
   },
   {

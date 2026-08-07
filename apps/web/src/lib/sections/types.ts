@@ -137,6 +137,13 @@ export interface ProcessProps extends SectionBase {
   stages: ProcessStage[]
 }
 
+export interface AgentDemoProps extends SectionBase {
+  variant: 'full' | 'preview'
+  /** Rotating examples in the idle input — content, not implementation detail,
+   * so it lives here with the rest of the page composition data. */
+  placeholders: string[]
+}
+
 interface PlaceholderSection extends SectionBase {
   variant: string
   [key: string]: unknown
@@ -152,10 +159,10 @@ export type SectionInstance =
   | ({ type: 'featuredWork' } & FeaturedWorkProps)
   | ({ type: 'engagementModel' } & EngagementModelProps)
   | ({ type: 'process' } & ProcessProps)
+  | ({ type: 'agentDemo' } & AgentDemoProps)
   // Documented in section-library.md, not yet scaffolded:
   | ({ type: 'problem' } & PlaceholderSection)
   | ({ type: 'workflowGraph' } & PlaceholderSection)
-  | ({ type: 'agentDemo' } & PlaceholderSection)
   | ({ type: 'integrations' } & PlaceholderSection)
   | ({ type: 'faq' } & PlaceholderSection)
   | ({ type: 'insights' } & PlaceholderSection)
