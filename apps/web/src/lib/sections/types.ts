@@ -203,6 +203,18 @@ export interface ProblemProps extends SectionBase {
    * ADR-0003's variant-first rule. Capped at 6 — fadeUpGroup's
    * documented stagger limit (motion-system.md §3). */
   items?: PainGridItem[]
+  /** 'cost-calculator' only — grow-spec.md §3. Client-side, no
+   * submission, no gate: real number inputs with sensible defaults,
+   * server-rendered and readable before any JS runs. `disclaimer` is
+   * load-bearing — a calculator without one is the over-promising this
+   * page's positioning otherwise rejects. */
+  calculator?: {
+    defaultVisitors: number
+    defaultEnquiryRate: number
+    targetEnquiryRate: number
+    defaultDealValue: number
+    disclaimer: string
+  }
 }
 
 export interface IntegrationGroup {
@@ -325,6 +337,51 @@ export interface BuildAssemblyProps extends SectionBase {
   passes: BuildAssemblyPass[]
 }
 
+export interface ResultMetric {
+  name: string
+  definition: string
+}
+
+export interface ResultsProps extends SectionBase {
+  variant: 'metric-row'
+  metrics: ResultMetric[]
+  /** e.g. "And the ones we don't report on, because they don't mean
+   * anything: impressions, 'domain authority', keyword count." —
+   * grow-spec.md §9: this line does more work than the list above it. */
+  footnote?: string
+}
+
+export interface GrowthChartMetric {
+  label: string
+  value: string
+}
+
+export interface GrowthChartState {
+  /** e.g. "M1" */
+  month: string
+  /** e.g. "BASELINE" */
+  label: string
+  /** What shipped that month — real text, always in the DOM. The M2
+   * caption is deliberately the least flattering one on the site
+   * (motion-system.md §7.4): "rankings flat, deliberately." */
+  caption: string
+  metrics: GrowthChartMetric[]
+  /** 0-100, the line chart's height at this state — draws via
+   * stroke-dashoffset in the live scene, never redraws from zero. */
+  chartHeight: number
+}
+
+export interface GrowthChartProps extends SectionBase {
+  variant: 'dashboard-evolve'
+  states: GrowthChartState[]
+  /** motion-system.md §7.4's honesty constraint — a visible caption,
+   * not a footnote, saying these numbers are illustrative of a shape,
+   * not a real client's results. Required, not optional: this is the
+   * one signature scene on the site where the content itself needs a
+   * disclosure, not just the motion. */
+  disclaimer: string
+}
+
 interface PlaceholderSection extends SectionBase {
   variant: string
   [key: string]: unknown
@@ -350,6 +407,8 @@ export type SectionInstance =
   | ({ type: 'leadMagnet' } & LeadMagnetProps)
   | ({ type: 'techStack' } & TechStackProps)
   | ({ type: 'buildAssembly' } & BuildAssemblyProps)
+  | ({ type: 'results' } & ResultsProps)
+  | ({ type: 'growthChart' } & GrowthChartProps)
   // Documented in section-library.md, not yet scaffolded:
   | ({ type: 'insights' } & PlaceholderSection)
   | ({ type: 'team' } & PlaceholderSection)

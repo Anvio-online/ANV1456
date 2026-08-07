@@ -19,6 +19,8 @@ import { Contact } from '@/sections/contact'
 import { LeadMagnet } from '@/sections/lead-magnet'
 import { TechStack } from '@/sections/tech-stack'
 import { BuildAssembly } from '@/sections/build-assembly'
+import { Results } from '@/sections/results'
+import { GrowthChart } from '@/sections/growth-chart'
 
 /**
  * type -> component. ADR-0003: adding a section means adding one line
@@ -75,4 +77,6 @@ export const sectionRegistry: Partial<Record<SectionType, ComponentType<any>>> =
   leadMagnet: LeadMagnet,
   techStack: TechStack,
   buildAssembly: BuildAssembly,
+  results: Results,
+  growthChart: GrowthChart,
 }

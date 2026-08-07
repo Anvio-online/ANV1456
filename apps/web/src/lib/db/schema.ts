@@ -25,3 +25,16 @@ export const contactSubmissions = pgTable('contact_submissions', {
   message: text('message').notNull(),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
 })
+
+/**
+ * grow-spec.md §7 — the page's primary conversion. URL + email only:
+ * every extra field costs completions, and those two are all the audit
+ * work itself needs. Name/company can come in the reply, same
+ * reasoning the spec gives for keeping the form to two fields.
+ */
+export const auditRequests = pgTable('audit_requests', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  url: text('url').notNull(),
+  email: text('email').notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+})
