@@ -17,6 +17,8 @@ import { WorkflowGraph } from '@/sections/workflow-graph'
 import { RichText } from '@/sections/rich-text'
 import { Contact } from '@/sections/contact'
 import { LeadMagnet } from '@/sections/lead-magnet'
+import { TechStack } from '@/sections/tech-stack'
+import { BuildAssembly } from '@/sections/build-assembly'
 
 /**
  * type -> component. ADR-0003: adding a section means adding one line
@@ -71,4 +73,6 @@ export const sectionRegistry: Partial<Record<SectionType, ComponentType<any>>> =
   richText: RichText,
   contact: Contact,
   leadMagnet: LeadMagnet,
+  techStack: TechStack,
+  buildAssembly: BuildAssembly,
 }

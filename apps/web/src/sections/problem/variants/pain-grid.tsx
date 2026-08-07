@@ -1,17 +1,17 @@
 import type { ProblemProps } from '../problem.types'
 import type { HeadingTag } from '@/lib/sections/heading-level'
-import { BeforeAfterTable } from './before-after-table'
+import type { CSSVarStyle } from '@/lib/utils/css-vars'
 
 /**
- * automate-spec.md §3. Real <table> semantics — seo-strategy.md's GEO
- * guidance: this is exactly the shape LLM surfaces cite for "what can
- * AI automation do for my business."
+ * build-spec.md §3. Independent failure modes, not paired before/after
+ * transformations — a grid of cells rather than before-after's
+ * two-column table.
  */
-export function BeforeAfter({
+export function PainGrid({
   eyebrow,
   heading,
   body,
-  rows = [],
+  items = [],
   headingTag,
 }: ProblemProps & { headingTag: HeadingTag }) {
   const HeadingTagEl = headingTag
@@ -32,7 +32,18 @@ export function BeforeAfter({
         {body ? <p className="max-w-measure text-body-l text-text-2">{body}</p> : null}
       </div>
 
-      <BeforeAfterTable rows={rows} />
+      <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+        {items.map((item, i) => (
+          <div
+            key={item.pain}
+            className="fade-up-in border-border bg-surface rounded-xl border p-6"
+            style={{ '--reveal-i': i } as CSSVarStyle}
+          >
+            <p className="text-accent-text text-body font-medium">{item.pain}</p>
+            <p className="text-body-s text-text-2 mt-2">{item.line}</p>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }

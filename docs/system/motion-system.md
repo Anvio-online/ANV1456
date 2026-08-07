@@ -158,6 +158,30 @@ A directed graph: `Customer → AI Agent → CRM → WhatsApp → Team`, plus a 
 - **Reduced motion / mobile:** static graph, all nodes in active state, explainers as a stacked list below.
 - **DOM:** node labels and explainer text are real text. This section is a genuine SEO asset for "AI agent workflow" queries.
 
+### 7.3 Build — Wireframe-to-Render Assembly (Tier 1)
+
+One UI frame (a product page), four fidelity passes: `01 STRUCTURE → 02 DESIGN → 03 REAL DATA → 04 SHIPPED`.
+
+- Section pins for ~180vh — shorter than Home's 220vh pin, and inside §4's ≤250vh cap; four passes need less scroll runway than five stages plus a horizontal traverse.
+- Scroll maps to a discrete stage index (0–3), the same `useScroll` + `useMotionValueEvent` mapping Home's Process scene uses, not a horizontal translate. All four passes' DOM exists at all times; the active pass is `opacity: 1` and the rest `opacity: 0` — never mount/unmount, same DOM-permanence rule as Process and the Workflow Graph.
+- Each pass carries a mono caption (`PASS 03 · REAL DATA`) and a one-line explainer that changes with it — the captions are the argument, the frame is the evidence.
+- A fixed progress rail at the bottom, `01—04`, fills amber — same device as Home's Process.
+- No traveling pulse, no cascading nodes: the frame itself is what's active, not connectors between parts. `borderDraw` on the frame's own border scaling in on the first pass is the only per-pass entrance motion.
+- **Reduced motion / mobile:** static, all four passes as a stacked vertical list of labelled frames, all content visible.
+- **DOM:** pass captions and explainers are real text, targeting "web development process," "custom website development."
+
+### 7.4 Grow — Dashboard Evolve (Tier 1)
+
+One metrics panel, six month-states: `M1 BASELINE → M2 TECHNICAL → M3 STRUCTURE → M4 CONTENT → M5 COMPOUNDING → M6 STEADY STATE`.
+
+- Section pins for ~180vh. Same discrete-stage scroll mapping as 7.3 (six states here instead of four), not a horizontal traverse or a cascade.
+- A single line chart extends via `stroke-dashoffset` as state advances — the path only ever grows, never redraws from zero, so the six months read as one continuous trend rather than six separate charts.
+- Two or three metric readouts `counterRoll` to their per-state value on each transition.
+- A mono caption per state naming what shipped that month. The `M2` caption is deliberately the least flattering ("rankings flat, deliberately") — every honest SEO engagement has that month and it's the single most credible frame in the scene.
+- **Reduced motion / mobile:** static, all six states as a stacked vertical list (month · what shipped · the numbers), all content visible.
+- **Honesty constraint:** the numbers are illustrative of a shape, not a real client's results, and a visible caption must say so — not a footnote. This is the one signature scene on the site where the content itself, not just the motion, needs a disclosure.
+- **DOM:** state captions and metric labels are real text, targeting "SEO results timeline," "how long does SEO take."
+
 ---
 
 ## 8. Section-to-motion map (Phase 1)

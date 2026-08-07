@@ -40,6 +40,10 @@ export interface HeroProps extends SectionBase {
   variant: 'centered-statement' | 'split-visual' | 'page-lead' | 'case-lead'
   trustLine?: string
   ctaSecondary?: Cta
+  /** 'split-visual' only — which static poster the right column shows,
+   * each teasing that page's own Tier 1 scene without mounting any of
+   * its JS. Defaults to 'workflow' (Automate's original, unchanged). */
+  posterVariant?: 'workflow' | 'wireframe' | 'dashboard'
 }
 
 export interface ProofBarStat {
@@ -183,10 +187,22 @@ export interface ProblemRow {
   withAnvio: string
 }
 
+export interface PainGridItem {
+  pain: string
+  line: string
+}
+
 export interface ProblemProps extends SectionBase {
-  variant: 'before-after'
-  /** Real <table> semantics — automate-spec.md §3, this is a GEO asset. */
-  rows: ProblemRow[]
+  variant: 'before-after' | 'pain-grid' | 'cost-calculator'
+  /** 'before-after' only. Real <table> semantics — automate-spec.md
+   * §3, this is a GEO asset. */
+  rows?: ProblemRow[]
+  /** 'pain-grid' only — build-spec.md §3. Independent failure modes,
+   * not paired transformations, so a grid rather than a two-column
+   * contrast: same section family, different variant, per
+   * ADR-0003's variant-first rule. Capped at 6 — fadeUpGroup's
+   * documented stagger limit (motion-system.md §3). */
+  items?: PainGridItem[]
 }
 
 export interface IntegrationGroup {
@@ -280,6 +296,35 @@ export interface LeadMagnetProps extends SectionBase {
    * — its fields land here when it is. */
 }
 
+export interface TechStackCategory {
+  category: string
+  items: string[]
+}
+
+export interface TechStackProps extends SectionBase {
+  variant: 'categorized'
+  categories: TechStackCategory[]
+  /** e.g. "Not married to any of it. If your team already runs
+   * something that works, we build on that instead." */
+  footnote?: string
+}
+
+export interface BuildAssemblyPass {
+  /** e.g. "Structure" — the frame itself is fixed markup per pass
+   * index (scenes/build-assembly/build-assembly.tsx); this and the
+   * fields below are the real DOM text carried per pass. */
+  label: string
+  /** e.g. "PASS 01 · STRUCTURE" */
+  caption: string
+  explainer: string
+}
+
+export interface BuildAssemblyProps extends SectionBase {
+  variant: 'wireframe-to-render'
+  /** Exactly 4, matching motion-system.md §7.3's fixed passes. */
+  passes: BuildAssemblyPass[]
+}
+
 interface PlaceholderSection extends SectionBase {
   variant: string
   [key: string]: unknown
@@ -303,6 +348,8 @@ export type SectionInstance =
   | ({ type: 'richText' } & RichTextProps)
   | ({ type: 'contact' } & ContactProps)
   | ({ type: 'leadMagnet' } & LeadMagnetProps)
+  | ({ type: 'techStack' } & TechStackProps)
+  | ({ type: 'buildAssembly' } & BuildAssemblyProps)
   // Documented in section-library.md, not yet scaffolded:
   | ({ type: 'insights' } & PlaceholderSection)
   | ({ type: 'team' } & PlaceholderSection)

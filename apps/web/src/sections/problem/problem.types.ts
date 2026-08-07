@@ -1,1 +1,1 @@
-export type { ProblemProps, ProblemRow } from '@/lib/sections/types'
+export type { ProblemProps, ProblemRow, PainGridItem } from '@/lib/sections/types'
