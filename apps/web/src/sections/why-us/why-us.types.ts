@@ -1,1 +1,1 @@
-export type { WhyUsProps, ContrastRow } from '@/lib/sections/types'
+export type { WhyUsProps, ContrastRow, WhyUsItem } from '@/lib/sections/types'

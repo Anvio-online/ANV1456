@@ -9,7 +9,7 @@ import type { HeadingTag } from '@/lib/sections/heading-level'
 export function ContrastTable({
   eyebrow,
   heading,
-  rows,
+  rows = [],
   headingTag,
 }: WhyUsProps & { headingTag: HeadingTag }) {
   const HeadingTagEl = headingTag
