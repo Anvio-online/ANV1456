@@ -190,18 +190,60 @@ ctaClosing:split-with-form (dark)
 ```
 
 ### Build (Phase 1)
+Full spec: [build-spec.md](../specs/build-spec.md)
 ```
-hero:split-visual · proofBar:stat-row · problem:pain-grid · services:cluster-grid
-· buildAssembly:wireframe-to-render · process:sticky-stack · techStack:categorized
-· featuredWork:grid · engagementModel:tier-cards · faq:accordion · ctaClosing
+hero:split-visual (dark)
+proofBar:stat-row (dark)
+problem:pain-grid (dark)
+services:cluster-grid (dark)
+buildAssembly:wireframe-to-render (dark)   ← Tier 1
+process:sticky-stack (light)
+techStack:categorized (light)
+featuredWork:grid (light)
+engagementModel:tier-cards (light)
+faq:accordion (dark)
+ctaClosing:split-with-form (dark)
 ```
 
 ### Grow (Phase 1)
+Full spec: [grow-spec.md](../specs/grow-spec.md)
 ```
-hero:split-visual · proofBar:stat-row · problem:cost-calculator · services:cluster-grid
-· growthChart:dashboard-evolve · process:sticky-stack · leadMagnet:tool-card (free audit)
-· featuredWork:two-up-deep · results:metric-row · faq:accordion · ctaClosing
+hero:split-visual (dark)
+proofBar:stat-row (dark)
+problem:cost-calculator (dark)             ← interactive
+services:cluster-grid (dark)
+growthChart:dashboard-evolve (dark)        ← Tier 1
+process:sticky-stack (light)
+leadMagnet:tool-card (light)               ← free audit, the page's primary conversion
+featuredWork:two-up-deep (light)
+results:metric-row (light)
+faq:accordion (dark)
+ctaClosing:split-with-form (dark)
 ```
+
+### About (Phase 1)
+Full spec: [about-spec.md](../specs/about-spec.md)
+```
+hero:page-lead (dark)
+richText (dark)                            ← why Anvio exists
+whyUs:principle-cards (dark)
+team:founder-note (light)
+whyUs:numbered-list (light)                ← what we won't do
+process:vertical-list (light)
+richText (dark)                            ← where we work
+ctaClosing:centered-bold (dark)
+```
+No Tier 1 — see motion-system.md §8.
+
+### Contact (Phase 1)
+Full spec: [contact-spec.md](../specs/contact-spec.md)
+```
+contact:split-form (dark)                  ← above the fold, both columns
+leadMagnet:tool-card (dark)                ← routes to the agent demo / free audit
+contact:details (dark)
+richText (dark)                            ← what happens next
+```
+No Tier 1 or 2 — the form is LCP-critical and never waits on a bundle.
 
 ### Service leaf (Phase 2 template)
 ```

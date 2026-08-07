@@ -184,8 +184,33 @@ A directed graph: `Customer → AI Agent → CRM → WhatsApp → Team`, plus a 
 | Automate | Why us | 3 | `fadeUpGroup` |
 | Automate | FAQ | 4 | `accordionOpen` |
 | Automate | Closing CTA | 3 | `fadeUp`, `magneticCTA` |
+| Build | Hero | 3 | `maskReveal`, `fadeUpGroup` |
+| Build | Proof bar | 2 | `counterRoll` |
+| Build | What goes wrong (pain grid) | 2 | `fadeUpGroup`, 6 cells — at the primitive's cap |
+| Build | Capability clusters | 3 | `fadeUpGroup`, `accordionOpen` |
+| Build | **Wireframe-to-render** | **1** | `borderDraw` + staged layer opacity/transform, ~180vh pin |
+| Build | Process | 3 | `stickyStack` |
+| Build | Tech stack | 2 | `fadeUpGroup` per category, `hoverLift` (deliberately *not* a marquee — that's Automate's Integrations) |
+| Build | Selected work | 3 | `fadeUpGroup`, `hoverLift` |
+| Build | Pricing tiers | 3 | `fadeUpGroup` |
+| Build | FAQ | 4 | `accordionOpen` |
+| Build | Closing CTA | 3 | `fadeUp`, `magneticCTA` |
+| Grow | Hero | 3 | `maskReveal`, `fadeUpGroup` |
+| Grow | Proof bar | 2 | `counterRoll` |
+| Grow | Cost calculator | 2 | `counterRoll` on outputs, debounced ~300ms; real number inputs |
+| Grow | Capability clusters | 3 | `fadeUpGroup`, `accordionOpen` |
+| Grow | **Dashboard evolve** | **1** | `stroke-dashoffset` line draw + `counterRoll` per month state, ~180vh pin |
+| Grow | Process | 3 | `stickyStack` |
+| Grow | Free audit | 3 | `fadeUp` |
+| Grow | What we report | 2 | `fadeUpGroup` — definitions, so explicitly **no** `counterRoll` |
+| Grow | FAQ | 4 | `accordionOpen` |
+| Grow | Closing CTA | 3 | `fadeUp`, `magneticCTA` |
+| About | *(all sections)* | 3–4 | `maskReveal` on the hero, `fadeUpGroup` throughout, hovers. **No Tier 1 or 2** |
+| Contact | *(all sections)* | 3–4 | `fadeUp` on the copy column, `magneticCTA` on submit. **No Tier 1 or 2** — the form never animates in |
 
-Home: 1 signature + 3 supporting. Automate: 1 signature + 3 supporting. Both within budget.
+Home: 1 signature + 3 supporting. Automate: 1 signature + 3 supporting. Build: 1 + 3. Grow: 1 + 3. All within budget.
+
+**About and Contact carry no signature scene, deliberately.** §2 assigns Tier 1 pieces to the four pages that have to sell. About's job is credibility and Contact's is conversion — a scroll-jacked scene on either works against the page. Restraint there is the design decision, not an omission.
 
 ---
 

@@ -22,14 +22,14 @@ Everything that isn't code. Start here.
 
 ### `Initial/` — strategy and original planning
 
-| Document                                                                                                | Contents                                                         |
-| ------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
-| [Brand_strategy.md](Initial/Brand_strategy.md)                                                          | Target audience, problems solved, positioning, what we won't be  |
-| [Information_arch.md](Initial/Information_arch.md)                                                      | Sitemap, URL structure, footer, Build/Automate/Grow rationale    |
-| [SCOPE.md](Initial/SCOPE.md)                                                                            | Progress tracker, locked decisions, phasing                      |
-| [design_direction.md](Initial/design_direction.md)                                                      | Original design intent — superseded by `system/design-system.md` |
-| [design_reference.md](Initial/design_reference.md)                                                      | Framer template references                                       |
-| [home_wireframe.md](Initial/home_wireframe.md) · [automate_wireframe.md](Initial/automate_wireframe.md) | Original section sketches — superseded by `specs/`               |
+| Document                                                                                                                                                   | Contents                                                         |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| [Brand_strategy.md](Initial/Brand_strategy.md)                                                                                                             | Target audience, problems solved, positioning, what we won't be  |
+| [Information_arch.md](Initial/Information_arch.md)                                                                                                         | Sitemap, URL structure, footer, Build/Automate/Grow rationale    |
+| [SCOPE.md](Initial/SCOPE.md)                                                                                                                               | Progress tracker, locked decisions, phasing                      |
+| [design_direction.md](Initial/design_direction.md)                                                                                                         | Original design intent — superseded by `system/design-system.md` |
+| [design_reference.md](Initial/design_reference.md)                                                                                                         | Framer template references                                       |
+| [home_wireframe.md](Initial/home_wireframe.md) · [automate_wireframe.md](Initial/automate_wireframe.md) · [build_wireframe.md](Initial/build_wireframe.md) | Original section sketches — superseded by `specs/`               |
 
 ### `system/` — the design and content systems
 
@@ -42,10 +42,18 @@ Everything that isn't code. Start here.
 
 ### `specs/` — page specifications
 
-| Document                                   | Contents                                                                               |
-| ------------------------------------------ | -------------------------------------------------------------------------------------- |
-| [home-spec.md](specs/home-spec.md)         | Home, section by section: copy, layout, motion tier, SEO role, build order, open items |
-| [automate-spec.md](specs/automate-spec.md) | `/services/automate`, same structure                                                   |
+Every spec follows the same structure: section by section with copy, layout, motion tier, and SEO role, then a motion-budget check, deliberate omissions, build order, and open items.
+
+| Document                                   | Page                 | Tier 1 signature scene       | Status |
+| ------------------------------------------ | -------------------- | ---------------------------- | ------ |
+| [home-spec.md](specs/home-spec.md)         | `/`                  | Process — horizontal pin     | Built  |
+| [automate-spec.md](specs/automate-spec.md) | `/services/automate` | Live workflow graph          | Built  |
+| [build-spec.md](specs/build-spec.md)       | `/services/build`    | Wireframe-to-render assembly | Spec'd |
+| [grow-spec.md](specs/grow-spec.md)         | `/services/grow`     | Metrics dashboard evolve     | Spec'd |
+| [about-spec.md](specs/about-spec.md)       | `/about`             | _(none — deliberate)_        | Spec'd |
+| [contact-spec.md](specs/contact-spec.md)   | `/contact`           | _(none — deliberate)_        | Spec'd |
+
+Those six are Phase 1 in full ([SCOPE.md](Initial/SCOPE.md) · [seo-strategy.md](system/seo-strategy.md) §3), minus the 2 case studies and 1 free tool. Phase 2/3 pages (`/services` hub, `/industries`, `/case-studies`, `/projects`, `/products`, `/blog`, service leaves, `/guides`, `/tools`, legal) have no spec yet.
 
 ### `engineering/` — how the code works
 
@@ -71,6 +79,33 @@ Everything that isn't code. Start here.
 
 ---
 
+## Known gaps between the docs and the shipped code
+
+Found by auditing every internal link in the built site against what actually resolves. These aren't spec decisions — they're drift, and each one is a real defect today.
+
+**1. Every internal link except `/` and `/services/automate` currently 404s.** Verified against the running app:
+
+| Link                                                        | Where it's rendered                               | Status |
+| ----------------------------------------------------------- | ------------------------------------------------- | ------ |
+| `/services`, `/case-studies`, `/about`, `/blog`             | `nav.tsx` — all four primary nav links            | 404    |
+| `/contact`                                                  | `nav.tsx` "Book a call" button, both closing CTAs | 404    |
+| `/services/build`, `/services/grow`                         | Home's services pillar cards                      | 404    |
+| `/industries`                                               | Home's six industry tiles                         | 404    |
+| `/case-studies/baladi-food-stuff`, `/case-studies/epicerma` | Home's featured-work cards                        | 404    |
+| 12 service leaf links, `/products`                          | `footer.tsx`                                      | 404    |
+
+This directly violates the rule both built specs state: **"Never link to an unbuilt page"** ([automate-spec.md](specs/automate-spec.md) §4, [home-spec.md](specs/home-spec.md) §9). The rule was applied to _accordion sub-items_ and then not applied to nav, footer, or card links. `/contact` is the most damaging — it's the primary CTA on every page.
+
+Fix is a decision, not just code: either build the Phase 1 pages (they're now all spec'd), or make unbuilt destinations non-links until they exist. Don't ship more pages that link into the same void.
+
+**2. `nav.tsx` doesn't match [design-system.md](system/design-system.md) §6.5.** The doc specifies `Services (mega-menu: Build / Automate / Grow, three columns with descriptions) · Products · Case Studies · About · Blog`. The code has a plain `/services` link, no mega-menu, and no Products. Any spec that assumes the mega-menu exists is assuming a thing that was never built.
+
+**3. `footer.tsx` doesn't match [design-system.md](system/design-system.md) §6.6.** The doc specifies four columns — Services / Company / Resources / **Legal**. The code has Build / Automate / Grow / Company. There is no Legal column anywhere, so `/privacy`, `/terms`, and `/cookies` ([seo-strategy.md](system/seo-strategy.md) §2) are unreachable and unwritten.
+
+**4. `sitemap.ts` lists 5 routes, one of which 404s** (`/services`). Its comment says "Phase 1 routes only — extend as pages land," so it's a to-do list rather than a claim — but shipping a sitemap that points a crawler at a 404 is worth fixing before launch.
+
+---
+
 ## Open items blocking work
 
 Live list; each is also recorded at the bottom of its spec.
@@ -82,3 +117,7 @@ Live list; each is also recorded at the bottom of its spec.
 - [ ] Founder photo and note copy
 - [ ] Three insight posts, or cut the Home insights section
 - [ ] FAQ answers written — particularly the data-handling one
+- [ ] **Resolve the 404s above** — build the Phase 1 pages or unlink their destinations
+- [ ] `teamSize` field: `contactSchema` + Drizzle table + `ContactForm` — specced in [automate-spec.md](specs/automate-spec.md) §12, deferred during that build, owed by [contact-spec.md](specs/contact-spec.md)
+- [ ] Decide who monitors `hello@anvio.online` and where form submissions notify — a form that stores silently is how leads get missed
+- [ ] anvio.online's own Lighthouse/CWV scores must clear 90+ before [grow-spec.md](specs/grow-spec.md) ships, since that page claims it
