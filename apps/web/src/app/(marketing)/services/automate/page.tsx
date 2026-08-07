@@ -100,6 +100,11 @@ const sections: SectionInstance[] = [
               'An agent built for one specific job in your business, wired into your real tools and data — not a generic assistant with your logo on it.',
           },
           {
+            name: 'Multi-agent orchestration',
+            description:
+              'When one process needs more than one agent — one drafts, one checks, one hands off — coordinated to work as a single system, not five disconnected bots talking past each other.',
+          },
+          {
             name: 'AI-powered chatbots',
             description:
               'Trained on your own documentation and edge cases, not a generic script — handles what it can, hands off what it can’t.',
