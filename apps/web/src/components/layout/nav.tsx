@@ -1,15 +1,15 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+import { NavChrome } from '@/components/layout/nav-chrome'
 
 /**
- * design-system.md §6.5. Server-rendered and usable before hydration —
- * the scroll-condense (blur + hairline past 80px) is a client-side
- * enhancement layered on top in a later pass, not required for the
- * nav to function.
+ * design-system.md §6.5. Fully server-rendered and usable before
+ * hydration — NavChrome only ever toggles the condense-on-scroll class,
+ * it never gates this content.
  */
 export function Nav() {
   return (
-    <header className="h-18 fixed inset-x-0 top-0 z-50" data-theme="dark">
+    <NavChrome>
       <div className="h-18 max-w-page px-gutter mx-auto flex items-center justify-between">
         <Link href="/" className="font-display text-text text-xl font-bold">
           Anv<span className="text-accent">i</span>o
@@ -32,6 +32,6 @@ export function Nav() {
           Book a call
         </Button>
       </div>
-    </header>
+    </NavChrome>
   )
 }

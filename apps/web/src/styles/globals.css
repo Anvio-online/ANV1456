@@ -32,6 +32,7 @@
   --color-warning: var(--warning);
   --color-error: var(--error);
   --color-info: var(--info);
+  --color-nav-condensed: var(--nav-condensed-bg);
 
   --font-display: var(--ff-display);
   --font-body: var(--ff-body);
@@ -105,6 +106,50 @@
   /* design-system.md §3.2 — display-xl line-height is 0.92, tighter than
      Tailwind's leading-none (1). Named rather than arbitrary. */
   --leading-display-xl: 0.92;
+}
+
+/**
+ * Per-section theme override for the neutral-alias utilities above.
+ *
+ * The @theme block only declares --color-bg (etc.) ONCE, at :root.
+ * Custom properties inherit their COMPUTED value from where they're
+ * declared, not a live re-evaluated reference — so even though
+ * tokens.css's [data-theme='light'] correctly overrides --bg on a
+ * given <section>, nothing re-declares --color-bg there, and every
+ * bg-bg/text-text/border-border utility keeps inheriting :root's
+ * (dark) computed value regardless of that section's own data-theme.
+ * That was the actual bug behind "light sections still render dark."
+ *
+ * The fix: redeclare the Tailwind-facing --color-* names directly on
+ * each [data-theme] selector, sourced from the unconditional raw
+ * tokens in tokens.css (never chained through --bg/--text/etc, which
+ * are only real inside a [data-theme] scope in the first place). This
+ * must come after the @theme block so it wins the cascade at equal
+ * ([data-theme] vs :root) specificity.
+ */
+[data-theme='dark'] {
+  --color-bg: var(--d-bg);
+  --color-surface: var(--d-surface);
+  --color-surface-2: var(--d-surface-2);
+  --color-border: var(--d-border);
+  --color-border-soft: var(--d-border-soft);
+  --color-text: var(--d-text);
+  --color-text-2: var(--d-text-2);
+  --color-text-3: var(--d-text-3);
+  --color-accent-text: var(--accent);
+}
+
+[data-theme='light'] {
+  --color-bg: var(--l-bg);
+  --color-surface: var(--l-surface);
+  --color-surface-2: var(--l-sunken);
+  --color-border: var(--l-border);
+  --color-border-soft: rgba(18, 18, 18, 0.08);
+  --color-text: var(--l-text);
+  --color-text-2: var(--l-text-2);
+  --color-text-3: var(--l-text-3);
+  /* #FF9130 is 2.15:1 on light — never as text there, per design-system.md §2.3 */
+  --color-accent-text: var(--accent-ink);
 }
 
 @layer base {
@@ -239,6 +284,35 @@
     animation-play-state: paused;
   }
 
+  /* design-system.md §6.5 — nav condense-on-scroll. duration-base/
+     ease-soft-ui already carry the timing/curve as Tailwind utilities;
+     only transition-property needs the 3-way list, which has no
+     Tailwind utility (transition-colors excludes backdrop-filter). */
+  .nav-chrome {
+    transition-property: background-color, border-color, backdrop-filter;
+  }
+
+  /* why-us contrast-table — home-spec.md §8's table is wider than
+     narrow viewports (min-w-150) so the Anvio column stays legible;
+     the fade hints there's more to scroll to instead of silently
+     hard-clipping at the container edge. Full-width once the table
+     fits without scrolling. */
+  .table-scroll-fade {
+    mask-image: linear-gradient(90deg, #000, #000 90%, transparent);
+  }
+  @media (min-width: 48rem) {
+    .table-scroll-fade {
+      mask-image: none;
+    }
+  }
+  /* display: contents keeps the loop copy's children as direct flex
+     items of .marquee-track (so -50% still lands on exactly one copy's
+     width) while staying targetable as a group — see reduced-motion
+     override below. */
+  .marquee-loop-copy {
+    display: contents;
+  }
+
   /* Pillar micro-visuals — design-system.md §7 per-pillar visual
      language. Each triggers on hover via the ancestor's `group` class
      (a plain Tailwind marker class, not a Tailwind utility — plain
@@ -326,6 +400,9 @@
     flex-wrap: wrap;
     width: auto;
     transform: none !important;
+  }
+  .marquee-loop-copy {
+    display: none;
   }
 
   /* Pillar visuals resolve to their final/active state instantly rather

@@ -36,6 +36,11 @@
   --accent-wash: rgba(255, 145, 48, 0.12);
   --accent-line: rgba(255, 145, 48, 0.3);
 
+  /* design-system.md §6.5 — nav condense-on-scroll background. Always the
+     dark canvas value, even on light-themed sections scrolled behind it —
+     the nav itself is permanently data-theme="dark". */
+  --nav-condensed-bg: rgba(10, 10, 11, 0.72);
+
   /* ---- 2.4 Semantic — product UI / forms / agent demo only, never marketing ---- */
   --success: #4ade80;
   --warning: #facc15;
@@ -114,7 +119,35 @@
  * single set of neutral aliases. Components MUST consume only these
  * aliases (--bg, --text, --accent-text, ...) — never --d-* / --l-*
  * directly, and never branch on theme in JS. See conventions.md §3.
+ *
+ * :root defaults are REQUIRED here, not decorative. Tailwind's @theme
+ * block (globals.css) compiles `--color-bg: var(--bg)` etc. as a
+ * :root-scoped declaration. Without a :root-level --bg to resolve,
+ * that reference is unresolvable at the scope where it's declared —
+ * CSS's "guaranteed-invalid" value — and every element inherits that
+ * invalid value for --color-bg regardless of its own [data-theme].
+ * The practical effect: bg-bg/text-text/bg-surface/border-border and
+ * every other neutral-alias utility silently fall back to CSS initial
+ * values (transparent backgrounds, currentColor borders) everywhere,
+ * with [data-theme='light'] on a section doing nothing visible. These
+ * :root defaults (matching color-scheme: dark above) give --bg et al.
+ * a real value to resolve at every scope; [data-theme='dark'/'light']
+ * on a descendant then legitimately overrides it, the way theming
+ * here was always meant to work.
  */
+:root {
+  --bg: var(--d-bg);
+  --surface: var(--d-surface);
+  --surface-2: var(--d-surface-2);
+  --border: var(--d-border);
+  --border-soft: var(--d-border-soft);
+  --text: var(--d-text);
+  --text-2: var(--d-text-2);
+  --text-3: var(--d-text-3);
+  --accent-text: var(--accent);
+  --shadow-elevated: none;
+}
+
 [data-theme='dark'] {
   --bg: var(--d-bg);
   --surface: var(--d-surface);

@@ -181,7 +181,7 @@ export function Full({
                 onChange={(e) => setInput(e.target.value)}
                 placeholder={placeholders[placeholderIndex]}
                 aria-label="Describe a manual process at your business"
-                className="h-13 border-border bg-bg font-body text-body text-text focus:border-accent-line focus:ring-3 focus:ring-accent-wash w-full rounded-md border px-4 focus:outline-none"
+                className="h-13 border-border bg-bg font-body text-body text-text focus:border-accent-line focus:ring-3 focus:ring-accent-wash w-full truncate rounded-md border px-4 focus:outline-none"
               />
               <Button type="submit" size="lg">
                 Build my plan
@@ -255,7 +255,7 @@ export function Full({
           ) : (
             <p className="text-label text-text-3 m-auto max-w-52 text-center font-mono">
               {phase.kind === 'idle'
-                ? 'Describe a process on the left and the plan builds here, step by step.'
+                ? 'Describe a process and the plan builds here, step by step.'
                 : 'Your plan will build here once we have enough to work with.'}
             </p>
           )}

@@ -60,7 +60,9 @@ function TierCard({ tier }: { tier: EngagementTier }) {
         {tier.audienceFit}
       </span>
       <h3 className="font-display text-h3 leading-tight tracking-tight">{tier.name}</h3>
-      <span className="text-metric text-accent-ink font-mono tabular-nums">{tier.range}</span>
+      <span className="text-h4 text-accent-ink font-mono tabular-nums leading-tight">
+        {tier.range}
+      </span>
       <span className="text-label text-text-3 font-mono uppercase tracking-widest">
         {tier.timeline}
       </span>

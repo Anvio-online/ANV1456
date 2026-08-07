@@ -29,7 +29,10 @@ export function ContrastTable({
         ) : null}
       </div>
 
-      <div className="overflow-x-auto">
+      <p className="text-label text-text-3 mb-3 font-mono uppercase tracking-widest md:hidden">
+        Swipe to compare →
+      </p>
+      <div className="table-scroll-fade overflow-x-auto">
         <table className="min-w-150 text-body w-full border-collapse">
           <thead>
             <tr>
