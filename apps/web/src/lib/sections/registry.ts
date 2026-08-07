@@ -10,6 +10,10 @@ import { FeaturedWork } from '@/sections/featured-work'
 import { EngagementModel } from '@/sections/engagement-model'
 import { Process } from '@/sections/process'
 import { AgentDemo } from '@/sections/agent-demo'
+import { Problem } from '@/sections/problem'
+import { Integrations } from '@/sections/integrations'
+import { Faq } from '@/sections/faq'
+import { WorkflowGraph } from '@/sections/workflow-graph'
 
 /**
  * type -> component. ADR-0003: adding a section means adding one line
@@ -26,6 +30,12 @@ import { AgentDemo } from '@/sections/agent-demo'
  * captured email before the expensive plan call runs. Falls back to
  * its own 'preview' variant on any hard failure rather than showing a
  * broken panel.
+ *
+ * 'workflowGraph' is Automate's Tier 1 signature scene (motion-system.md
+ * §7.2) — same shape as 'process': the animated scene lives in
+ * src/scenes/workflow-graph/, dynamically imported ssr:false and
+ * IntersectionObserver-gated, with a fully static, real-text fallback
+ * for mobile/reduced-motion visitors.
  *
  * Every other type below is documented in section-library.md and
  * typed in types.ts, but intentionally not registered yet — an
@@ -51,4 +61,8 @@ export const sectionRegistry: Partial<Record<SectionType, ComponentType<any>>> =
   engagementModel: EngagementModel,
   process: Process,
   agentDemo: AgentDemo,
+  problem: Problem,
+  integrations: Integrations,
+  faq: Faq,
+  workflowGraph: WorkflowGraph,
 }

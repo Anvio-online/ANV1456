@@ -11,7 +11,7 @@ import type { CSSVarStyle } from '@/lib/utils/css-vars'
  */
 export function PillarCards({
   heading,
-  pillars,
+  pillars = [],
   headingTag,
 }: ServicesProps & { headingTag: HeadingTag }) {
   const HeadingTagEl = headingTag

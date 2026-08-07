@@ -42,10 +42,18 @@ export interface HeroProps extends SectionBase {
   ctaSecondary?: Cta
 }
 
+export interface ProofBarStat {
+  value: string
+  label: string
+}
+
 export interface ProofBarProps extends SectionBase {
   variant: 'marquee' | 'stat-row' | 'statement'
-  /** Each row scrolls opposite the previous one — motion-system.md §8. */
-  rows: { items: string[] }[]
+  /** 'marquee' only. Each row scrolls opposite the previous one — motion-system.md §8. */
+  rows?: { items: string[] }[]
+  /** 'stat-row' only. counterRoll — motion-system.md §3. Every value must
+   * survive a client asking "how do you know?" (automate-spec.md §2). */
+  stats?: ProofBarStat[]
 }
 
 export interface ServicePillar {
@@ -56,9 +64,26 @@ export interface ServicePillar {
   href: string
 }
 
+export interface ServiceClusterItem {
+  name: string
+  /** Shown when the accordion opens. Never link to an unbuilt leaf page
+   * (automate-spec.md §4) — omit href until the page exists. */
+  description: string
+  href?: string
+}
+
+export interface ServiceCluster {
+  headline: string
+  promise: string
+  subItems: ServiceClusterItem[]
+}
+
 export interface ServicesProps extends SectionBase {
   variant: 'pillar-cards' | 'cluster-grid' | 'list-detail'
-  pillars: ServicePillar[]
+  /** 'pillar-cards' only. */
+  pillars?: ServicePillar[]
+  /** 'cluster-grid' only. */
+  clusters?: ServiceCluster[]
 }
 
 export interface CtaClosingProps extends SectionBase {
@@ -144,6 +169,66 @@ export interface AgentDemoProps extends SectionBase {
   placeholders: string[]
 }
 
+export interface ProblemRow {
+  without: string
+  withAnvio: string
+}
+
+export interface ProblemProps extends SectionBase {
+  variant: 'before-after'
+  /** Real <table> semantics — automate-spec.md §3, this is a GEO asset. */
+  rows: ProblemRow[]
+}
+
+export interface IntegrationGroup {
+  category: string
+  items: string[]
+}
+
+export interface IntegrationsProps extends SectionBase {
+  variant: 'marquee-dual'
+  groups: IntegrationGroup[]
+  /** e.g. "Don't see yours? If it has an API, we can connect it. →" */
+  footnote?: string
+}
+
+export interface FaqItem {
+  question: string
+  /** Answer-first, 40-60 words before any expansion — seo-strategy.md §7. */
+  answer: string
+}
+
+export interface FaqProps extends SectionBase {
+  variant: 'accordion'
+  items: FaqItem[]
+}
+
+export interface WorkflowNode {
+  id: string
+  label: string
+  /** e.g. "classifying intent" — the short line that updates as the
+   * node activates, always visible. */
+  status: string
+  /** Longer copy shown on hover/tap, when the cascade pauses on this
+   * node — motion-system.md §7.2: "the difference between 'we do
+   * automation' and 'here's how it works.'" Distinct from `status`
+   * because that line is deliberately terse. */
+  explainer: string
+}
+
+export interface WorkflowEdge {
+  from: string
+  to: string
+}
+
+export interface WorkflowGraphProps extends SectionBase {
+  variant: 'live'
+  /** e.g. "A customer messages on WhatsApp at 11pm." */
+  scenario: string
+  nodes: WorkflowNode[]
+  edges: WorkflowEdge[]
+}
+
 interface PlaceholderSection extends SectionBase {
   variant: string
   [key: string]: unknown
@@ -160,11 +245,11 @@ export type SectionInstance =
   | ({ type: 'engagementModel' } & EngagementModelProps)
   | ({ type: 'process' } & ProcessProps)
   | ({ type: 'agentDemo' } & AgentDemoProps)
+  | ({ type: 'problem' } & ProblemProps)
+  | ({ type: 'integrations' } & IntegrationsProps)
+  | ({ type: 'faq' } & FaqProps)
+  | ({ type: 'workflowGraph' } & WorkflowGraphProps)
   // Documented in section-library.md, not yet scaffolded:
-  | ({ type: 'problem' } & PlaceholderSection)
-  | ({ type: 'workflowGraph' } & PlaceholderSection)
-  | ({ type: 'integrations' } & PlaceholderSection)
-  | ({ type: 'faq' } & PlaceholderSection)
   | ({ type: 'insights' } & PlaceholderSection)
 
 export type SectionType = SectionInstance['type']

@@ -25,6 +25,32 @@ export function websiteSchema() {
   }
 }
 
+export function serviceSchema({
+  name,
+  description,
+  serviceType,
+  path,
+}: {
+  name: string
+  description: string
+  serviceType: string
+  path: string
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name,
+    description,
+    serviceType,
+    url: new URL(path, SITE_URL).toString(),
+    provider: {
+      '@type': 'Organization',
+      name: SITE_NAME,
+      url: SITE_URL,
+    },
+  }
+}
+
 export function faqSchema(items: { question: string; answer: string }[]) {
   return {
     '@context': 'https://schema.org',

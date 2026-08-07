@@ -309,6 +309,46 @@
     animation-delay: calc(var(--reveal-i, 0) * var(--stagger));
   }
 
+  /* motion-system.md §3 accordionOpen — components/ui/accordion.tsx.
+     grid-template-rows: 0fr -> 1fr, never height: auto (that can't be
+     transitioned; this can, and collapses to a real 0 rather than
+     "however tall the content happens to be"). */
+  .accordion-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows var(--dur-base) var(--ease-out);
+  }
+  .accordion-panel.is-open {
+    grid-template-rows: 1fr;
+  }
+
+  /* motion-system.md §3 pathPulse — scenes/workflow-graph/workflow-graph.tsx.
+     A 3px (r=4 incl. stroke-free fill, close enough at this scale) amber
+     dot travels the active connector via offset-path/offset-distance,
+     re-triggered by React re-keying the <circle> each cascade step so
+     the animation restarts cleanly rather than needing manual replay
+     logic. 1.2s travel, matching the primitive's spec. */
+  .workflow-graph-pulse {
+    offset-distance: 0%;
+    animation: workflow-graph-pulse-travel 1.2s linear;
+  }
+  @keyframes workflow-graph-pulse-travel {
+    from {
+      offset-distance: 0%;
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    to {
+      offset-distance: 100%;
+      opacity: 0;
+    }
+  }
+
   /* Proof-bar marquee — motion-system.md §3 marqueeLoop. CSS keyframes +
      translate3d only, no JS, no rAF. Track is duplicated in the DOM so
      the loop is seamless; -50% is exactly one copy's width. Pauses on
