@@ -72,23 +72,35 @@ export function HorizontalPin({
 
   const showPin = pinEligible && nearViewport
 
+  /* Rendered inside the pinned frame when pinning is on, and above the
+     static list when it isn't — either way it appears exactly once, so
+     the section keeps its single heading for SSR and SEO. */
+  const header = (
+    <>
+      {eyebrow ? (
+        <span className="text-label text-accent-text mb-4 block font-mono uppercase tracking-widest">
+          {eyebrow}
+        </span>
+      ) : null}
+      {heading ? (
+        <HeadingTagEl className="max-w-headline text-h2 leading-none tracking-tight">
+          {heading}
+        </HeadingTagEl>
+      ) : null}
+      {body ? <p className="max-w-measure text-body-l text-text-2 mt-4">{body}</p> : null}
+    </>
+  )
+
   return (
     <div ref={containerRef}>
-      <div className="max-w-page px-gutter mb-head-gap mx-auto">
-        {eyebrow ? (
-          <span className="text-label text-accent-text mb-4 block font-mono uppercase tracking-widest">
-            {eyebrow}
-          </span>
-        ) : null}
-        {heading ? (
-          <HeadingTagEl className="max-w-headline text-h2 leading-none tracking-tight">
-            {heading}
-          </HeadingTagEl>
-        ) : null}
-        {body ? <p className="max-w-measure text-body-l text-text-2 mt-4">{body}</p> : null}
-      </div>
-
-      {showPin ? <ProcessPinScene stages={stages} /> : <ProcessStaticList stages={stages} />}
+      {showPin ? (
+        <ProcessPinScene stages={stages} header={header} />
+      ) : (
+        <>
+          <div className="max-w-page px-gutter mb-head-gap mx-auto">{header}</div>
+          <ProcessStaticList stages={stages} />
+        </>
+      )}
     </div>
   )
 }

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { motion, useScroll, useTransform, useMotionValueEvent } from 'motion/react'
 import type { ProcessStage } from '@/lib/sections/types'
 import { cn } from '@/lib/utils/cn'
@@ -21,7 +21,19 @@ import { cn } from '@/lib/utils/cn'
  */
 const PIN_HEIGHT_VH = 220
 
-export function ProcessPinScene({ stages }: { stages: ProcessStage[] }) {
+export function ProcessPinScene({
+  stages,
+  header,
+}: {
+  stages: ProcessStage[]
+  /** The section's eyebrow/heading/body, rendered INSIDE the pinned
+   * frame. Kept out of the tall scroll container it used to sit above:
+   * there, the h-screen frame centred a 420px card in the viewport and
+   * left ~240px of dead space between the heading and the cards on
+   * approach. Pinned together, they read as one composition and the
+   * heading stays on screen as context while the track scrolls. */
+  header: ReactNode
+}) {
   const containerRef = useRef<HTMLDivElement>(null)
   const trackRef = useRef<HTMLDivElement>(null)
   const [activeIndex, setActiveIndex] = useState(0)
@@ -54,11 +66,16 @@ export function ProcessPinScene({ stages }: { stages: ProcessStage[] }) {
 
   return (
     <div ref={containerRef} style={{ height: `${PIN_HEIGHT_VH}vh` }} className="relative">
-      <div className="sticky top-0 h-screen overflow-hidden">
+      {/* pt-nav-h clears the fixed nav, which this frame scrolls underneath
+          once pinned; the header's own pt-8 is the breathing room on top
+          of that, so the two concerns stay separately adjustable. */}
+      <div className="pt-nav-h sticky top-0 flex h-screen flex-col overflow-hidden">
+        <div className="max-w-page px-gutter mx-auto w-full shrink-0 pt-8">{header}</div>
+
         <motion.div
           ref={trackRef}
           style={{ x }}
-          className="px-gutter flex h-full items-center gap-6 will-change-transform"
+          className="px-gutter flex flex-1 items-center gap-6 will-change-transform"
         >
           {stages.map((stage, i) => (
             <StagePanel key={stage.number} stage={stage} active={i === activeIndex} />
