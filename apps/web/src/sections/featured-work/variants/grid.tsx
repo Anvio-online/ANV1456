@@ -50,12 +50,14 @@ function CaseStudyCardEl({ item }: { item: CaseStudyCard }) {
             </span>
           ))}
         </div>
-        <Link
-          href={item.href}
-          className="text-body-s text-accent-text mt-1 font-medium hover:underline"
-        >
-          Read the case study →
-        </Link>
+        {item.href ? (
+          <Link
+            href={item.href}
+            className="text-body-s text-accent-text mt-1 font-medium hover:underline"
+          >
+            Read the case study →
+          </Link>
+        ) : null}
       </div>
     </article>
   )

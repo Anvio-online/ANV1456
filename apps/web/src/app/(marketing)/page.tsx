@@ -135,7 +135,6 @@ const sections: SectionInstance[] = [
         build:
           'Designed and built a storefront with real category structure and fast browsing, delivered end-to-end.',
         stack: ['Web Development', 'Ecommerce'],
-        href: '/case-studies/baladi-food-stuff',
       },
       {
         client: 'Epicerma',
@@ -146,7 +145,6 @@ const sections: SectionInstance[] = [
         build:
           'Built for clarity and speed — product presentation and checkout designed to keep customers moving forward.',
         stack: ['Web Development', 'Ecommerce'],
-        href: '/case-studies/epicerma',
       },
     ],
   },
@@ -282,32 +280,26 @@ const sections: SectionInstance[] = [
       {
         name: 'Healthcare',
         line: 'Patient scheduling, intake, and follow-ups — automated without losing the human touch.',
-        href: '/industries',
       },
       {
         name: 'Ecommerce',
         line: 'Order confirmations, inventory syncs, and support tickets that used to eat your afternoon.',
-        href: '/industries',
       },
       {
         name: 'Real Estate',
         line: 'Lead follow-up and listing updates that happen the moment they should, not when someone remembers.',
-        href: '/industries',
       },
       {
         name: 'Accounting & Finance',
         line: "Invoice entry and reconciliation off your team's desk and into a system that never forgets.",
-        href: '/industries',
       },
       {
         name: 'Education',
         line: 'Admissions inquiries and enrollment follow-ups answered in minutes, not days.',
-        href: '/industries',
       },
       {
         name: 'Logistics',
         line: 'Shipment updates and customer queries handled automatically, end to end.',
-        href: '/industries',
       },
     ],
   },

@@ -118,7 +118,10 @@ export interface WhyUsProps extends SectionBase {
 export interface IndustryTile {
   name: string
   line: string
-  href: string
+  /** Omit rather than link to the /industries hub until it's built —
+   * see docs/README.md "Known gaps". A 404 from the homepage is worse
+   * than a non-interactive card. */
+  href?: string
 }
 
 export interface IndustriesProps extends SectionBase {
@@ -137,7 +140,10 @@ export interface CaseStudyCard {
    * strategic constraint: "no invented numbers"). */
   outcome?: string
   stack: string[]
-  href: string
+  /** Omit rather than link to an unbuilt /case-studies/[slug] page — see
+   * docs/README.md "Known gaps". A 404 from the homepage is worse than
+   * a card with no "read more". */
+  href?: string
 }
 
 export interface FeaturedWorkProps extends SectionBase {

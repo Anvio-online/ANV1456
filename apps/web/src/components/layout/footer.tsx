@@ -1,44 +1,26 @@
 import Link from 'next/link'
 
 /**
- * design-system.md §6.6. Carries the pillar + leaf links — real
- * internal-linking equity on a small site, per seo-strategy.md §5.
+ * design-system.md §6.6 specifies Services / Company / Resources /
+ * Legal, with individual leaf-service links under Services. None of
+ * the leaf pages, Resources content, or Legal pages exist yet
+ * (docs/README.md "Known gaps") — linking to them would just move the
+ * 404s from nav into the footer. Ships with two columns of real
+ * routes only; extend as those pages land.
  */
 const columns = [
   {
-    heading: 'Build',
+    heading: 'Services',
     links: [
-      ['Website Development', '/services/build/website-development'],
-      ['Ecommerce', '/services/build/ecommerce-development'],
-      ['Web Applications', '/services/build/web-applications'],
-      ['Custom Software', '/services/build/custom-software'],
-    ],
-  },
-  {
-    heading: 'Automate',
-    links: [
-      ['AI Agents', '/services/automate/ai-agent-development'],
-      ['AI Chatbots', '/services/automate/ai-chatbot-development'],
-      ['Workflow Automation', '/services/automate/workflow-automation'],
-      ['WhatsApp Automation', '/services/automate/whatsapp-automation'],
-    ],
-  },
-  {
-    heading: 'Grow',
-    links: [
-      ['SEO', '/services/grow/seo'],
-      ['GEO', '/services/grow/geo'],
-      ['Performance', '/services/grow/performance-optimization'],
-      ['Technical Audit', '/services/grow/technical-audit'],
+      ['Build', '/services/build'],
+      ['Automate', '/services/automate'],
+      ['Grow', '/services/grow'],
     ],
   },
   {
     heading: 'Company',
     links: [
       ['About', '/about'],
-      ['Case Studies', '/case-studies'],
-      ['Products', '/products'],
-      ['Blog', '/blog'],
       ['Contact', '/contact'],
     ],
   },
@@ -48,7 +30,7 @@ export function Footer() {
   return (
     <footer data-theme="dark" className="border-border bg-bg text-text border-t">
       <div className="max-w-page px-gutter mx-auto py-16">
-        <div className="mb-14 grid grid-cols-2 gap-8 md:grid-cols-4">
+        <div className="mb-14 grid grid-cols-2 gap-8">
           {columns.map((col) => (
             <div key={col.heading}>
               <h4 className="text-label text-text-3 mb-4 font-mono uppercase tracking-widest">
