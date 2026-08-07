@@ -1,0 +1,80 @@
+import { Resend } from 'resend'
+import { env } from '@/lib/env'
+import type { ContactFormValues } from '@/lib/forms/contact-schema'
+import type { AuditRequestValues } from '@/lib/forms/audit-schema'
+
+const resend = env.RESEND_API_KEY ? new Resend(env.RESEND_API_KEY) : null
+
+/**
+ * Where new leads land. docs/README.md's open item — "Decide who
+ * monitors hello@anvio.online and where form submissions notify" — the
+ * decision made here is: the same address already published on the
+ * Contact page as the direct-email fallback. Change this if leads
+ * should go somewhere else (a personal inbox, a shared team address).
+ */
+const LEAD_NOTIFICATION_RECIPIENT = 'hello@anvio.online'
+
+/**
+ * Both contact.ts and audit.ts previously only wrote to the database —
+ * a real submission with no code path that ever notified anyone. The
+ * lead was never lost (verified: rows land in contact_submissions /
+ * audit_requests correctly), just silent — nobody had a reason to go
+ * check the database unless they already suspected a lead existed.
+ *
+ * Deliberately best-effort: a failure here is logged, never thrown.
+ * The visitor already got their success confirmation once the DB
+ * insert committed — a Resend outage shouldn't turn their already-
+ * successful submission into an error on their screen. Contrast with
+ * sendAutomationPlanEmail, which throws in production, because that
+ * email *is* the deliverable the visitor is waiting for; this one is
+ * a side notification to Anvio, not to them.
+ */
+async function sendLeadNotification(subject: string, text: string, replyTo: string) {
+  if (!resend) {
+    console.warn('[lead-notification] Resend not configured — skipping send.', {
+      subject,
+      text,
+    })
+    return
+  }
+
+  try {
+    await resend.emails.send({
+      from: 'Anvio Leads <hello@anvio.online>',
+      to: LEAD_NOTIFICATION_RECIPIENT,
+      replyTo,
+      subject,
+      text,
+    })
+  } catch (error) {
+    console.error('[lead-notification] Failed to send — lead is still saved in the database.', {
+      subject,
+      error,
+    })
+  }
+}
+
+export async function sendContactNotification(values: ContactFormValues) {
+  await sendLeadNotification(
+    `New contact form lead: ${values.name}`,
+    [
+      `Name: ${values.name}`,
+      `Email: ${values.email}`,
+      values.company ? `Company: ${values.company}` : null,
+      values.teamSize ? `Team size: ${values.teamSize}` : null,
+      '',
+      values.message,
+    ]
+      .filter((line): line is string => line !== null)
+      .join('\n'),
+    values.email,
+  )
+}
+
+export async function sendAuditRequestNotification(values: AuditRequestValues) {
+  await sendLeadNotification(
+    `New free-audit request: ${values.url}`,
+    [`URL: ${values.url}`, `Email: ${values.email}`].join('\n'),
+    values.email,
+  )
+}

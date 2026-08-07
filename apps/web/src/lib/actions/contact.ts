@@ -4,6 +4,7 @@ import { db } from '@/lib/db/client'
 import { contactSubmissions } from '@/lib/db/schema'
 import { contactSchema, type ContactFormValues } from '@/lib/forms/contact-schema'
 import { env } from '@/lib/env'
+import { sendContactNotification } from '@/lib/email/lead-notification'
 
 export type ContactActionResult = { success: true } | { success: false; error: string }
 
@@ -27,5 +28,6 @@ export async function submitContactForm(values: ContactFormValues): Promise<Cont
   }
 
   await db.insert(contactSubmissions).values(parsed.data)
+  await sendContactNotification(parsed.data)
   return { success: true }
 }

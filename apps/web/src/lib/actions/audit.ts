@@ -4,6 +4,7 @@ import { db } from '@/lib/db/client'
 import { auditRequests } from '@/lib/db/schema'
 import { auditRequestSchema, type AuditRequestValues } from '@/lib/forms/audit-schema'
 import { env } from '@/lib/env'
+import { sendAuditRequestNotification } from '@/lib/email/lead-notification'
 
 export type AuditRequestResult = { success: true } | { success: false; error: string }
 
@@ -27,5 +28,6 @@ export async function submitAuditRequest(values: AuditRequestValues): Promise<Au
   }
 
   await db.insert(auditRequests).values(parsed.data)
+  await sendAuditRequestNotification(parsed.data)
   return { success: true }
 }
