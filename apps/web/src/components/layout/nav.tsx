@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { NavChrome } from '@/components/layout/nav-chrome'
+import { MobileNav } from '@/components/layout/mobile-nav'
 
 const SERVICES = [
   {
@@ -26,7 +27,10 @@ const SERVICES = [
  * Fully server-rendered and usable before hydration — NavChrome only
  * ever toggles the condense-on-scroll class, it never gates this
  * content. The dropdown itself is pure CSS (`group`/`group-hover`),
- * so it needs no client JS either.
+ * so it needs no client JS either. MobileNav is the one piece that
+ * does need client JS (open state, scroll lock) — split out as its
+ * own leaf component per conventions.md §1's smallest-leaf rule,
+ * rather than making this whole nav a client component.
  */
 export function Nav() {
   return (
@@ -62,9 +66,12 @@ export function Nav() {
             About
           </Link>
         </nav>
-        <Button href="/contact" size="sm">
-          Book a call
-        </Button>
+        <div className="flex items-center gap-3">
+          <MobileNav />
+          <Button href="/contact" size="sm">
+            Book a call
+          </Button>
+        </div>
       </div>
     </NavChrome>
   )
