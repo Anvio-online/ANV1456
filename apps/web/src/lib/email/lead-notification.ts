@@ -39,13 +39,25 @@ async function sendLeadNotification(subject: string, text: string, replyTo: stri
   }
 
   try {
-    await resend.emails.send({
+    // resend.emails.send() does not throw on an API-level rejection —
+    // it resolves normally with { data: null, error: {...} }. Only a
+    // network-level failure lands in the catch below; a real Resend
+    // rejection (bad request, restricted account, whatever) would have
+    // silently fallen through here with no log at all before this
+    // check existed — found by a real notification that never arrived
+    // with nothing in the logs to explain why.
+    const { data, error } = await resend.emails.send({
       from: 'Anvio Leads <hello@anvio.online>',
       to: LEAD_NOTIFICATION_RECIPIENT,
       replyTo,
       subject,
       text,
     })
+    if (error) {
+      console.error('[lead-notification] Resend rejected the send.', { subject, error })
+      return
+    }
+    console.log('[lead-notification] Sent.', { subject, id: data.id })
   } catch (error) {
     console.error('[lead-notification] Failed to send — lead is still saved in the database.', {
       subject,

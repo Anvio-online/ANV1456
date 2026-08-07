@@ -19,7 +19,14 @@ export async function sendAutomationPlanEmail(to: string, plan: AutomationPlan) 
     return
   }
 
-  await resend.emails.send({
+  // resend.emails.send() does not throw on an API-level rejection — it
+  // resolves normally with { data: null, error: {...} }. Without this
+  // check, a real Resend rejection would silently produce a 200 here
+  // while never actually sending — the exact silent-failure shape
+  // ADR-0005's every-plan-produces-a-contactable-lead guarantee exists
+  // to prevent, so it has to be checked explicitly, not assumed away
+  // by the lack of a thrown exception.
+  const { error } = await resend.emails.send({
     from: 'Anvio <hello@anvio.online>',
     to,
     subject: 'Your automation plan from Anvio',
@@ -34,4 +41,7 @@ export async function sendAutomationPlanEmail(to: string, plan: AutomationPlan) 
       'Want to scope this properly? Book a call: https://anvio.online/contact',
     ].join('\n'),
   })
+  if (error) {
+    throw new Error(`Resend rejected the plan email: ${error.message}`)
+  }
 }
