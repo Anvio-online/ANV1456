@@ -81,6 +81,14 @@ export async function POST(req: NextRequest) {
     )
   }
 
+  // `turns` is the same array the client used for the chat stage, so it
+  // ends on the assistant's "ready to sketch a plan" message — the client
+  // never appends anything after that; the email submission is the only
+  // signal that the plan was requested. Sonnet 5 (like every current
+  // Claude model) rejects a conversation that doesn't end on a user turn
+  // as an assistant-message prefill attempt, so every real plan request
+  // 400'd here. Append the actual request as a real user turn rather than
+  // relying on the transcript's last message already being one.
   const res = await anthropic.messages.parse({
     model: AGENT_MODEL,
     max_tokens: 1024,
@@ -88,7 +96,10 @@ export async function POST(req: NextRequest) {
       { type: 'text', text: AGENT_DEMO_PLAN_PROMPT_V1, cache_control: { type: 'ephemeral' } },
     ],
     output_config: { format: zodOutputFormat(automationPlanSchema), effort: 'medium' },
-    messages: turns.map((t) => ({ role: t.role, content: t.content })),
+    messages: [
+      ...turns.map((t) => ({ role: t.role, content: t.content })),
+      { role: 'user' as const, content: 'Generate the automation plan now.' },
+    ],
   })
 
   // Safety classifiers can decline and return HTTP 200 with empty content —
