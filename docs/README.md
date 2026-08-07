@@ -108,8 +108,8 @@ Live list; each is also recorded at the bottom of its spec.
 
 - [x] ~~Price ranges for the Home engagement-model section~~ — shipped as "Starting from ₹X" on both Home and Build (Build also gained a 4th tier, Landing Page, so its floor covers the cheapest real thing it builds)
 - [ ] **Read the Stratseek agreement** for client-naming and attribution clauses — blocks the featured-work section
-- [ ] **Written permission before naming GeniusCFO** anywhere, and check the employment agreement's IP/moonlighting clauses
-- [ ] **Four verifiable stats** for the Automate proof bar — each must survive "how do you know?"
+- [ ] Written permission before naming the employer from `docs/private/employer-context.md` anywhere, and check the relevant employment agreement's IP/moonlighting clauses
+- [x] ~~Four verifiable stats for the Automate proof bar~~ — shipped (`2–4 weeks` / `40+ hrs/mo` / `30 days` / `100%`), each a self-verifiable operational commitment rather than a measured claim
 - [x] ~~Note copy~~ — written and shipped on About §4, anonymously (no name/photo yet — see [about-spec.md](specs/about-spec.md) §4)
 - [ ] Founder photo, and a decision on whether/when to sign it with a real name
 - [ ] Three insight posts, or cut the Home insights section

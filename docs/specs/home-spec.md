@@ -117,15 +117,13 @@ White-label work is completely normal and it counts. Two things to get right:
 
 **On your own assessment that they're "not that great":** that's a reason to control the framing, not to hide them. Lead each card with *the business problem and what the build solved*, not with a hero screenshot. If a visual is genuinely weak, crop to the one screen that works, or use a stylized browser-frame treatment instead of a full screenshot. Two well-framed projects beat three defensive ones — pick the strongest two for Home and put all three on `/projects`.
 
-### GeniusCFO — do not put this on the site as Anvio's work
+### A current employer's production work — do not put this on the site as Anvio's work
 
-This is your current employer's production project. Presenting it as an Anvio case study is a real problem on three fronts: IP and confidentiality (the work product isn't yours to showcase), your employment agreement (many have explicit clauses about outside ventures and use of company work), and the conflict of interest if Anvio ever operates near their market.
+Specifics (company name, exact framing) are in `docs/private/employer-context.md` (gitignored, not in this repo's history from this point on). The general rule, which anyone can act on without that file:
 
-**What you can legitimately do** — present it as *team experience*, not agency work, and only on the About page:
+If a team member has shipped real production work at a current or former employer, presenting it as an Anvio case study is a real problem on three fronts: IP and confidentiality (the work product isn't theirs to showcase), the employment agreement (many have explicit clauses about outside ventures and use of company work), and conflict of interest if Anvio ever operates near that employer's market.
 
-> Our team has shipped production AI systems in financial operations — including work on GeniusCFO, an AI-driven CFO platform.
-
-That's a factual statement about who you are, and it's the standard way engineers describe employment history. It is not a portfolio claim. Even so: **get written permission before naming the company**, and if your employment agreement has a moonlighting or IP clause, read it first. If permission isn't available, the same sentence works without the name — "production AI systems in financial operations" carries most of the credibility.
+**What's legitimately fine** — presented as *team experience*, not agency work, and only on the About page: a factual, non-identifying sentence like "our team has shipped production AI systems in financial operations." That's standard for how engineers describe employment history, and it is not a portfolio claim. Naming the employer requires written permission first, and a read of the relevant employment agreement's moonlighting/IP clauses — see the private file for the specific status of that.
 
 **The gap this leaves:** Anvio has web work to show but no AI/automation proof — which is the category it's positioned around. That is precisely the gap the **agent demo (§4)** and a free tool are built to fill. Personal projects can also be shown, clearly labelled as such, on `/projects` — an honest "internal build" label is fine; passing one off as client work is not.
 
@@ -252,10 +250,10 @@ Steps 1–3 give you a launchable homepage. Steps 4–5 are what make it *Anvio'
 
 ## Open items
 
-- [ ] Real price ranges for §7 — blocks that section
+- [x] ~~Real price ranges for §7~~ — shipped as "Starting from ₹X"
 - [ ] **Read the Stratseek agreement** for client-naming and attribution clauses — blocks §5
 - [ ] Pick the strongest two of Baladi / Epicerma / BluPebble for Home; all three go on `/projects`
-- [ ] **Written permission before naming GeniusCFO anywhere**, and check your employment agreement's IP/moonlighting clauses
+- [ ] Written permission before naming the employer from `docs/private/employer-context.md` anywhere, and check the relevant employment agreement's IP/moonlighting clauses
 - [ ] Founder photo + note copy
 - [ ] Three insight posts, or cut §10
 - [ ] Confirm 6 industries

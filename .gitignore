@@ -27,6 +27,9 @@ test-results/
 *.pem
 .vercel
 
+# private — never tracked, never pushed. See docs/private/README.md.
+/docs/private/
+
 # logs
 npm-debug.log*
 yarn-debug.log*
