@@ -7,12 +7,12 @@ const resend = env.RESEND_API_KEY ? new Resend(env.RESEND_API_KEY) : null
 
 /**
  * Where new leads land. docs/README.md's open item — "Decide who
- * monitors hello@anvio.online and where form submissions notify" — the
- * decision made here is: the same address already published on the
- * Contact page as the direct-email fallback. Change this if leads
- * should go somewhere else (a personal inbox, a shared team address).
+ * monitors hello@anvio.online and where form submissions notify" —
+ * resolved: the user's own inbox, not the shared hello@ address.
+ * `from` stays hello@anvio.online below regardless — that's the
+ * verified sending domain; only the recipient changes here.
  */
-const LEAD_NOTIFICATION_RECIPIENT = 'hello@anvio.online'
+const LEAD_NOTIFICATION_RECIPIENT = 'anshika1307goel@gmail.com'
 
 /**
  * Both contact.ts and audit.ts previously only wrote to the database —
