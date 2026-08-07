@@ -110,7 +110,8 @@ Live list; each is also recorded at the bottom of its spec.
 - [ ] **Read the Stratseek agreement** for client-naming and attribution clauses — blocks the featured-work section
 - [ ] **Written permission before naming GeniusCFO** anywhere, and check the employment agreement's IP/moonlighting clauses
 - [ ] **Four verifiable stats** for the Automate proof bar — each must survive "how do you know?"
-- [ ] Founder photo and note copy
+- [x] ~~Note copy~~ — written and shipped on About §4, anonymously (no name/photo yet — see [about-spec.md](specs/about-spec.md) §4)
+- [ ] Founder photo, and a decision on whether/when to sign it with a real name
 - [ ] Three insight posts, or cut the Home insights section
 - [ ] FAQ answers written — particularly the data-handling one
 - [x] ~~Resolve the 404s above~~ — Phase 1 pages built, `nav.tsx`/`footer.tsx`/`sitemap.ts` unlinked from everything still unbuilt

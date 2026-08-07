@@ -388,6 +388,22 @@ export interface GrowthChartProps extends SectionBase {
   disclaimer: string
 }
 
+export interface TeamProps extends SectionBase {
+  variant: 'founder-note' | 'grid'
+  paragraphs: string[]
+  /** Omit until a real photo exists — never a stock photo, per
+   * about-spec.md §4: "ship the page without this section rather than
+   * with a stock photo." The section reads fine without one; drop it
+   * in later without touching layout or copy. */
+  photo?: { src: string; alt: string }
+  /** Real name and role, signed under the note. Omit to publish
+   * anonymously — e.g. while the person writing it is still employed
+   * elsewhere and hasn't disclosed Anvio publicly yet. The copy is
+   * already written in first-person-plural so it reads fine either way. */
+  name?: string
+  role?: string
+}
+
 interface PlaceholderSection extends SectionBase {
   variant: string
   [key: string]: unknown
@@ -415,8 +431,8 @@ export type SectionInstance =
   | ({ type: 'buildAssembly' } & BuildAssemblyProps)
   | ({ type: 'results' } & ResultsProps)
   | ({ type: 'growthChart' } & GrowthChartProps)
+  | ({ type: 'team' } & TeamProps)
   // Documented in section-library.md, not yet scaffolded:
   | ({ type: 'insights' } & PlaceholderSection)
-  | ({ type: 'team' } & PlaceholderSection)
 
 export type SectionType = SectionInstance['type']

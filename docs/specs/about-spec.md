@@ -92,7 +92,7 @@ The `principle-cards` variant of the same section type Home and Automate use as 
 
 **Theme:** first light section. `themeShift` at the boundary. The shift lands here deliberately — the page changes register from argument to person.
 
-**Blocked on:** a real photo and final first-person copy. [home-spec.md](home-spec.md) §8 already flagged this: *"a placeholder founder note is exactly the kind of fabrication home-spec.md's strategic constraint rules out."* Same rule here — **ship the page without this section rather than with a stock photo.**
+**Shipped without a photo or name.** Not a placeholder — the copy above is the real, final first-person-plural note, written so it's honest whether or not it's signed. The photo and a name/role are still pending (the person it'd name is still employed elsewhere and hasn't decided to disclose Anvio publicly yet); `TeamProps.photo`/`.name` in `sections/team/` are optional for exactly this reason. **Still true if that changes: never a stock photo.**
 
 ---
 
@@ -175,14 +175,11 @@ Well under budget. That restraint is the design.
 
 ## Build order
 
-1. Hero, Why Anvio exists, What we believe, What we won't do, Closing CTA *(shippable page)*
-2. How we work, Where we work
-3. Who you actually work with *(blocked on a real photo + first-person copy)*
+All eight sections shipped, including §4.
 
 ## Open items
 
-- [ ] §2 and §4 copy written in a real first-person voice — this is the page where agency-voice is most damaging
-- [ ] A real photo for §4. No stock. No AI-generated portrait.
+- [x] ~~§2 and §4 copy written in a real first-person voice~~ — done
+- [ ] A real photo for §4, and a name/role to sign it with. No stock. No AI-generated portrait. Shipped anonymously on purpose — the person it'd name is still employed elsewhere and hasn't decided to disclose Anvio publicly. `TeamProps.photo`/`.name` (`sections/team/`) are optional specifically so these drop in later without a rebuild.
 - [ ] Decide how to describe the Stratseek-delivered UAE work honestly if it comes up — "delivered as a subcontractor" is fine and normal; implying direct client relationships is not
 - [ ] Confirm team size language matches reality at launch (§4 says "small on purpose" — keep it accurate as that changes)
-- [ ] `hero:page-lead`, `whyUs:principle-cards`, `whyUs:numbered-list`, `process:vertical-list`, `team:founder-note`, `richText`, and `ctaClosing:centered-bold` are all documented-but-unbuilt variants — this page needs the most new variant work of any Phase 1 page despite being the simplest to look at

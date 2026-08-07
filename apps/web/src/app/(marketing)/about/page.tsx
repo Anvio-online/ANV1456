@@ -5,18 +5,20 @@ import { buildMetadata } from '@/lib/seo/metadata'
 import { webPageSchema, organizationSchema, breadcrumbSchema } from '@/lib/seo/schema'
 
 /**
- * about-spec.md. Seven of eight sections built — "Who you actually
- * work with" (§4, a real founder photo + first-person note) is
- * withheld, same "no fabricated content" rule as home-spec.md's
- * featured-work: a placeholder founder note is exactly the kind of
- * thing that rule exists to prevent. Add it as a team:founder-note
- * section once the photo and copy exist; don't fill the gap with a
- * stock photo.
+ * about-spec.md. All eight sections built. "Who you actually work
+ * with" (§4, team:founder-note) ships without a photo or name —
+ * deliberately, not as a placeholder: the copy is written in
+ * first-person-plural so it's honest either way, and TeamProps.photo/
+ * .name are optional specifically so the real ones can be added later
+ * without touching this file or the component. Different case from
+ * home-spec.md's featured-work rule against fabrication — there's
+ * nothing fabricated here, just an identity withheld on purpose.
  *
- * Theme boundary moved to "What we won't do" (was going to land on the
- * now-withheld §4) — dark(1-3) -> light(5-6) -> dark(7-8), keeping the
- * dark/light alternation design-system.md §2.5 calls for rather than
- * leaving the whole page one canvas because a section got cut.
+ * Theme boundary restored to §4 (the founder-note section itself) now
+ * that it's built — dark(1-3) -> light(4-6) -> dark(7-8), matching
+ * design-system.md §2.5's alternation and about-spec.md §4's intent
+ * ("the shift lands here deliberately — the page changes register
+ * from argument to person").
  *
  * No Tier 1 or Tier 2 motion anywhere on this page — deliberate, see
  * motion-system.md §8. A trust page shouldn't perform the same way a
@@ -76,6 +78,18 @@ const sections: SectionInstance[] = [
         title: 'We stay reachable',
         body: '30 days support on every build, and a team that still knows your system in a year.',
       },
+    ],
+  },
+  {
+    type: 'team',
+    id: 'who-you-work-with',
+    variant: 'founder-note',
+    theme: 'light',
+    eyebrow: 'WHO YOU ACTUALLY WORK WITH',
+    heading: "You'll talk to the person actually building it.",
+    paragraphs: [
+      "Anvio is small on purpose. You'll talk to the person building your system, not an account manager relaying messages to a team you never meet. When something breaks at an awkward time, that's a direct line, not a ticket queue.",
+      "For larger builds we bring in specialists we've worked with before — and we tell you who's doing what before the work starts, not after.",
     ],
   },
   {

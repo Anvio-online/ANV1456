@@ -7,11 +7,9 @@ import { NumberedList } from './variants/numbered-list'
 /**
  * section-library.md §3 whyUs. 'contrast-table' (Home, Automate),
  * 'principle-cards' (About §3), and 'numbered-list' (About §5) are
- * built. home-spec.md §8 also specs a closing founder-note block (real
- * photo, real name) — deliberately not built yet; it needs real
- * assets, and a placeholder founder note is exactly the kind of
- * fabrication home-spec.md's strategic constraint rules out. Add it as
- * a dedicated team:founder-note section once the photo and copy exist.
+ * built. home-spec.md §8 also specs a closing founder-note block — see
+ * sections/team/ instead (About §4 uses it; Home's copy of it is a
+ * separate open item, not this section type).
  */
 export function WhyUs(props: WhyUsProps & { headingTag: HeadingTag }) {
   switch (props.variant) {
