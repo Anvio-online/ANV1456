@@ -30,7 +30,7 @@ export function NavChrome({ children }: PropsWithChildren) {
     <header
       ref={ref}
       data-theme="dark"
-      className="nav-chrome h-18 duration-base ease-soft-ui [&.is-condensed]:bg-nav-condensed [&.is-condensed]:border-border-soft fixed inset-x-0 top-0 z-50 border-b border-transparent bg-transparent [&.is-condensed]:backdrop-blur-md"
+      className="nav-chrome h-nav-h duration-base ease-soft-ui [&.is-condensed]:bg-nav-condensed [&.is-condensed]:border-border-soft fixed inset-x-0 top-0 z-50 border-b border-transparent bg-transparent [&.is-condensed]:backdrop-blur-md"
     >
       {children}
     </header>

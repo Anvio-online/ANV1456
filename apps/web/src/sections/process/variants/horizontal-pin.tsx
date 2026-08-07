@@ -74,7 +74,7 @@ export function HorizontalPin({
 
   return (
     <div ref={containerRef}>
-      <div className="max-w-page px-gutter mx-auto mb-14">
+      <div className="max-w-page px-gutter mb-head-gap mx-auto">
         {eyebrow ? (
           <span className="text-label text-accent-text mb-4 block font-mono uppercase tracking-widest">
             {eyebrow}

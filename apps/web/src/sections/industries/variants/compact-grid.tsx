@@ -20,7 +20,7 @@ export function CompactGrid({
 
   return (
     <div className="max-w-page px-gutter mx-auto">
-      <div className="mb-10 flex flex-col gap-4">
+      <div className="mb-head-gap flex flex-col gap-4">
         {eyebrow ? (
           <span className="text-label text-accent-text font-mono uppercase tracking-widest">
             {eyebrow}

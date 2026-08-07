@@ -36,6 +36,13 @@
   --accent-wash: rgba(255, 145, 48, 0.12);
   --accent-line: rgba(255, 145, 48, 0.3);
 
+  /* Ambient glow stops — a large soft light source, distinct from
+     --accent-wash (which is sized for small focus halos and reads as
+     nearly invisible when stretched across a hero). Two stops so the
+     falloff looks like light rather than a flat tinted ellipse. */
+  --accent-glow-core: rgba(255, 145, 48, 0.16);
+  --accent-glow-mid: rgba(255, 145, 48, 0.05);
+
   /* design-system.md §6.5 — nav condense-on-scroll background. Always the
      dark canvas value, even on light-themed sections scrolled behind it —
      the nav itself is permanently data-theme="dark". */
@@ -80,8 +87,33 @@
   --space-24: 6rem;
   --space-32: 8rem;
   --space-40: 10rem;
-  --section-y: clamp(5rem, 3rem + 7vw, 10rem);
-  --section-y-compact: clamp(2.5rem, 2rem + 2vw, 4rem);
+  /* Section padding is paid TWICE at every boundary (one section's
+     padding-bottom meets the next one's padding-top), so the value here
+     is roughly half the gap you actually see between two sections.
+     At 1440px this resolves to ~78px → a ~156px boundary; on mobile
+     48px → 96px. The original clamp(5rem, 3rem + 7vw, 10rem) rendered
+     a ~298px void at every seam, which read as the page falling apart
+     rather than as generous spacing. */
+  --section-y: clamp(3.5rem, 2.25rem + 3.5vw, 5.5rem);
+  --section-y-compact: clamp(2rem, 1.5rem + 1.75vw, 3rem);
+
+  /* Hero top padding, added on top of --section-y. Sized so the hero
+     lands at ~208px total above the eyebrow at 1440px — matching the
+     signed-off prototype — while still clearing the fixed nav on
+     mobile. The old pt-32/md:pt-44 was a flat 176px on top of a
+     then-149px --section-y, which stacked to ~325px. */
+  --hero-y: clamp(6rem, 4.5rem + 4vw, 9rem);
+
+  /* Gap from a section's heading block to its content (cards, table,
+     grid). One token so every section shares the same rhythm — this
+     was 40/48/56px ad hoc across sections before. */
+  --section-head-gap: clamp(2rem, 1.5rem + 1.4vw, 3rem);
+
+  /* design-system.md §6.5 — the nav is fixed, so it contributes no flow
+     height. Anything that has to sit clear of it (the hero, scroll
+     anchors) adds this rather than a magic 72px that silently breaks
+     when the nav resizes. */
+  --nav-h: 4.5rem;
 
   /* ---- 4.2 Container & grid ---- */
   --container: 1280px;

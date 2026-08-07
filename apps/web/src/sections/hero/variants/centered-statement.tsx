@@ -22,10 +22,19 @@ export function CenteredStatement({
 
   return (
     <Container>
-      <div className="relative overflow-hidden pb-16 pt-32 text-center md:pb-24 md:pt-44">
+      {/* <Section> owns --section-y (conventions.md §3); the only thing added
+          here is clearance for the fixed nav, which contributes no flow
+          height. The previous pt-32/md:pt-44 was a second full helping of
+          section padding on top of the first — ~325px of dead space above
+          the eyebrow. */}
+      <div className="pt-hero-y relative overflow-hidden text-center">
         {/* Ambient background — CSS-only, no JS, per motion-system.md §7.1's
-            "hero has no JS dependency" rule. */}
-        <div aria-hidden className="hero-ambient-grid pointer-events-none absolute inset-0" />
+            "hero has no JS dependency" rule. home-spec.md §1: a faint 1px
+            grid plus a single slow amber glow drift. */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="hero-ambient-grid absolute inset-0" />
+          <div className="hero-ambient-glow" />
+        </div>
 
         <span className="fade-up-in text-label text-accent-text mb-6 inline-block font-mono uppercase tracking-widest">
           AI Automation · Software · Growth

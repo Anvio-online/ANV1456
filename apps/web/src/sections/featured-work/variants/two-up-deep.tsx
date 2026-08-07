@@ -19,7 +19,7 @@ export function TwoUpDeep({
   return (
     <div className="max-w-page px-gutter mx-auto">
       {heading ? (
-        <HeadingTagEl className="max-w-headline text-h2 mb-14 leading-none tracking-tight">
+        <HeadingTagEl className="max-w-headline text-h2 mb-head-gap leading-none tracking-tight">
           {heading}
         </HeadingTagEl>
       ) : null}

@@ -10,7 +10,7 @@ import { NavChrome } from '@/components/layout/nav-chrome'
 export function Nav() {
   return (
     <NavChrome>
-      <div className="h-18 max-w-page px-gutter mx-auto flex items-center justify-between">
+      <div className="h-nav-h max-w-page px-gutter mx-auto flex items-center justify-between">
         <Link href="/" className="font-display text-text text-xl font-bold">
           Anv<span className="text-accent">i</span>o
         </Link>

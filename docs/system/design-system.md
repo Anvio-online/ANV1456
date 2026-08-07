@@ -152,8 +152,14 @@ Fluid, `clamp()`-based. Never define a font-size outside this table.
 
 4px base. Tokens: `1=4 · 2=8 · 3=12 · 4=16 · 5=20 · 6=24 · 8=32 · 10=40 · 12=48 · 16=64 · 20=80 · 24=96 · 32=128 · 40=160`
 
-Vertical section padding: `--section-y: clamp(5rem, 3rem + 7vw, 10rem)`
-Compact sections (proof bar, marquee): `clamp(2.5rem, 2rem + 2vw, 4rem)`
+Vertical section padding: `--section-y: clamp(3.5rem, 2.25rem + 3.5vw, 5.5rem)`
+Compact sections (proof bar, marquee): `--section-y-compact: clamp(2rem, 1.5rem + 1.75vw, 3rem)`
+
+**This value is paid twice at every seam** — one section's `padding-bottom` meets the next one's `padding-top` — so the gap you actually see between two sections is roughly double it (~173px at 1440px, ~112px at 375px). Size it accordingly; the original `clamp(5rem, 3rem + 7vw, 10rem)` rendered a ~298px void at every boundary.
+
+Heading block → section content (cards, table, grid): `--section-head-gap: clamp(2rem, 1.5rem + 1.4vw, 3rem)`, exposed as `mb-head-gap`. Every section uses this one token — do not hand-pick an `mb-*` per section.
+
+Hero top padding, added on top of `--section-y`: `--hero-y: clamp(6rem, 4.5rem + 4vw, 9rem)`. The nav is `position: fixed` and contributes no flow height, so anything that must sit clear of it adds `--nav-h` (`4.5rem`) rather than a magic pixel value.
 
 ### 4.2 Container & grid
 
@@ -193,6 +199,8 @@ Restraint rule: at most **two** radii visible in one section.
 - `--shadow-2: 0 2px 4px rgba(18,18,18,0.05), 0 12px 32px rgba(18,18,18,0.08)`
 
 Amber glow (`0 0 40px var(--accent-wash)`) is permitted on **at most one element per viewport** — the active process node or the primary CTA. It is a focal device, not a style.
+
+For a *large ambient* glow (the hero drop light), use `--accent-glow-core` / `--accent-glow-mid` instead. `--accent-wash` is calibrated for small focus halos and goes effectively invisible when stretched across a hero-sized area. Keep the glow concentrated — a sized circle offset above the fold reads as a light source; the same alpha spread across `inset: 0` reads as a flat tint.
 
 ---
 
