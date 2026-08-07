@@ -157,6 +157,10 @@ export interface EngagementTier {
   timeline: string
   range: string
   includes: string[]
+  /** 'tier-cards' only. Explicit rather than inferred from array
+   * position — inferring "the middle one" breaks the moment a tier
+   * gets added or removed, and silently highlights the wrong card. */
+  highlighted?: boolean
 }
 
 export interface EngagementModelProps extends SectionBase {

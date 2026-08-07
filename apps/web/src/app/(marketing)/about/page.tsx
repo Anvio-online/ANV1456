@@ -56,7 +56,7 @@ const sections: SectionInstance[] = [
     items: [
       {
         title: 'Published pricing',
-        body: "Ranges are on the site. You shouldn't need a call to find out whether we're in your budget.",
+        body: "Starting prices are on the site. You shouldn't need a call to find out whether we're in your budget.",
       },
       {
         title: 'You own everything',

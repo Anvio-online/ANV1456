@@ -182,11 +182,14 @@ Baladi Food Stuff · Epicerma · BluPebble. Each: client, industry, one line on 
 
 Same component family as Home §7, `tier-cards` variant (Home uses `phase-timeline`).
 
-| Tier | Fit | Timeline | Range |
+| Tier | Fit | Timeline | Starting from |
 |---|---|---|---|
-| **Marketing Site** | 5–15 pages, CMS, contact + analytics | 4–6 weeks | ₹1,25,000 – ₹3,50,000 |
-| **Ecommerce Build** | Catalogue, checkout, payments, shipping | 6–10 weeks | ₹2,50,000 – ₹7,00,000 |
-| **Custom Application** | Internal tool, dashboard, or CRM/ERP work | 8–16 weeks | ₹4,00,000 – ₹15,00,000 |
+| **Landing Page** | One focused page for a single offer, no CMS | 1–2 weeks | ₹25,000 |
+| **Marketing Site** ← most common | 5–15 pages, CMS, contact + analytics | 4–6 weeks | ₹1,25,000 |
+| **Ecommerce Build** | Catalogue, checkout, payments, shipping | 6–10 weeks | ₹2,50,000 |
+| **Custom Application** | Internal tool, dashboard, or CRM/ERP work | 8–16 weeks | ₹4,00,000 |
+
+Four tiers, not three — added Landing Page after the original three-tier version shipped without a floor for the single-page/portfolio work `services:cluster-grid` already lists under "Marketing Websites." Published as "starting from," same reasoning as Home §7: a floor anchors the conversation without reading as a ceiling. Marketing Site carries the "Most common" badge — `tier-cards.tsx`'s `highlighted` flag is set explicitly per tier now, not inferred from the middle array index, since that inference broke the moment a fourth tier was added.
 
 Plus the same four policy notes as Home §7 (scope changes quoted before starting · lateness communicated before the deadline · you own everything · you can walk away with it). Reuse verbatim — consistency across pages is itself a trust signal.
 

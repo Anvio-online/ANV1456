@@ -278,24 +278,36 @@ const sections: SectionInstance[] = [
     heading: 'What it costs.',
     tiers: [
       {
+        name: 'Landing Page',
+        audienceFit: 'One focused page for a single offer, no CMS',
+        timeline: '1–2 weeks',
+        range: 'Starting from ₹25,000',
+        includes: [
+          'Copy + design for one offer',
+          'Analytics + basic SEO setup',
+          '30 days of post-launch support',
+        ],
+      },
+      {
         name: 'Marketing Site',
         audienceFit: '5–15 pages, CMS, contact + analytics',
         timeline: '4–6 weeks',
-        range: '₹1,25,000 – ₹3,50,000',
+        range: 'Starting from ₹1,25,000',
         includes: ['Design + development', 'CMS handover', '30 days of post-launch support'],
+        highlighted: true,
       },
       {
         name: 'Ecommerce Build',
         audienceFit: 'Catalogue, checkout, payments, shipping',
         timeline: '6–10 weeks',
-        range: '₹2,50,000 – ₹7,00,000',
+        range: 'Starting from ₹2,50,000',
         includes: ['Full catalogue + checkout', 'Payment + shipping integration', 'Team training'],
       },
       {
         name: 'Custom Application',
         audienceFit: 'Internal tool, dashboard, or CRM/ERP work',
         timeline: '8–16 weeks',
-        range: '₹4,00,000 – ₹15,00,000',
+        range: 'Starting from ₹4,00,000',
         includes: ['Weekly demos', 'Staging access', 'Handover docs + training'],
       },
     ],
@@ -317,7 +329,7 @@ const sections: SectionInstance[] = [
       {
         question: 'How much does a business website cost?',
         answer:
-          'Marketing sites typically run ₹1,25,000–₹3,50,000; ecommerce builds ₹2,50,000–₹7,00,000; custom applications ₹4,00,000–₹15,00,000. The range depends on page count, integrations, and how much is custom versus templated — we quote after discovery, not before.',
+          'It depends on the size of the site. A single landing page starts from ₹25,000; a full marketing site with a CMS starts from ₹1,25,000; ecommerce starts from ₹2,50,000; a custom application starts from ₹4,00,000. The exact number depends on page count, integrations, and how much is custom versus templated — we quote after discovery, not before.',
       },
       {
         question: 'How long does a website take to build?',

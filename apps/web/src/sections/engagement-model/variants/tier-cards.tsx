@@ -4,11 +4,13 @@ import type { HeadingTag } from '@/lib/sections/heading-level'
 
 /**
  * build-spec.md §9. Same EngagementTier shape as Home's phase-timeline,
- * genuinely different treatment: the middle tier is highlighted as the
- * common case, pricing-card style, rather than three uniform cards —
- * Build's three tiers are a real size progression (site -> ecommerce ->
+ * genuinely different treatment: one tier is highlighted as the common
+ * case, pricing-card style, rather than uniform cards — Build's tiers
+ * are a real size progression (landing page -> site -> ecommerce ->
  * custom application) in a way Home's automation/product/retainer
  * split isn't, so a "most common" emphasis reads as honest here.
+ * `highlighted` is set explicitly per tier in the page data, not
+ * inferred from array position — see EngagementTier in types.ts.
  */
 export function TierCards({
   eyebrow,
@@ -19,7 +21,6 @@ export function TierCards({
   headingTag,
 }: EngagementModelProps & { headingTag: HeadingTag }) {
   const HeadingTagEl = headingTag
-  const highlightIndex = Math.floor(tiers.length / 2)
 
   return (
     <div className="max-w-page px-gutter mx-auto">
@@ -37,9 +38,9 @@ export function TierCards({
         {body ? <p className="max-w-measure text-body-l text-text-2">{body}</p> : null}
       </div>
 
-      <div className="grid grid-cols-1 gap-5 md:grid-cols-3 md:items-start">
-        {tiers.map((tier, i) => (
-          <TierCard key={tier.name} tier={tier} highlighted={i === highlightIndex} />
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:items-start">
+        {tiers.map((tier) => (
+          <TierCard key={tier.name} tier={tier} highlighted={Boolean(tier.highlighted)} />
         ))}
       </div>
 
@@ -61,7 +62,7 @@ function TierCard({ tier, highlighted }: { tier: EngagementTier; highlighted: bo
       className={cn(
         'flex flex-col gap-4 rounded-xl border p-7',
         highlighted
-          ? 'border-accent-line bg-surface shadow-card-lg md:-translate-y-3'
+          ? 'border-accent-line bg-surface shadow-card-lg lg:-translate-y-3'
           : 'border-border bg-surface shadow-card',
       )}
     >

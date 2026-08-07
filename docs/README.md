@@ -106,7 +106,7 @@ Found by auditing every internal link in the built site against what actually re
 
 Live list; each is also recorded at the bottom of its spec.
 
-- [ ] **Price ranges** for the Home engagement-model section — publishing them is the entire point of that section
+- [x] ~~Price ranges for the Home engagement-model section~~ — shipped as "Starting from ₹X" on both Home and Build (Build also gained a 4th tier, Landing Page, so its floor covers the cheapest real thing it builds)
 - [ ] **Read the Stratseek agreement** for client-naming and attribution clauses — blocks the featured-work section
 - [ ] **Written permission before naming GeniusCFO** anywhere, and check the employment agreement's IP/moonlighting clauses
 - [ ] **Four verifiable stats** for the Automate proof bar — each must survive "how do you know?"

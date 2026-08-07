@@ -170,7 +170,7 @@ Three engagement shapes with **real ranges**:
 
 Plus a short, plainly-worded block: what happens if scope changes, what we do if we're late, who owns the code (you do), and what happens at the end of an engagement.
 
-**Decision needed:** the actual ranges. Publishing them is the whole point of the section — placeholder ranges make it worthless. If you're genuinely not ready, ship "starting from ₹X" rather than nothing.
+**Resolved:** shipped as "Starting from ₹X" per tier rather than a two-sided range — a floor anchors the conversation without reading as a ceiling, and it's a lower barrier to the first click while still being real, published pricing (not "book a call to find out").
 
 ---
 

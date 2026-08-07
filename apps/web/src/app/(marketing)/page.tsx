@@ -206,7 +206,7 @@ const sections: SectionInstance[] = [
         name: 'Automation Sprint',
         audienceFit: 'One process, automated end to end',
         timeline: '2–4 weeks',
-        range: '₹75,000 – ₹2,50,000',
+        range: 'Starting from ₹75,000',
         includes: [
           'Discovery, build, and integration',
           'Handover and documentation',
@@ -217,7 +217,7 @@ const sections: SectionInstance[] = [
         name: 'Product Build',
         audienceFit: 'A website, app, or internal tool',
         timeline: '6–14 weeks',
-        range: '₹2,00,000 – ₹8,00,000',
+        range: 'Starting from ₹2,00,000',
         includes: [
           'Our full five-stage process',
           'Weekly demos, staging access',
@@ -228,7 +228,7 @@ const sections: SectionInstance[] = [
         name: 'Growth Retainer',
         audienceFit: 'Ongoing SEO, performance, and iteration',
         timeline: 'Monthly',
-        range: '₹35,000 – ₹90,000/mo',
+        range: 'Starting from ₹35,000/mo',
         includes: ['Audit and roadmap', 'Ongoing execution', 'Monthly reporting'],
       },
     ],
