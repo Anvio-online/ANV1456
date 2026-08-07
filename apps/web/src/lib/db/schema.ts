@@ -18,6 +18,10 @@ export const contactSubmissions = pgTable('contact_submissions', {
   name: text('name').notNull(),
   email: text('email').notNull(),
   company: text('company'),
+  /** contact-spec.md §1 — optional, qualifies fast against the stated
+   * 10-200 employee range. Specced for automate-spec.md's closing CTA
+   * too but deferred there; this is where it actually lands. */
+  teamSize: text('team_size'),
   message: text('message').notNull(),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
 })

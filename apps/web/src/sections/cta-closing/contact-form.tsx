@@ -3,17 +3,29 @@
 import { useState, type ReactNode } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { contactSchema, type ContactFormValues } from '@/lib/forms/contact-schema'
+import {
+  contactSchema,
+  TEAM_SIZE_OPTIONS,
+  type ContactFormValues,
+} from '@/lib/forms/contact-schema'
 import { submitContactForm } from '@/lib/actions/contact'
 import { Button } from '@/components/ui/button'
 import { MagneticCta } from '@/components/motion/magnetic-cta'
 
 /**
- * home-spec.md §11. The qualifying textarea ("what's the most repetitive
- * thing your team does?") does double duty — it filters tyre-kickers
- * and gives the call a real opening line.
+ * home-spec.md §11 / contact-spec.md §1. Shared by ctaClosing:split-with-form
+ * (Home, Automate) and contact:split-form (the Contact page) — one form,
+ * one validation path, per conventions.md §2. The qualifying textarea
+ * does double duty: it filters tyre-kickers and gives the call a real
+ * opening line. `messageLabel` is the one thing that legitimately
+ * differs by placement (Home/Automate ask about a process specifically;
+ * Contact's is deliberately broader) — everything else is identical.
  */
-export function ContactForm() {
+export function ContactForm({
+  messageLabel = "What's the most repetitive thing your team does?",
+}: {
+  messageLabel?: string
+}) {
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
   const {
     register,
@@ -68,10 +80,24 @@ export function ContactForm() {
         />
       </Field>
 
-      <Field
-        label="What's the most repetitive thing your team does?"
-        error={errors.message?.message}
-      >
+      <Field label="Team size">
+        <select
+          {...register('teamSize')}
+          defaultValue=""
+          className="border-border bg-bg font-body text-body-s text-text focus:border-accent-line focus:ring-3 focus:ring-accent-wash h-11 w-full rounded-sm border px-4 focus:outline-none"
+        >
+          <option value="" disabled>
+            Select a range
+          </option>
+          {TEAM_SIZE_OPTIONS.map((option) => (
+            <option key={option} value={option}>
+              {option} people
+            </option>
+          ))}
+        </select>
+      </Field>
+
+      <Field label={messageLabel} error={errors.message?.message}>
         <textarea
           {...register('message')}
           rows={3}

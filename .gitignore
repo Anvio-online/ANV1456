@@ -39,5 +39,3 @@ pnpm-debug.log*
 .vscode/*
 !.vscode/extensions.json
 
-# drizzle
-apps/web/drizzle/meta/

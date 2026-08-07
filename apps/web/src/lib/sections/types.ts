@@ -97,9 +97,18 @@ export interface ContrastRow {
   anvio: string
 }
 
+export interface WhyUsItem {
+  title: string
+  body: string
+}
+
 export interface WhyUsProps extends SectionBase {
   variant: 'contrast-table' | 'principle-cards' | 'numbered-list'
-  rows: ContrastRow[]
+  /** 'contrast-table' only. */
+  rows?: ContrastRow[]
+  /** 'principle-cards' / 'numbered-list' — same {title, body} shape,
+   * about-spec.md §3 and §5, styled differently per variant. */
+  items?: WhyUsItem[]
 }
 
 export interface IndustryTile {
@@ -229,6 +238,48 @@ export interface WorkflowGraphProps extends SectionBase {
   edges: WorkflowEdge[]
 }
 
+export interface RichTextStep {
+  label: string
+  text: string
+}
+
+export interface RichTextProps extends SectionBase {
+  variant: 'prose' | 'numbered-steps'
+  /** 'prose' only — one or more paragraphs, rendered in order. */
+  paragraphs?: string[]
+  /** 'numbered-steps' only — e.g. contact-spec.md §4 "What happens next". */
+  steps?: RichTextStep[]
+}
+
+export interface ContactProps extends SectionBase {
+  variant: 'split-form' | 'details'
+  /** 'split-form' only — the amber-marker reassurance lines above the form. */
+  reassurances?: string[]
+  /** 'split-form' only — passed through to ContactForm; each placement's
+   * qualifying question is deliberately different copy (contact-spec.md §1). */
+  messageLabel?: string
+  /** 'details' only. */
+  email?: string
+  responseTime?: string
+  location?: string
+}
+
+export interface LeadMagnetOption {
+  title: string
+  body: string
+  href: string
+  ctaLabel: string
+}
+
+export interface LeadMagnetProps extends SectionBase {
+  variant: 'route-cards' | 'tool-card'
+  /** 'route-cards' only — contact-spec.md §2, routes to another page's
+   * own conversion device rather than being one itself. */
+  options?: LeadMagnetOption[]
+  /** 'tool-card' (grow-spec.md §7, the free-audit form) isn't built yet
+   * — its fields land here when it is. */
+}
+
 interface PlaceholderSection extends SectionBase {
   variant: string
   [key: string]: unknown
@@ -249,7 +300,11 @@ export type SectionInstance =
   | ({ type: 'integrations' } & IntegrationsProps)
   | ({ type: 'faq' } & FaqProps)
   | ({ type: 'workflowGraph' } & WorkflowGraphProps)
+  | ({ type: 'richText' } & RichTextProps)
+  | ({ type: 'contact' } & ContactProps)
+  | ({ type: 'leadMagnet' } & LeadMagnetProps)
   // Documented in section-library.md, not yet scaffolded:
   | ({ type: 'insights' } & PlaceholderSection)
+  | ({ type: 'team' } & PlaceholderSection)
 
 export type SectionType = SectionInstance['type']

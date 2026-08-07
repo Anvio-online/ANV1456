@@ -51,6 +51,30 @@ export function serviceSchema({
   }
 }
 
+/** about-spec.md / contact-spec.md — both want `@type: AboutPage` /
+ * `ContactPage` rather than the generic WebPage. Same shape either way,
+ * one builder with the type as a parameter rather than two near-
+ * identical functions. */
+export function webPageSchema({
+  type,
+  name,
+  description,
+  path,
+}: {
+  type: 'AboutPage' | 'ContactPage'
+  name: string
+  description: string
+  path: string
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': type,
+    name,
+    description,
+    url: new URL(path, SITE_URL).toString(),
+  }
+}
+
 export function faqSchema(items: { question: string; answer: string }[]) {
   return {
     '@context': 'https://schema.org',
