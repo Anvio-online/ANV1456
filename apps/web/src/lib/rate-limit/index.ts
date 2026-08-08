@@ -22,18 +22,15 @@ export const planRateLimitDaily = redis
   : null
 
 export const chatRateLimitHourly = redis
-  ? new Ratelimit({ redis, limiter: Ratelimit.slidingWindow(20, '1 h'), prefix: 'agent:chat:1h' })
+  ? new Ratelimit({ redis, limiter: Ratelimit.slidingWindow(10, '1 h'), prefix: 'agent:chat:1h' })
   : null
 
 /** Plan had both an hourly and a daily cap from the start; chat only
- * ever had the hourly one — nothing stopped 20/hour from running
- * around the clock (480/day, indefinitely, from one IP) since there
- * was no ceiling above the hourly window. 60/day comfortably covers
- * genuine shared-IP traffic (an office trying the demo) while cutting
- * worst-case sustained abuse to an eighth of the previous unbounded
- * exposure. */
+ * ever had the hourly one — nothing stopped it from running around
+ * the clock, indefinitely, from one IP, since there was no ceiling
+ * above the hourly window. */
 export const chatRateLimitDaily = redis
-  ? new Ratelimit({ redis, limiter: Ratelimit.slidingWindow(60, '1 d'), prefix: 'agent:chat:1d' })
+  ? new Ratelimit({ redis, limiter: Ratelimit.slidingWindow(20, '1 d'), prefix: 'agent:chat:1d' })
   : null
 
 export async function checkPlanRateLimit(ip: string) {
