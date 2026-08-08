@@ -25,6 +25,17 @@ export const chatRateLimitHourly = redis
   ? new Ratelimit({ redis, limiter: Ratelimit.slidingWindow(20, '1 h'), prefix: 'agent:chat:1h' })
   : null
 
+/** Plan had both an hourly and a daily cap from the start; chat only
+ * ever had the hourly one — nothing stopped 20/hour from running
+ * around the clock (480/day, indefinitely, from one IP) since there
+ * was no ceiling above the hourly window. 60/day comfortably covers
+ * genuine shared-IP traffic (an office trying the demo) while cutting
+ * worst-case sustained abuse to an eighth of the previous unbounded
+ * exposure. */
+export const chatRateLimitDaily = redis
+  ? new Ratelimit({ redis, limiter: Ratelimit.slidingWindow(60, '1 d'), prefix: 'agent:chat:1d' })
+  : null
+
 export async function checkPlanRateLimit(ip: string) {
   if (!planRateLimitHourly || !planRateLimitDaily) {
     // No Redis configured (local dev without env vars) — fail open, but
@@ -42,11 +53,15 @@ export async function checkPlanRateLimit(ip: string) {
 }
 
 export async function checkChatRateLimit(ip: string) {
-  if (!chatRateLimitHourly) {
+  if (!chatRateLimitHourly || !chatRateLimitDaily) {
     if (env.NODE_ENV === 'production') {
       throw new Error('Rate limiting is not configured — refusing to serve the chat endpoint.')
     }
     return { success: true } as const
   }
-  return chatRateLimitHourly.limit(ip)
+  const [hourly, daily] = await Promise.all([
+    chatRateLimitHourly.limit(ip),
+    chatRateLimitDaily.limit(ip),
+  ])
+  return { success: hourly.success && daily.success } as const
 }

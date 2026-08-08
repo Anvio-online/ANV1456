@@ -311,12 +311,14 @@ function PlanResult({ plan }: { plan: AutomationPlan }) {
         {plan.nodes.map((node, i) => (
           <div
             key={node.label}
-            className="fade-up-in border-accent-line bg-surface flex items-center gap-2.5 rounded-md border px-3 py-2"
+            className="fade-up-in border-accent-line bg-surface flex flex-col gap-1 rounded-md border px-3 py-2.5"
             style={{ '--reveal-i': i + 1 } as CSSVarStyle}
           >
-            <span aria-hidden className="bg-accent h-2 w-2 shrink-0 rounded-full" />
-            <span className="text-body-s text-text font-mono">{node.label}</span>
-            <span className="text-label text-text-3 ml-auto">{node.detail}</span>
+            <div className="flex items-center gap-2.5">
+              <span aria-hidden className="bg-accent h-2 w-2 shrink-0 rounded-full" />
+              <span className="text-body-s text-text font-mono">{node.label}</span>
+            </div>
+            <span className="text-label text-text-3 pl-4">{node.detail}</span>
           </div>
         ))}
       </div>
