@@ -29,6 +29,8 @@ So: **the automation ROI calculator.** It is the only one of the three with no e
 
 Different question, different formula, different intent. Both can exist.
 
+**One thing this tool deliberately does not have to do: demonstrate engineering capability.** Four-input arithmetic doesn't, and it would be the wrong page to stretch into it. That job belongs to [`/projects`](projects-spec.md) and the agent demo ([phase-2-plan.md](phase-2-plan.md) §1a). This page's job is link equity and a number the visitor didn't have — it earns its place on distribution (Distribution, below), not on sophistication.
+
 ---
 
 ## 2. Sections
@@ -119,6 +121,7 @@ A tool page that nobody links to is a tool page that doesn't work. This is the p
 - Linked from `/industries/accounting-firms`, where the calculation is most concrete
 - Linked from guides #4 and #5 ([guides-spec.md](guides-spec.md)) as their contextual in-body link
 - Footer **Resources** column, once that column exists
+- Listed on [`/projects`](projects-spec.md) as an internal build
 - Listed in `/llms.txt` ([seo-strategy.md](../system/seo-strategy.md) §7.7)
 - `tool_completed` analytics event fires when all four inputs have been touched ([seo-strategy.md](../system/seo-strategy.md) §9)
 

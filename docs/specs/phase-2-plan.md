@@ -16,7 +16,27 @@ Phase 1 shipped six pages that sell. Phase 2 ships the pages that **rank, prove,
 
 **The structural pages are not optional.** `/services`, and the legal trio, are not growth pages — they are the pages whose absence is currently a defect (§2). Shipping leaves before the hub they belong to would deepen that defect rather than fix it.
 
-**Deferred to Phase 3, deliberately:** `/projects` (the gallery — [Information_arch.md](../Initial/Information_arch.md) separates it from case studies, and it needs volume we don't have), `/products` (nothing to list), `/blog` at cadence, and the remaining ~15 service leaves.
+**`/projects` moved into Wave 2** (2026-08-08, revised — it was originally deferred to Phase 3). Reasoning in §1a; full spec in [projects-spec.md](projects-spec.md).
+
+**Deferred to Phase 3, deliberately:** `/products` (nothing to list), `/blog` at cadence, and the remaining ~15 service leaves.
+
+---
+
+## 1a. The proof asymmetry, and what it changes
+
+This is the constraint the first draft of this plan under-weighted, and it reshapes three decisions.
+
+**Anvio is positioned around AI and automation. Every piece of shippable proof is web and ecommerce.** Both case studies — Baladi and Epicerma — are UAE storefronts tagged `Web Development, Ecommerce`. [employer-context.md](../private/employer-context.md) names the gap and forbids the obvious patch: the employer's AI platform is *"not yours to showcase"* on any page, in any framing beyond a permission-gated *team experience* sentence on About.
+
+So Phase 2 as first drafted would have shipped **three Automate leaf pages, a hub, and a pillar with nothing demonstrable behind the category the brand is built on** — while Wave 2 delivered proof exclusively for Build.
+
+The same document names the remedy, and [SCOPE.md](../Initial/SCOPE.md)'s locked decisions agree: the agent demo is *"the answer to having no client logos yet,"* and internal builds, clearly labelled, belong on `/projects`. Three changes follow:
+
+1. **`/projects` ships in Wave 2**, not Phase 3 ([projects-spec.md](projects-spec.md)). It is the cheapest page in Phase 2 — `featuredWork:grid` already exists — and the only one that shows AI capability we can point at.
+2. **The three Automate leaves carry `agentDemo:full`** ([service-leaf-spec.md](service-leaf-spec.md) §3a). The first draft omitted it to keep conversion attribution clean, which weighed a measurement inconvenience against the page's central weakness.
+3. **The leaf split stays 3 Automate / 1 Build.** Rebalancing toward the pillar where the proof happens to sit would mean selling the category we are *not* positioned around. The answer to thin proof is to demonstrate, not to retreat.
+
+**What this does not license:** no invented metrics, no unlabelled internal work, no implying the ecommerce builds were automation projects. [home-spec.md](home-spec.md)'s constraint stands — *"one caught exaggeration costs more than an empty section ever would."*
 
 ---
 
@@ -48,6 +68,7 @@ Fourteen routes, four spec documents plus three shared ones. Class per [ADR-0006
 | `/services` | Composed | [services-hub-spec.md](services-hub-spec.md) | `breadcrumb` |
 | `/case-studies` | Composed | [case-studies-spec.md](case-studies-spec.md) | content adapter |
 | `/case-studies/[slug]` | Hybrid | [case-studies-spec.md](case-studies-spec.md) | `caseStudyBody`, `relatedLinks` |
+| `/projects` | Composed | [projects-spec.md](projects-spec.md) | `CaseStudyCard.kind` |
 | `/tools/automation-roi-calculator` | Composed | [tools-spec.md](tools-spec.md) | — |
 | `/services/automate/whatsapp-automation` | Hybrid | [service-leaf-spec.md](service-leaf-spec.md) | content adapter, `richText:mdx` |
 | `/services/automate/ai-chatbot-development` | Hybrid | [service-leaf-spec.md](service-leaf-spec.md) | as above |
@@ -97,7 +118,7 @@ Five waves. Each wave is independently shippable, and each unblocks a documented
 
 **Wave 1 — Structure.** `/services` hub, the three legal pages, the footer's four columns, the nav mega-menu. All composed pages, no content dependency beyond `breadcrumb`. This wave fixes the JSON-LD defect and is the cheapest wave by a wide margin — ship it first for that reason alone.
 
-**Wave 2 — Proof.** `/case-studies` + `/case-studies/[slug]`, two entries. **Blocked on content and permission, not on code** — see the Stratseek agreement item in §7. The code should be built to the point where adding an MDX file publishes a case study, and then wait.
+**Wave 2 — Proof.** `/case-studies` + `/case-studies/[slug]`, two entries, **and `/projects`**. The case studies are **blocked on content and permission, not on code** — see the Stratseek agreement item in §7; build to the point where adding an MDX file publishes one, then wait. **`/projects` is only partly blocked by the same gate**: its two internal items (the agent demo, the ROI calculator, plus the site's own CWV numbers) need no permission at all, so a reduced version ships regardless. Given §1a, that reduced version is the more urgent half of this wave.
 
 **Wave 3 — Commercial depth.** The four service leaves. Highest SEO value in Phase 2, and the wave that turns the pillar pages' cluster sub-items into real internal links.
 
@@ -106,6 +127,32 @@ Five waves. Each wave is independently shippable, and each unblocks a documented
 **Wave 5 — Authority.** `/guides` + 6–8 guides, which also seeds Home's insights section.
 
 Waves 3–5 can reorder if keyword data (§6) says so. Waves 0 and 1 cannot move.
+
+### 5a. The floor — what "Phase 2 shipped" actually means
+
+**Phase 2 as fully specced is roughly 20,000 words of expert writing**: eight guides at 1,800, four leaves at 800, two industry bodies at 800, two case studies, the legal trio, and the hub copy. [ADR-0003](../engineering/adr/0003-section-registry-composition.md) describes this operation as *"a team of one"* — and that person has a day job ([employer-context.md](../private/employer-context.md)).
+
+A plan that only succeeds at 100% completion is a plan that fails. So the scope is split explicitly.
+
+**The floor — this is Phase 2. Ship all of it or the phase isn't done.**
+
+| | Why it's non-negotiable |
+|---|---|
+| **Wave 0** in full | Nothing else exists without it |
+| **Wave 1** in full | Cheap, unblocks the footer and nav, retires the JSON-LD defect (§2) |
+| **`/projects`**, at least the internal items | §1a — the only AI/automation proof on the site |
+| **2 service leaves** — `whatsapp-automation` and `ai-chatbot-development` | The two highest-intent Automate terms, and the two the guides support |
+| **4 guides** — `ai-agent-vs-chatbot`, `whatsapp-business-api-cost-and-limits`, `which-processes-are-worth-automating`, `geo-vs-seo-getting-cited-by-ai` | The first two unblock the leaves' intent boundary; the last two are the ones nobody else can write the way we can |
+| **`/case-studies`** if and only if the Stratseek gate clears | Otherwise the route stays unpublished — not shipped empty |
+
+Roughly 10,000 words. Still a lot. It is a coherent site.
+
+**Above the floor — real, planned, optional-if-capacity.** Everything is specced and none of it is committed: the third and fourth leaves, `/industries` and its two pages, `/tools/automation-roi-calculator`, and guides five through eight. Take them in that order; each is independently shippable and none blocks another.
+
+**Two rules that make the split work:**
+
+1. **Never publish an index below its threshold.** `/guides` waits for four entries, `/case-studies` for one, `/industries` ships hub-only if the leaf bodies slip ([industries-spec.md](industries-spec.md)). A thin index is a worse signal than a missing page and it gets indexed.
+2. **Cut entries, never the substance floor.** Six good guides beat eight padded ones; [seo-strategy.md](../system/seo-strategy.md) §1 is explicit that thin pages suppress the whole domain. The number of pages is the variable. The 800/1,800-word floors are not.
 
 ---
 

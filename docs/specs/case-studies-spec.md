@@ -16,7 +16,9 @@ So the structural rules come before the copy.
 2. **Attribution is structural.** `attribution: 'direct' | 'partner-agency'` renders "Delivered via partner agency" from the field, never from hardcoded copy — so the honest framing can't be quietly dropped in a later edit. This field exists because of the open Stratseek question.
 3. **`clientDisplay` may be anonymized.** `"a 60-person FMCG distributor in Ahmedabad"` is a complete, honest client name for our purposes. An NDA is a reason to anonymize, never a reason to skip the case study.
 
-**Do not ship Wave 2 until the Stratseek agreement has been read.** Naming a client you weren't licensed to name is not a fixable mistake.
+**Do not ship these pages until the Stratseek agreement has been read.** Naming a client you weren't licensed to name is not a fixable mistake. [`/projects`](projects-spec.md), the other half of Wave 2, is only partly gated by this — its internal items need no permission and should ship regardless ([phase-2-plan.md](phase-2-plan.md) §1a).
+
+**Both entries are Build work.** Baladi and Epicerma are UAE ecommerce storefronts, so Wave 2 delivers proof for the pillar Anvio is *least* positioned around. That asymmetry is why `/projects` exists and why the Automate leaves carry the agent demo — [phase-2-plan.md](phase-2-plan.md) §1a. Nothing on this page should be stretched to compensate.
 
 ---
 
@@ -155,7 +157,7 @@ From `stack[]`. Grouped where the array has enough entries to group, a single ro
 - **No testimonial section.** `testimonial` stays unbuilt in Phase 2 ([content-layer.md](../engineering/content-layer.md) §4). We have no quotes, and an empty testimonial block on a page about credibility is self-defeating.
 - **No client logo.** Requires permission we may not have, and one logo is worse than none.
 - **No "similar projects" carousel.** With two entries it's a link to the other one, which §6 already provides.
-- **No `/projects` gallery.** Phase 3 ([phase-2-plan.md](phase-2-plan.md) §1) — it needs volume we don't have, and splitting two entries across two page types is worse than one page done well.
+- **No internal builds on this page.** They live on [`/projects`](projects-spec.md), which ships in the same wave. [Information_arch.md](../Initial/Information_arch.md) separates the two deliberately — a case study is a client's problem told in full; a project is a quick overview. Both pages cross-link and each explains what the other is for.
 
 ## Build order
 

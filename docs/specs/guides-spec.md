@@ -68,7 +68,14 @@ The hero carries **a named author, a visible `updatedAt` date, and reading time*
 
 `updatedAt` is displayed, not just emitted in schema. If a guide has not been touched in a year, the visible date should embarrass us into updating it — that is the mechanism working.
 
-**Blocked on the same open item as About §4 and `authorBio`:** a real name. A guide bylined "Anvio" is weaker than one bylined by a person, and this is the strongest argument yet for resolving that question.
+**A real name is better, and its absence must not block the wave.** About §4 already ships anonymously because the person writing it is employed elsewhere and hasn't disclosed Anvio publicly ([employer-context.md](../private/employer-context.md)) — an unresolved question that may stay unresolved for a while. Making guides wait on it would stall the site's only compounding channel indefinitely.
+
+**The fallback, in order of preference:**
+1. **A real name and role.** Strongest for citation likelihood. Requires the employment question to be settled first.
+2. **A role byline without a name** — "Written by Anvio's founding engineer" — plus a real, specific `authorBio` describing the work behind the guide. Carries most of the provenance value; the same reasoning `team:founder-note` already uses to ship without a photo.
+3. **"Anvio"** as the author. Weakest, and only if 2 isn't acceptable either.
+
+Ship at level 2 and upgrade to level 1 later. `author` is a frontmatter string — changing it across eight files is a find-and-replace, not a rewrite.
 
 ### Section 3 — Table of contents
 
@@ -163,7 +170,7 @@ Chosen to cover all four query shapes in [seo-strategy.md](../system/seo-strateg
 
 ## Open items
 
-- [ ] **A real author name.** Blocks the provenance argument in Section 2 and `authorBio` entirely. Same unresolved item as About §4
+- [ ] **A real author name** — an upgrade, no longer a blocker. Ship at the role-byline fallback in Section 2 and revisit when the employment-disclosure question resolves
 - [ ] Resolve the ToC architecture (Section 3): ship `inline`, or move the ToC into `richText:mdx` as a prop
 - [ ] Decide whether `insights` and `guides` are one content kind or two, before the index is built
 - [ ] Eight guides × 1,800 words is the largest writing commitment in Phase 2. Confirm the realistic number before committing the index's shape — six is a fine answer

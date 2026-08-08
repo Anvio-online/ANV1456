@@ -168,7 +168,7 @@ A hub page with zero supporting motion is correct. Every second of animation her
 ## Deliberate omissions
 
 - **No proof bar.** The stats belong on the pages that make the claims. Repeating them here dilutes them and adds a screen before the pillar cards.
-- **No agent demo.** It lives on Home and Automate, where the visitor is problem-aware. Here it would be a third competing call to action.
+- **No agent demo**, despite it being on Home, Automate and the three Automate leaves ([service-leaf-spec.md](service-leaf-spec.md) §3a). Those are all pages where the visitor has already picked a direction. This one's entire job is to send them to a pillar in fifteen seconds; a demo here competes with that, and a visitor who wants it is one click from it.
 - **No pricing.** Ranges are per-pillar and live on Home and Build. A blended range across three services is a number that's wrong for everyone.
 - **No industries.** `/industries` is its own hub; linking there from the nav and Home is enough.
 

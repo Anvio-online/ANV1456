@@ -65,16 +65,21 @@ Start with **[phase-2-plan.md](specs/phase-2-plan.md)**: scope, the fourteen rou
 | [services-hub-spec.md](specs/services-hub-spec.md) | `/services` + the nav mega-menu and footer columns                       | 1    | —                                              |
 | [legal-spec.md](specs/legal-spec.md)               | `/privacy` · `/terms` · `/cookies`                                       | 1    | Legal review; the GA4 decision                 |
 | [case-studies-spec.md](specs/case-studies-spec.md) | `/case-studies` + `/case-studies/[slug]`                                 | 2    | **The Stratseek agreement**                    |
+| [projects-spec.md](specs/projects-spec.md)         | `/projects` — client work **and labelled internal builds**               | 2    | Partly — the internal items aren't             |
 | [service-leaf-spec.md](specs/service-leaf-spec.md) | 4 leaves — 3 Automate, 1 Build                                           | 3    | **Keyword validation** (slugs are provisional) |
 | [industries-spec.md](specs/industries-spec.md)     | `/industries` + `/industries/ecommerce` + `/industries/accounting-firms` | 4    | Two bodies at ≥800 words                       |
 | [tools-spec.md](specs/tools-spec.md)               | `/tools/automation-roi-calculator`                                       | 4    | —                                              |
-| [guides-spec.md](specs/guides-spec.md)             | `/guides` + 6–8 guides                                                   | 5    | A real author name; 1,800 words each           |
+| [guides-spec.md](specs/guides-spec.md)             | `/guides` + 6–8 guides                                                   | 5    | 1,800 words each                               |
 
 **Every one of them is gated on Wave 0** — the content adapter and six unbuilt section types, specified in [content-layer.md](engineering/content-layer.md). Authoring model: [ADR-0006](engineering/adr/0006-content-page-authoring-model.md).
 
 **No Phase 2 page carries a Tier 1 signature scene.** Deliberate — [phase-2-plan.md](specs/phase-2-plan.md) §4, mapped in [motion-system.md](system/motion-system.md) §8a.
 
-Phase 3 pages (`/projects`, `/products`, `/blog` at cadence, the remaining ~15 service leaves) have no spec yet.
+**Phase 2 has a stated floor, and it is smaller than the full spec set.** [phase-2-plan.md](specs/phase-2-plan.md) §5a — Waves 0 and 1 in full, `/projects`, two leaves, four guides. Everything else is specced but explicitly optional-if-capacity. Roughly 10,000 words rather than 20,000, for one person with a day job.
+
+**The proof asymmetry drives three of the plan's decisions.** Both case studies are Build work while the brand is positioned on Automate — [phase-2-plan.md](specs/phase-2-plan.md) §1a explains why `/projects` moved out of Phase 3, why the Automate leaves carry the agent demo, and why the leaf split stays 3 Automate / 1 Build anyway.
+
+Phase 3 pages (`/products`, `/blog` at cadence, the remaining ~15 service leaves) have no spec yet.
 
 ### `engineering/` — how the code works
 
@@ -152,6 +157,6 @@ Each blocks a whole wave. Full context in [phase-2-plan.md](specs/phase-2-plan.m
 - [ ] **Keyword-validate the four leaf slugs** in Ahrefs/Semrush and Search Console — blocks Wave 3. A leaf URL is set once
 - [ ] **Legal review of `/privacy`** against what the code actually collects — Wave 1. This is the one page where approximately right is not acceptable ([legal-spec.md](specs/legal-spec.md) §2)
 - [ ] **Decide GA4 vs Plausible-only** — blocks `/cookies`, and it changes every route's JS budget ([legal-spec.md](specs/legal-spec.md) §4)
-- [ ] **A real author name** — blocks `authorBio` and the provenance argument on every guide. Same unresolved question as About §4
+- [ ] **A real author name** — an upgrade, not a blocker. Guides ship at a role byline ([guides-spec.md](specs/guides-spec.md) Section 2) so the employment-disclosure question can't stall Wave 5 indefinitely
 - [ ] Resolve the sticky table-of-contents architecture before building it ([guides-spec.md](specs/guides-spec.md) Section 3)
 - [ ] Decide whether `insights` and `guides` are one content kind or two, before the guides index is built

@@ -284,18 +284,29 @@ relatedLinks:card-grid (light)
 ctaClosing:split-with-form (dark)
 ```
 
+### `/projects` — composed · [spec](../specs/projects-spec.md)
+```
+breadcrumb:inline (dark) · hero:page-lead (dark) · featuredWork:grid (dark)
+· richText:prose (light) · ctaClosing:centered-bold (dark)
+```
+`CaseStudyCard` gains a required `kind: 'client' | 'internal' | 'partner-agency'` — the label
+renders from the field, so honest attribution is structural rather than editorial.
+
 ### Service leaf — hybrid · [spec](../specs/service-leaf-spec.md)
 ```
 breadcrumb:inline (dark)
 hero:page-lead (dark)               ← deliberately not split-visual, which is the pillars'
 problem:pain-grid (dark)
 richText:mdx (light)                ← the substance — this is what ranks
-workflowGraph:compact (light)       ← Tier 2 · or buildAssembly:component-grid on Build leaves
-results:metric-row (light)          ← definitions, no counterRoll
-faq:accordion (dark)
+workflowGraph:compact (light)       ← Tier 2 · buildAssembly:component-grid on the Build leaf
+faq:accordion (light)               ← in the light band; the theme rule leaves nowhere else
+agentDemo:full (dark)               ← Tier 2 · Automate leaves only
 relatedLinks:card-grid (dark)
 ctaClosing:centered-bold (dark)
 ```
+The Build leaf swaps `agentDemo:full` for `results:metric-row` (dark) — the demo is
+automation-scoped, and Build has real client work to point at instead. The Automate leaves
+carry it because they have none: see [phase-2-plan.md](../specs/phase-2-plan.md) §1a.
 
 ### `/industries` hub — composed · [spec](../specs/industries-spec.md)
 ```

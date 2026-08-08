@@ -45,23 +45,48 @@ Automate's pillar page keeps the head term (`AI automation services`) and links 
 
 ## 3. The shared frame
 
-Nine sections, from [section-library.md](../system/section-library.md) §4's Phase 2 template. Identical across all four leaves; only frontmatter, body, and Section 5's visual differ.
+Nine sections, adapted from [section-library.md](../system/section-library.md) §4's Phase 2 template. **Sections 1–4, 6, 8 and 9 are identical across all four leaves. Sections 5 and 7 differ by pillar**, for the reason in §3a.
+
+**Automate leaves** (`whatsapp-automation`, `ai-chatbot-development`, `ai-agent-development`):
 
 | # | Section | Theme | Tier | Source |
 |---|---|---|---|---|
-| 1 | `breadcrumb:inline` | dark | 0 | `Home / Services / {Pillar} / {Leaf}` |
+| 1 | `breadcrumb:inline` | dark | 0 | `Home / Services / Automate / {Leaf}` |
 | 2 | `hero:page-lead` | dark | 3 | frontmatter `h1`, `description` |
 | 3 | `problem:pain-grid` | dark | 3 | frontmatter `pains[]`, max 6 |
 | 4 | `richText:mdx` | light | 3 | **the body — the 800 words that rank** |
-| 5 | `workflowGraph:compact` \| `buildAssembly:component-grid` | light | **2** | fixed per leaf |
-| 6 | `results:metric-row` | light | 3 | frontmatter `metrics[]` — definitions |
-| 7 | `faq:accordion` | dark | 4 | frontmatter `faq[]` |
+| 5 | `workflowGraph:compact` | light | **2** | fixed per leaf |
+| 6 | `faq:accordion` | light | 4 | frontmatter `faq[]` |
+| 7 | `agentDemo:full` | dark | **2** | **the proof this page otherwise has none of** |
 | 8 | `relatedLinks:card-grid` | dark | 3 | frontmatter `relatedLinks[]` |
 | 9 | `ctaClosing:centered-bold` | dark | 3 | fixed copy, leaf-specific question |
 
-3 dark → 3 light → 3 dark, satisfying the renderer's consecutive-theme check.
+**Build leaf** (`website-development`) — same frame, two swaps:
+
+| # | Section | Theme | Tier | Source |
+|---|---|---|---|---|
+| 5 | `buildAssembly:component-grid` | light | **2** | static grid |
+| 7 | `results:metric-row` | dark | 3 | frontmatter `metrics[]` — definitions |
+
+3 dark → 3 light → 3 dark on both, satisfying the renderer's consecutive-theme check. **Note the FAQ sits in the light band**, unlike the pillar pages — with nine sections the theme rule leaves no room for it anywhere else, and it reads fine on the near-white canvas that already carries the body above it.
 
 **Schema:** `Service` + `FAQPage` + `BreadcrumbList`, per page. `serviceType` is the leaf's primary term, not the pillar's.
+
+### 3a. Why the Automate leaves carry the agent demo
+
+**This reverses an earlier decision in this spec, and the reason is worth recording.**
+
+The first draft omitted the demo from every leaf, reasoning that a third instance would split conversion data across three sections. That reasoning is correct and irrelevant, because it weighs a measurement inconvenience against the page's central problem: **an Automate leaf has no proof behind it.**
+
+Both shippable case studies are UAE ecommerce builds ([case-studies-spec.md](case-studies-spec.md)). [employer-context.md](../private/employer-context.md): *"Anvio has web work to show but no AI/automation proof — which is the category it's positioned around... that is precisely the gap the agent demo and a free tool are built to fill."* [SCOPE.md](../Initial/SCOPE.md) locks the same position — the demo is *"the answer to having no client logos yet."*
+
+So a visitor reading 800 words about AI agent development, on a page that cannot show them one, should be one scroll from watching one work. The demo *is* the leaf's case study. Withholding it to keep analytics tidy inverts the priority.
+
+The Build leaf does **not** get it — the demo is automation-scoped, and Build is the pillar that has real client work to point to instead.
+
+`agentDemo:full` is already built and shared with Home and Automate; this is placement, not engineering. Framing follows [automate-spec.md](automate-spec.md) §10 — placed after the FAQ, because the objections should be handled first — but scoped tighter: on a leaf the prompt names *this* service, not automation in general.
+
+**Budget note:** this puts the Automate leaves at **2 Tier 2 pieces**, exactly at [phase-2-plan.md](phase-2-plan.md) §4's cap. Nothing else on those pages may take one.
 
 ### Section 2 — Hero
 
@@ -89,25 +114,29 @@ Recommended body outline, adapted per leaf: what it is · what it actually repla
 
 ### Section 5 — The visual
 
-One Tier 2 element per leaf, and the only one ([phase-2-plan.md](phase-2-plan.md) §4 permits two; one is right).
-
 **`workflowGraph:compact`** on the three Automate leaves. A reduced form of Automate's Tier 1 scene ([motion-system.md](../system/motion-system.md) §7.2): 3–4 nodes instead of six, `nodeCascade` only — **no `pathPulse`**, no hover-to-pause explainer layer. It is reuse of built machinery at lower cost, not a new scene. Static all-active on mobile and under reduced motion, with node labels as real DOM text.
 
 **`buildAssembly:component-grid`** on the Build leaf. A static grid of the pages/components a site build actually includes. **Not** `wireframe-to-render` — that pinned scene is Build's Tier 1 and stays unique to it.
 
-### Section 6 — Results
-
-Definitions, not numbers — the same treatment as Grow's `results:metric-row` ([grow-spec.md](grow-spec.md) §9), which is explicitly **not** `counterRoll`ed because counting animations on definitions is theatre. Frontmatter `metrics[]` is `{ name, definition }[]` for this reason.
-
-### Section 7 — FAQ
+### Section 6 — FAQ
 
 From frontmatter, so the accordion and the `FAQPage` schema come from one source and cannot drift. 5–8 questions, each answered in 40–60 words before expanding.
 
 **Do not duplicate the pillar's FAQ.** Automate's ten questions ([automate-spec.md](automate-spec.md) §11) are category-level. A leaf's are service-level: pricing for *this* service, what breaks in *this* integration, what this specific thing can't do.
 
+### Section 7 — Agent demo (Automate) · Results (Build)
+
+**Automate leaves:** `agentDemo:full`. Reasoning in §3a — it is the proof these pages otherwise lack.
+
+**Build leaf:** `results:metric-row`. Definitions, not numbers — the same treatment as Grow's ([grow-spec.md](grow-spec.md) §9), which is explicitly **not** `counterRoll`ed because counting animations on definitions is theatre. Frontmatter `metrics[]` is `{ name, definition }[]` for this reason.
+
+`results` is dropped from the Automate leaves rather than kept alongside the demo. It was the weakest section in the frame — a list of definitions — and the theme rule leaves room for one or the other, not both. Trading definitions for the differentiator is not a close call.
+
 ### Section 8 — Related links
 
 3–5, resolved from frontmatter. Every leaf links **up** to its pillar, **sideways** to its sibling leaves where genuinely related, and **out** to one guide. Hub-and-spoke, per [seo-strategy.md](../system/seo-strategy.md) §5.
+
+**Every Automate leaf also links to [`/projects`](projects-spec.md)** — for the same reason it carries the demo (§3a). It is the only page that shows built AI and automation work, and a leaf with no case study behind it should point at the thing that does.
 
 ### Section 9 — Closing CTA
 
@@ -175,12 +204,16 @@ Shipping these four is not additive — it changes three existing pages and the 
 
 ## Motion budget check
 
-Per leaf: **0 Tier 1**, **1 Tier 2** (Section 5's graph or grid), Tier 3/4 elsewhere. Well inside [phase-2-plan.md](phase-2-plan.md) §4's allowance, and the single Tier 2 is reused machinery rather than new.
+| Leaf | Tier 1 | Tier 2 | At cap? |
+|---|---|---|---|
+| Automate ×3 | 0 | `workflowGraph:compact` + `agentDemo:full` | **Yes — exactly 2.** Nothing else on these pages may take one |
+| Build ×1 | 0 | `buildAssembly:component-grid` | No — 1 of 2 |
+
+Both Tier 2 pieces on the Automate leaves are **already-built machinery placed differently**, not new scenes: the compact graph is Automate's Tier 1 at reduced scope, and the demo is the shared component from Home and Automate. The budget is spent on placement, not on engineering.
 
 ## Deliberate omissions
 
 - **No proof bar.** The four stats are Automate's page-level claims; repeating them per leaf implies per-service measurement we don't have.
-- **No agent demo.** It lives on Home and Automate. A third instance splits the conversion data across three sections for no gain, and the leaf's job is depth, not demo.
 - **No pricing tiers.** Ranges live on Home and Build. A leaf states a range in prose in the body, where it can be qualified — a tier card can't be.
 - **No integrations marquee.** Automate §7 owns it. A leaf names the two or three integrations that matter to *it*, in the body.
 - **No Grow leaves in Phase 2.** §1.

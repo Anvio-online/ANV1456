@@ -40,9 +40,13 @@ Planned 2026-08-08. Fourteen routes across five waves, gated on a content layer 
 |---|---|---|
 | 0 | Content adapter, frontmatter schemas, 6 new section types, 5 new variants, 3 SEO schema builders | Choosing the MDX loader |
 | 1 | `/services` hub, legal trio, nav mega-menu, footer's four columns | — |
-| 2 | `/case-studies` + detail | **The Stratseek agreement, and two written case studies** |
+| 2 | `/case-studies` + detail, **and `/projects`** | Case studies: **the Stratseek agreement**. `/projects`' internal items: nothing |
 | 3 | 4 service leaves | **Keyword validation** — the slugs are provisional |
 | 4 | `/industries` + 2 industries, `/tools/automation-roi-calculator` | Two industry bodies at ≥800 words |
 | 5 | `/guides` + 6–8 guides | A real author name; 1,800 words each |
 
 Wave 1 also retires a live defect: `/services` 404s while being emitted as a `BreadcrumbList` URL on all three pillar pages.
+
+**The floor is smaller than the table.** Waves 0 and 1 in full, `/projects`, two leaves, four guides — roughly 10,000 words rather than 20,000. Everything above that is specced and explicitly optional-if-capacity ([phase-2-plan.md](../specs/phase-2-plan.md) §5a).
+
+**Both case studies are Build work, while the brand is positioned on Automate.** That asymmetry moved `/projects` out of Phase 3 and put the agent demo on the Automate leaves ([phase-2-plan.md](../specs/phase-2-plan.md) §1a).
