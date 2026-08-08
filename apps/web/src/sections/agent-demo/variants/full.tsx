@@ -22,6 +22,7 @@ type Phase =
   | { kind: 'gate' }
   | { kind: 'gate-submitting' }
   | { kind: 'plan'; plan: AutomationPlan }
+  | { kind: 'rate-limited' }
   | { kind: 'error' }
 
 /**
@@ -73,6 +74,11 @@ export function Full({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ turns: nextTurns, stage: 'chat' }),
       })
+      if (res.status === 429) {
+        setStreamingText(null)
+        setPhase({ kind: 'rate-limited' })
+        return
+      }
       if (!res.ok || !res.body) throw new Error('chat request failed')
 
       const reader = res.body.getReader()
@@ -133,6 +139,10 @@ export function Full({
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ turns, email, stage: 'plan' }),
       })
+      if (res.status === 429) {
+        setPhase({ kind: 'rate-limited' })
+        return
+      }
       const data = await res.json()
       if (!res.ok || !data.plan) throw new Error(data?.error ?? 'plan request failed')
       setPhase({ kind: 'plan', plan: data.plan as AutomationPlan })
@@ -152,6 +162,35 @@ export function Full({
         placeholders={placeholders}
         variant="preview"
       />
+    )
+  }
+
+  if (phase.kind === 'rate-limited') {
+    return (
+      <div className="max-w-page px-gutter mx-auto">
+        <div className="mb-head-gap flex flex-col gap-4">
+          {eyebrow ? (
+            <span className="text-label text-accent-text font-mono uppercase tracking-widest">
+              {eyebrow}
+            </span>
+          ) : null}
+          {heading ? (
+            <HeadingTagEl className="max-w-headline text-h2 leading-none tracking-tight">
+              {heading}
+            </HeadingTagEl>
+          ) : null}
+        </div>
+
+        <div className="max-w-content border-accent-line bg-surface mx-auto flex flex-col items-center gap-4 rounded-xl border p-8 text-center">
+          <p className="text-body text-text-2 max-w-measure">
+            You&rsquo;ve reached the demo&rsquo;s limit for now — for a full walkthrough of your
+            process, book a consultation instead.
+          </p>
+          <Button href="/contact" size="lg">
+            Book a consultation →
+          </Button>
+        </div>
+      </div>
     )
   }
 
