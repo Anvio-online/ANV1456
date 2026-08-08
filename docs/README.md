@@ -53,17 +53,39 @@ Every spec follows the same structure: section by section with copy, layout, mot
 | [about-spec.md](specs/about-spec.md)       | `/about`             | _(none — deliberate)_        | Built  |
 | [contact-spec.md](specs/contact-spec.md)   | `/contact`           | _(none — deliberate)_        | Built  |
 
-Those six are Phase 1 in full ([SCOPE.md](Initial/SCOPE.md) · [seo-strategy.md](system/seo-strategy.md) §3), minus the 2 case studies and 1 free tool. Phase 2/3 pages (`/services` hub, `/industries`, `/case-studies`, `/projects`, `/products`, `/blog`, service leaves, `/guides`, `/tools`, legal) have no spec yet.
+Those six are Phase 1 in full ([SCOPE.md](Initial/SCOPE.md) · [seo-strategy.md](system/seo-strategy.md) §3), minus the 2 case studies and 1 free tool — both of which carry into Phase 2.
+
+#### Phase 2 — planned 2026-08-08, nothing built
+
+Start with **[phase-2-plan.md](specs/phase-2-plan.md)**: scope, the fourteen routes, the dependency graph, the five build waves, and the link/schema debt each one retires. The specs below are its children and assume you've read it.
+
+| Document                                           | Pages                                                                    | Wave | Blocked on                                     |
+| -------------------------------------------------- | ------------------------------------------------------------------------ | ---- | ---------------------------------------------- |
+| [phase-2-plan.md](specs/phase-2-plan.md)           | _the umbrella_                                                           | —    | —                                              |
+| [services-hub-spec.md](specs/services-hub-spec.md) | `/services` + the nav mega-menu and footer columns                       | 1    | —                                              |
+| [legal-spec.md](specs/legal-spec.md)               | `/privacy` · `/terms` · `/cookies`                                       | 1    | Legal review; the GA4 decision                 |
+| [case-studies-spec.md](specs/case-studies-spec.md) | `/case-studies` + `/case-studies/[slug]`                                 | 2    | **The Stratseek agreement**                    |
+| [service-leaf-spec.md](specs/service-leaf-spec.md) | 4 leaves — 3 Automate, 1 Build                                           | 3    | **Keyword validation** (slugs are provisional) |
+| [industries-spec.md](specs/industries-spec.md)     | `/industries` + `/industries/ecommerce` + `/industries/accounting-firms` | 4    | Two bodies at ≥800 words                       |
+| [tools-spec.md](specs/tools-spec.md)               | `/tools/automation-roi-calculator`                                       | 4    | —                                              |
+| [guides-spec.md](specs/guides-spec.md)             | `/guides` + 6–8 guides                                                   | 5    | A real author name; 1,800 words each           |
+
+**Every one of them is gated on Wave 0** — the content adapter and six unbuilt section types, specified in [content-layer.md](engineering/content-layer.md). Authoring model: [ADR-0006](engineering/adr/0006-content-page-authoring-model.md).
+
+**No Phase 2 page carries a Tier 1 signature scene.** Deliberate — [phase-2-plan.md](specs/phase-2-plan.md) §4, mapped in [motion-system.md](system/motion-system.md) §8a.
+
+Phase 3 pages (`/projects`, `/products`, `/blog` at cadence, the remaining ~15 service leaves) have no spec yet.
 
 ### `engineering/` — how the code works
 
-| Document                                           | Contents                                                                           |
-| -------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| [tech-stack.md](engineering/tech-stack.md)         | Every technology choice and its reason; the agent-demo architecture and guardrails |
-| [repo-structure.md](engineering/repo-structure.md) | Directory tree, what each holds, naming, where a new thing goes                    |
-| [conventions.md](engineering/conventions.md)       | TypeScript, React, styling, motion, SEO, a11y, naming, definition of done, review  |
-| [workflow.md](engineering/workflow.md)             | Git, commits, PRs, CHANGELOG, ADRs, environments, releases, rollback               |
-| [adr/](engineering/adr/)                           | Architecture Decision Records — why things are the way they are                    |
+| Document                                           | Contents                                                                                            |
+| -------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| [tech-stack.md](engineering/tech-stack.md)         | Every technology choice and its reason; the agent-demo architecture and guardrails                  |
+| [repo-structure.md](engineering/repo-structure.md) | Directory tree, what each holds, naming, where a new thing goes                                     |
+| [content-layer.md](engineering/content-layer.md)   | **Phase 2 critical path** — the content adapter, frontmatter schemas, the six unbuilt section types |
+| [conventions.md](engineering/conventions.md)       | TypeScript, React, styling, motion, SEO, a11y, naming, definition of done, review                   |
+| [workflow.md](engineering/workflow.md)             | Git, commits, PRs, CHANGELOG, ADRs, environments, releases, rollback                                |
+| [adr/](engineering/adr/)                           | Architecture Decision Records — why things are the way they are                                     |
 
 ---
 
@@ -92,11 +114,13 @@ Found by auditing every internal link in the built site against what actually re
 | `footer.tsx`'s 12 service leaf links, `Products`, `Case Studies`, `Blog` | invented URLs, none built                                   | Two columns only — Services (the 3 real pillar pages) and Company (About, Contact)                                 |
 | `nav.tsx`'s `Case Studies`, `Blog`                                       | unbuilt pages                                               | Dropped; `Services` is now a hover dropdown over the 3 real pillar pages                                           |
 
-**2. `nav.tsx` still doesn't fully match [design-system.md](system/design-system.md) §6.5.** The doc specifies a three-column mega-menu with descriptions plus `Products` · `Case Studies` · `Blog`. The code ships a plain single-column dropdown over Build/Automate/Grow — real links, right structure, but not the full mega-menu. Extend once the mega-menu's destination pages exist.
+**2. `nav.tsx` still doesn't fully match [design-system.md](system/design-system.md) §6.5.** The doc specifies a three-column mega-menu with descriptions plus `Products` · `Case Studies` · `Blog`. The code ships a plain single-column dropdown over Build/Automate/Grow — real links, right structure, but not the full mega-menu. Extend once the mega-menu's destination pages exist. → **Phase 2 Wave 1** ([services-hub-spec.md](specs/services-hub-spec.md) §9).
 
 **2a. Resolved — mobile has a real nav now.** `components/layout/mobile-nav.tsx` adds the `md:hidden` full-screen overlay §6.5 calls for: staggered links, body scroll locked, closes on Escape/link click/resize past `md`. Previously About and Services were unreachable from a phone at all.
 
-**3. `footer.tsx` still doesn't match [design-system.md](system/design-system.md) §6.6.** The doc specifies four columns — Services / Company / Resources / **Legal**. The code has two (Services / Company) because Resources and Legal have no pages to link to — `/privacy`, `/terms`, and `/cookies` ([seo-strategy.md](system/seo-strategy.md) §2) are unwritten. Add the columns when those pages exist, not before.
+**3. `footer.tsx` still doesn't match [design-system.md](system/design-system.md) §6.6.** The doc specifies four columns — Services / Company / Resources / **Legal**. The code has two (Services / Company) because Resources and Legal have no pages to link to — `/privacy`, `/terms`, and `/cookies` ([seo-strategy.md](system/seo-strategy.md) §2) are unwritten. Add the columns when those pages exist, not before. → **Legal in Wave 1** ([legal-spec.md](specs/legal-spec.md)), **Resources in Waves 2 and 5**.
+
+**5. Open defect — `/services` 404s while being asserted to search engines as site structure.** `services/{build,automate,grow}/page.tsx` each pass `{ name: 'Services', path: '/services' }` to `breadcrumbSchema`, which resolves it to an absolute URL in the emitted `BreadcrumbList` JSON-LD. This is a category worse than gap 1's unlinked pages: those were content we chose not to link, this is a broken URL we actively declare. → **Fixed by Wave 1** ([services-hub-spec.md](specs/services-hub-spec.md)).
 
 **4. Resolved — `sitemap.ts` lists exactly the 6 routes that resolve.** It previously listed `/services`, which 404s. Now lists `/`, `/about`, `/contact`, `/services/build`, `/services/automate`, `/services/grow`; extend as Phase 2/3 pages land.
 
@@ -118,3 +142,16 @@ Live list; each is also recorded at the bottom of its spec.
 - [x] ~~`teamSize` field: `contactSchema` + Drizzle table + `ContactForm`~~ — landed with the Contact page build
 - [ ] Decide who monitors `hello@anvio.online` and where form submissions notify — a form that stores silently is how leads get missed
 - [ ] anvio.online's own Lighthouse/CWV scores must clear 90+ before [grow-spec.md](specs/grow-spec.md) ships, since that page claims it
+
+### Phase 2 gates
+
+Each blocks a whole wave. Full context in [phase-2-plan.md](specs/phase-2-plan.md) §7.
+
+- [ ] **Choose the MDX loader** (content-collections or velite) — blocks Wave 0, and therefore everything
+- [ ] **Read the Stratseek agreement** — blocks Wave 2 entirely _(same item as above; it is now a wave gate, not just a section blocker)_
+- [ ] **Keyword-validate the four leaf slugs** in Ahrefs/Semrush and Search Console — blocks Wave 3. A leaf URL is set once
+- [ ] **Legal review of `/privacy`** against what the code actually collects — Wave 1. This is the one page where approximately right is not acceptable ([legal-spec.md](specs/legal-spec.md) §2)
+- [ ] **Decide GA4 vs Plausible-only** — blocks `/cookies`, and it changes every route's JS budget ([legal-spec.md](specs/legal-spec.md) §4)
+- [ ] **A real author name** — blocks `authorBio` and the provenance argument on every guide. Same unresolved question as About §4
+- [ ] Resolve the sticky table-of-contents architecture before building it ([guides-spec.md](specs/guides-spec.md) Section 3)
+- [ ] Decide whether `insights` and `guides` are one content kind or two, before the guides index is built

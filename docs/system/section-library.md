@@ -245,14 +245,96 @@ richText (dark)                            ← what happens next
 ```
 No Tier 1 or 2 — the form is LCP-critical and never waits on a bundle.
 
-### Service leaf (Phase 2 template)
+Note how much variety comes from **variant + theme + order** rather than new components. That's the point.
+
+---
+
+## 4a. Phase 2 compositions
+
+Full plan: [phase-2-plan.md](../specs/phase-2-plan.md). Authoring model: [ADR-0006](../engineering/adr/0006-content-page-authoring-model.md) — composed pages write their array by hand, hybrid and article pages derive it from an MDX entry.
+
+**No Phase 2 page carries a Tier 1 scene.** [phase-2-plan.md](../specs/phase-2-plan.md) §4.
+
+### `/services` hub — composed · [spec](../specs/services-hub-spec.md)
 ```
-breadcrumb · hero:page-lead · problem:pain-grid · richText (the substance — this is
-what ranks) · workflowGraph:compact | buildAssembly:component-grid · results:metric-row
-· faq:accordion · relatedLinks · ctaClosing:centered-bold
+breadcrumb:inline (dark)
+hero:page-lead (dark)
+services:pillar-cards (dark)        ← hoverLift only, no micro-visual
+faq:accordion (dark)                ← "which one do you need?"
+process:vertical-list (light)
+featuredWork:grid (light)           ← withheld until Wave 2
+whyUs:principle-cards (dark)
+ctaClosing:split-with-form (dark)
 ```
 
-Note how much variety comes from **variant + theme + order** rather than new components. That's the point.
+### `/case-studies` index — composed · [spec](../specs/case-studies-spec.md)
+```
+breadcrumb:inline (dark) · hero:page-lead (dark) · featuredWork:grid (dark)
+· ctaClosing:centered-bold (dark)
+```
+
+### `/case-studies/[slug]` — hybrid · [spec](../specs/case-studies-spec.md)
+```
+breadcrumb:inline (dark)
+hero:case-lead (dark)
+results:metric-row (dark)           ← Tier 2; omitted entirely when results[] is empty
+caseStudyBody:narrative (light)     ← the MDX body
+techStack:categorized (light)
+relatedLinks:card-grid (light)
+ctaClosing:split-with-form (dark)
+```
+
+### Service leaf — hybrid · [spec](../specs/service-leaf-spec.md)
+```
+breadcrumb:inline (dark)
+hero:page-lead (dark)               ← deliberately not split-visual, which is the pillars'
+problem:pain-grid (dark)
+richText:mdx (light)                ← the substance — this is what ranks
+workflowGraph:compact (light)       ← Tier 2 · or buildAssembly:component-grid on Build leaves
+results:metric-row (light)          ← definitions, no counterRoll
+faq:accordion (dark)
+relatedLinks:card-grid (dark)
+ctaClosing:centered-bold (dark)
+```
+
+### `/industries` hub — composed · [spec](../specs/industries-spec.md)
+```
+breadcrumb:inline (dark) · hero:page-lead (dark) · industries:compact-grid (dark)
+· problem:pain-grid (light) · richText:prose (light) · faq:accordion (dark)
+· ctaClosing:centered-bold (dark)
+```
+
+### `/industries/[slug]` — hybrid · [spec](../specs/industries-spec.md)
+```
+breadcrumb:inline (dark) · hero:page-lead (dark) · problem:pain-grid (dark)
+· richText:mdx (light) · services:cluster-grid (light) · featuredWork:grid (light, optional)
+· faq:accordion (dark) · relatedLinks:card-grid (dark) · ctaClosing:split-with-form (dark)
+```
+
+### `/guides` index and `/guides/[slug]` — composed / article · [spec](../specs/guides-spec.md)
+```
+index:   breadcrumb:inline (dark) · hero:page-lead (dark)
+         · insights:featured-plus-list (dark) · ctaClosing:centered-bold (dark)
+
+article: breadcrumb:inline (dark) · hero:page-lead (dark) · tableOfContents:inline (light)
+         · richText:mdx (light) · authorBio:compact (light)
+         · relatedLinks:card-grid (dark) · ctaClosing:centered-bold (dark)
+```
+
+### `/tools/automation-roi-calculator` — composed · [spec](../specs/tools-spec.md)
+```
+breadcrumb:inline (dark) · hero:page-lead (dark)
+· problem:automation-calculator (dark)   ← Tier 2
+· richText:prose (light) · leadMagnet:route-cards (light)
+· faq:accordion (dark) · relatedLinks:card-grid (dark) · ctaClosing:centered-bold (dark)
+```
+
+### `/privacy` · `/terms` · `/cookies` — composed · [spec](../specs/legal-spec.md)
+```
+breadcrumb:inline (dark) · hero:page-lead (dark) · richText:prose (dark)
+```
+
+**Registry entries after Phase 2: 28** (§3's catalogue counts the same surface as "24 types" by folding the utility group into one line). 22 are built today, plus `breadcrumb`, `relatedLinks`, `tableOfContents`, `authorBio`, `caseStudyBody`, `insights`. `testimonial` stays unbuilt (no testimonials to show). Still under [ADR-0003](../engineering/adr/0003-section-registry-composition.md)'s "revisit at ~30" trigger, but only just — Phase 3 types must clear the variant-first bar properly. New variants and the missing schema builders are itemized in [content-layer.md](../engineering/content-layer.md) §4.
 
 ---
 
@@ -288,15 +370,18 @@ This is the differentiator, so it gets specified rather than left to implementat
 
 ## 6. Content model
 
-Phase 1 content is MDX + typed frontmatter in `content/`:
+Content is MDX + typed frontmatter in `content/`:
 
 ```
 content/
   case-studies/*.mdx     # client, industry, services[], problem, approach, results[], stack[]
   insights/*.mdx         # title, description, category, publishedAt, updatedAt, author
-  industries/*.mdx
+  industries/*.mdx       # Phase 2
   services/*.mdx         # leaf page copy, Phase 2
+  guides/*.mdx           # Phase 2 — author, readingTime, commercialLink
 ```
+
+**None of this exists yet.** `content/` holds one `.gitkeep` and `lib/content/` is empty — the adapter, the schemas, and the seven unbuilt section types are the Phase 2 critical path, specified in [content-layer.md](../engineering/content-layer.md).
 
 Section props for content-driven sections come from these files, not from page files. Migrate to Sanity or Payload when a non-developer needs to publish — the section contract doesn't change, only the data source.
 

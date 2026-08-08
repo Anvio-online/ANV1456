@@ -83,9 +83,13 @@ Confirmed from `Information_arch.md`, with additions:
 
 ### Phasing
 
-- **Phase 1:** `/`, `/services/automate`, `/services/build`, `/services/grow`, `/about`, `/contact`, 2 case studies, 1 tool.
-- **Phase 2:** 3–4 highest-opportunity leaf pages (chosen by data, not by completeness), `/industries` + 2 industries, 6–8 guides.
-- **Phase 3:** remaining leaves, `/products`, full blog cadence.
+- **Phase 1:** `/`, `/services/automate`, `/services/build`, `/services/grow`, `/about`, `/contact`, 2 case studies, 1 tool. *Shipped: the six pages. The case studies and the tool moved to Phase 2.*
+- **Phase 2:** 3–4 highest-opportunity leaf pages (chosen by data, not by completeness), `/industries` + 2 industries, 6–8 guides — plus the Phase 1 carryovers and the structural pages (`/services`, `/case-studies`, `/tools`, legal). Full plan: [phase-2-plan.md](../specs/phase-2-plan.md).
+- **Phase 3:** remaining leaves, `/products`, `/projects`, `/blog` at cadence.
+
+**Phase 2's four leaf slugs are provisional.** [service-leaf-spec.md](../specs/service-leaf-spec.md) proposes `whatsapp-automation`, `ai-chatbot-development`, `ai-agent-development` under Automate and `website-development` under Build — chosen by reasoning, not by the research this section calls for. Validating them is a **hard gate on Wave 3**, not on Phase 2 as a whole ([phase-2-plan.md](../specs/phase-2-plan.md) §6), because a leaf URL is set once per §2 and everything before Wave 3 is unaffected by the answer.
+
+The other cannibalization risk Phase 2 introduces is internal: `/services` must not compete with its own three pillars, and the chatbot and agent leaves must not compete with each other. Both are handled explicitly — [services-hub-spec.md](../specs/services-hub-spec.md) scopes the hub to *choosing* rather than selling, and [service-leaf-spec.md](../specs/service-leaf-spec.md) §2 assigns one owned question per leaf with the definitional query routed to a guide instead.
 
 ---
 
