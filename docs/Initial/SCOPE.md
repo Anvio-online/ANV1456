@@ -6,7 +6,7 @@ Motion & animation system - done → docs/system/motion-system.md
 Section library / component registry - done → docs/system/section-library.md
 SEO structure (keywords, internal linking, metadata) - done → docs/system/seo-strategy.md
 Copywriting for every page - drafted for Home + Automate in the specs; open items listed at the bottom of each
-Development - Phase 1's six pages built; Phase 2 planned, not started
+Development - Phase 1's six pages built; Phase 2's floor built 2026-08-10 (docs/specs/phase-2-plan.md §5a)
 Analytics, lead capture, and automation - specced in seo-strategy.md §9, not implemented
 Content marketing
 International expansion (starting with India, then UAE, then other English-speaking markets)
@@ -34,19 +34,19 @@ Documentation index - done → docs/README.md
 
 ## Phase 2 status
 
-Planned 2026-08-08. Fourteen routes across five waves, gated on a content layer that does not exist yet ([docs/engineering/content-layer.md](../engineering/content-layer.md)). Nothing built.
+Planned 2026-08-08. **Floor built 2026-08-10**, on `feat/phase-2-wave-1` — not yet merged to `main`, not yet pushed. Fourteen routes across five waves.
 
-| Wave | Contents | Blocked on |
+| Wave | Contents | Status |
 |---|---|---|
-| 0 | Content adapter, frontmatter schemas, 6 new section types, 5 new variants, 3 SEO schema builders | Choosing the MDX loader |
-| 1 | `/services` hub, legal trio, nav mega-menu, footer's four columns | — |
-| 2 | `/case-studies` + detail, **and `/projects`** | Case studies: **the Stratseek agreement**. `/projects`' internal items: nothing |
-| 3 | 4 service leaves | **Keyword validation** — the slugs are provisional |
-| 4 | `/industries` + 2 industries, `/tools/automation-roi-calculator` | Two industry bodies at ≥800 words |
-| 5 | `/guides` + 6–8 guides | A real author name; 1,800 words each |
+| 0 | Content adapter, frontmatter schemas, 6 new section types, 5 new variants, 3 SEO schema builders | **Built** — loader is content-collections + `next-mdx-remote/rsc` (see [docs/engineering/content-layer.md](../engineering/content-layer.md) §2 for why not content-collections' own MDX package). `caseStudyBody` unbuilt, blocked with Wave 2 |
+| 1 | `/services` hub, legal trio, nav mega-menu, footer's four columns | **Built** (footer's Resources column still absent, correctly — nothing to link yet) |
+| 2 | `/case-studies` + detail, **and `/projects`** | `/projects` **built**, internal items only. Case studies **not built** — still blocked on the Stratseek agreement |
+| 3 | 4 service leaves | **2 of 4 built** — `whatsapp-automation`, `ai-chatbot-development`. Shipped on provisional slugs; keyword validation still hasn't run |
+| 4 | `/industries` + 2 industries, `/tools/automation-roi-calculator` | Not started |
+| 5 | `/guides` + 6–8 guides | **4 of 4 floor guides built** — ai-agent-vs-chatbot, whatsapp-business-api-cost-and-limits, which-processes-are-worth-automating, geo-vs-seo-getting-cited-by-ai. 5–8 not started |
 
-Wave 1 also retires a live defect: `/services` 404s while being emitted as a `BreadcrumbList` URL on all three pillar pages.
+Wave 1 also retired the live defect: `/services` 404'd while being emitted as a `BreadcrumbList` URL on all three pillar pages.
 
-**The floor is smaller than the table.** Waves 0 and 1 in full, `/projects`, two leaves, four guides — roughly 10,000 words rather than 20,000. Everything above that is specced and explicitly optional-if-capacity ([phase-2-plan.md](../specs/phase-2-plan.md) §5a).
+**The floor is built.** Waves 0 and 1 in full, `/projects`, two leaves, four guides — verified with a full production build (25 routes, 154KB First Load JS held) and spot-checked in-browser. Everything above the floor remains specced and not started ([phase-2-plan.md](../specs/phase-2-plan.md) §5a).
 
-**Both case studies are Build work, while the brand is positioned on Automate.** That asymmetry moved `/projects` out of Phase 3 and put the agent demo on the Automate leaves ([phase-2-plan.md](../specs/phase-2-plan.md) §1a).
+**Both case studies are Build work, while the brand is positioned on Automate.** That asymmetry moved `/projects` into the floor and put the agent demo on the two shipped Automate leaves instead of a results section ([phase-2-plan.md](../specs/phase-2-plan.md) §1a) — both held through the actual build, not just the plan.

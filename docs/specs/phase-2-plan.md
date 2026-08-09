@@ -1,10 +1,24 @@
 # Phase 2 — Plan
 
-**Status:** v1
+**Status:** v2 — **the floor (§5a) is built**, on `feat/phase-2-wave-1` (not yet merged or pushed)
 **Scope decided:** 2026-08-08
+**Floor shipped:** 2026-08-10
 **Governs:** every spec listed in §3
 
 Phase 1 shipped six pages that sell. Phase 2 ships the pages that **rank, prove, and complete the site's own structure** — and it retires the link and schema debt Phase 1 deliberately took on by refusing to link to unbuilt pages.
+
+**Implementation status, for review:** every floor item in §5a is built and verified — full production build passing, 25 routes, spot-checked in-browser. §5a's own items below, updated in place rather than narrated separately:
+
+| Floor item | Status |
+|---|---|
+| Wave 0 (content adapter) | **Built** — [content-layer.md](../engineering/content-layer.md), with one real deviation from plan: `next-mdx-remote/rsc` instead of `@content-collections/mdx` (that doc's §2 explains why) |
+| Wave 1 (`/services`, legal trio, nav, footer) | **Built** |
+| `/projects`, internal items | **Built** — 3 internal cards; Baladi/Epicerma withheld, still gated on Stratseek |
+| 2 service leaves | **Built** — `whatsapp-automation`, `ai-chatbot-development` |
+| 4 guides | **Built** — `ai-agent-vs-chatbot`, `whatsapp-business-api-cost-and-limits`, `which-processes-are-worth-automating`, `geo-vs-seo-getting-cited-by-ai` |
+| `/case-studies` | **Not built** — still blocked on the Stratseek agreement, per its own gate below |
+
+Everything above the floor (§5a) — the third and fourth leaves, `/industries`, `/tools`, guides five through eight — is specced and **not started**.
 
 ---
 
@@ -112,19 +126,19 @@ The one place a Phase 2 page reuses signature machinery is `workflowGraph:compac
 
 ## 5. Build sequence
 
-Five waves. Each wave is independently shippable, and each unblocks a documented defect from §2.
+Five waves. Each wave is independently shippable, and each unblocks a documented defect from §2. Status reflects 2026-08-10.
 
-**Wave 0 — Content layer.** [content-layer.md](../engineering/content-layer.md) §5, steps 1–4. No pages. Nothing else in Phase 2 can start.
+**Wave 0 — Content layer. Built.** [content-layer.md](../engineering/content-layer.md) §5, steps 1–4, 6, 7 done; step 5 (`caseStudyBody`) stays blocked with Wave 2 below.
 
-**Wave 1 — Structure.** `/services` hub, the three legal pages, the footer's four columns, the nav mega-menu. All composed pages, no content dependency beyond `breadcrumb`. This wave fixes the JSON-LD defect and is the cheapest wave by a wide margin — ship it first for that reason alone.
+**Wave 1 — Structure. Built.** `/services` hub, the three legal pages, the footer's four columns, the nav mega-menu. All composed pages, no content dependency beyond `breadcrumb`. Fixed the JSON-LD defect.
 
-**Wave 2 — Proof.** `/case-studies` + `/case-studies/[slug]`, two entries, **and `/projects`**. The case studies are **blocked on content and permission, not on code** — see the Stratseek agreement item in §7; build to the point where adding an MDX file publishes one, then wait. **`/projects` is only partly blocked by the same gate**: its two internal items (the agent demo, the ROI calculator, plus the site's own CWV numbers) need no permission at all, so a reduced version ships regardless. Given §1a, that reduced version is the more urgent half of this wave.
+**Wave 2 — Proof. Partly built.** `/projects` shipped, at the reduced scope its own spec anticipated — three internal items (agent demo, ROI calculator, the site itself), no invented Lighthouse numbers. `/case-studies` + `/case-studies/[slug]` remain **blocked on content and permission, not on code** — see the Stratseek agreement item in §7. The code isn't built to the "add an MDX file, it publishes" state this section originally described, because `caseStudyBody` itself is the piece still gated; building it against no real content risked getting the `results`-frontmatter integration wrong in a way nothing would catch until real content landed.
 
-**Wave 3 — Commercial depth.** The four service leaves. Highest SEO value in Phase 2, and the wave that turns the pillar pages' cluster sub-items into real internal links.
+**Wave 3 — Commercial depth. Half built.** Two of the four service leaves shipped — `whatsapp-automation` and `ai-chatbot-development`, the pair [§6](#6-the-keyword-data-caveat) already flagged as highest-priority. `ai-agent-development` and the Build leaf (`website-development`) are specced, not started, and both still need the keyword-validation gate below cleared regardless of build order.
 
-**Wave 4 — Reach.** `/industries` + two industry pages, `/tools/automation-roi-calculator`.
+**Wave 4 — Reach. Not started.** `/industries` + two industry pages, `/tools/automation-roi-calculator`.
 
-**Wave 5 — Authority.** `/guides` + 6–8 guides, which also seeds Home's insights section.
+**Wave 5 — Authority. Built.** `/guides` + all four floor guides. Did not seed Home's insights section — Home has no `insights` instance to seed; that's a small separate addition, not done here, tracked in [content-layer.md](../engineering/content-layer.md) §6.
 
 Waves 3–5 can reorder if keyword data (§6) says so. Waves 0 and 1 cannot move.
 
@@ -134,7 +148,7 @@ Waves 3–5 can reorder if keyword data (§6) says so. Waves 0 and 1 cannot move
 
 A plan that only succeeds at 100% completion is a plan that fails. So the scope is split explicitly.
 
-**The floor — this is Phase 2. Ship all of it or the phase isn't done.**
+**The floor — this is Phase 2. Ship all of it or the phase isn't done.** As of 2026-08-10, every row below is shipped except the last, which is exactly the conditional it always was — the Stratseek gate hasn't cleared, so `/case-studies` correctly stays unpublished rather than shipped empty, per the rule two paragraphs down.
 
 | | Why it's non-negotiable |
 |---|---|

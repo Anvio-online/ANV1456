@@ -1,11 +1,11 @@
 # Anvio — Content Layer
 
-**Status:** v1, Phase 2 prerequisite
+**Status:** v2, **built** — content adapter and every section type below except `caseStudyBody` are live on `main`
 **Decided by:** [ADR-0002](adr/0002-mdx-behind-content-adapter.md) (MDX behind an adapter) and [ADR-0006](adr/0006-content-page-authoring-model.md) (section frame around one MDX body)
 
-This document is the build contract for the two things every Phase 2 page depends on: the content adapter, and the seven section types that are documented in [section-library.md](../system/section-library.md) but not yet built.
+This document was the build contract for the content adapter and the seven section types Phase 2 needed. It's kept in the same shape — plan first, then what actually shipped — because the gap between the two is exactly the part worth a reader's attention: **the original plan called for `@content-collections/mdx`'s `compileMDX` + `MDXContent`, and that was dropped mid-build** because it renders MDX bodies client-side, which would have put guide and leaf content only in the post-hydration DOM — a direct hit on this repo's non-negotiable server-rendered-copy rule. §2 below describes what actually ships instead: `next-mdx-remote/rsc`.
 
-**Nothing in [specs/phase-2-plan.md](../specs/phase-2-plan.md) can ship before §2 and §4 of this document do.** That is why this is a document and not an implementation detail — it is the critical path.
+**Everything in [specs/phase-2-plan.md](../specs/phase-2-plan.md)'s floor (§5a) is built on top of this.** Two service leaves and four guides are live; case studies remain blocked on the Stratseek agreement, and `caseStudyBody` (§4) is the one section type still unbuilt as a direct result.
 
 ---
 
@@ -13,25 +13,40 @@ This document is the build contract for the two things every Phase 2 page depend
 
 | Thing | Documented in | Built? |
 |---|---|---|
-| `lib/content/` adapter | [repo-structure.md](repo-structure.md) §2, [ADR-0002](adr/0002-mdx-behind-content-adapter.md) | **No** — directory is empty |
-| `content/*` MDX files | [repo-structure.md](repo-structure.md) §5 | **No** — only `case-studies/.gitkeep` |
-| 22 section types | [section-library.md](../system/section-library.md) §3 | Yes, registered |
-| `breadcrumb` · `tableOfContents` · `authorBio` · `relatedLinks` · `caseStudyBody` · `insights` · `testimonial` | [section-library.md](../system/section-library.md) §3 | **No** |
-| `richText:mdx` variant | [ADR-0006](adr/0006-content-page-authoring-model.md) | **No** |
+| `lib/content/` adapter | [repo-structure.md](repo-structure.md) §2, [ADR-0002](adr/0002-mdx-behind-content-adapter.md) | **Yes** — `index.ts`, `mdx.ts`, `types.ts`, `toc.ts` |
+| `content-collections.ts` (frontmatter schemas) | §3 below | **Yes** — all five kinds, at the repo root next to `next.config.ts` |
+| `content/services/*.mdx`, `content/guides/*.mdx` | [repo-structure.md](repo-structure.md) §5 | **Yes** — 2 leaves, 4 guides. `case-studies/`, `industries/` still empty |
+| 28 section types | [section-library.md](../system/section-library.md) §3 | **Yes**, registered — `testimonial` deliberately excluded from the union (§4) |
+| `breadcrumb` · `tableOfContents` · `authorBio` · `relatedLinks` · `insights` | [section-library.md](../system/section-library.md) §3 | **Yes** |
+| `caseStudyBody` | [section-library.md](../system/section-library.md) §3 | **No** — blocked on Wave 2's Stratseek gate, nothing to build it against yet |
+| `richText:mdx` variant | [ADR-0006](adr/0006-content-page-authoring-model.md) | **Yes** — via `next-mdx-remote/rsc`, not `@content-collections/mdx` (see §2) |
 
-Phase 1 got away with none of this because all six pages are composed pages with literal copy. Phase 2 is content pages. Every one of them needs both columns above to be "yes."
+Phase 1 got away with none of this because all six pages are composed pages with literal copy. Phase 2 is content pages, and this is what makes them work.
 
 ---
 
 ## 2. The adapter
 
+**As built:**
+
 ```
-lib/content/
-  index.ts       # the ContentRepository interface + the exported singleton
-  mdx.ts         # the only file that knows MDX exists
-  schemas.ts     # Zod frontmatter schemas, one per kind
-  types.ts       # the entry types inferred from schemas.ts
+apps/web/
+  content-collections.ts   # the five Zod schemas + collection config —
+                            # content-collections' own API takes the
+                            # schema at the collection definition, not
+                            # in a separate schemas.ts; see the note below
+  src/lib/content/
+    index.ts       # the ContentRepository interface + the exported singleton
+    mdx.ts         # the only file that imports from 'content-collections'
+    types.ts       # Entry<K> — maps ContentKind to content-collections' generated types
+    toc.ts         # extractHeadings() — regex over raw MDX source, used by tableOfContents
 ```
+
+**Two deviations from the original plan below, both found while wiring it rather than assumed up front:**
+
+**No `lib/content/schemas.ts`.** content-collections' `defineCollection` takes the schema as a direct argument (`schema: z.object({...})`), not a `(z) => ({...})` factory some older docs and the original draft of this file assumed — the version installed (`@content-collections/core@0.15.2`) uses the Standard Schema spec, and Zod v4 (already this repo's dependency) implements it natively. So the schemas live in `content-collections.ts` at the repo root, next to the `next.config.ts` wrapper that generates from it — that's where content-collections' own convention puts them, and duplicating them into a second file `lib/content/` would just be two sources of truth for the same shape.
+
+**No `@content-collections/mdx`.** The package exists and does compile MDX, but its render path — `compileMDX` + `<MDXContent>` — uses `mdx-bundler`'s client runtime (`useMemo` + `new Function`-eval'd code inside `sections/rich-text/variants/mdx.tsx`'s would-be implementation). That means the body exists only after hydration, not in server-rendered HTML — a direct violation of motion-system.md §6 rule 5 and seo-strategy.md §4's "animation trap," both non-negotiable. content-collections now only parses and validates frontmatter; the raw `content: string` passes through untouched. Body compilation happens separately, per request, via **`next-mdx-remote/rsc`'s `<MDXRemote>`** — an async Server Component, in `sections/rich-text/variants/mdx.tsx` — which is real server-rendered HTML on every request. `remark-gfm` (tables, strikethrough) and `rehype-slug` (heading `id`s, matched independently by `lib/content/toc.ts`'s own `github-slugger` pass over raw source) run in that same component.
 
 ### Interface
 
@@ -57,11 +72,11 @@ interface ListOptions {
 
 **Rules, in the order they matter:**
 
-1. **Pages never import from `content/` or from the MDX loader.** They import `contentRepository` from `lib/content`. This is the whole point of [ADR-0002](adr/0002-mdx-behind-content-adapter.md); a single direct import quietly cancels it. Enforce with an `eslint-plugin-boundaries` rule, not with vigilance.
-2. **`slugs()` must not compile bodies.** `generateStaticParams` runs for every route; compiling every MDX body to enumerate slugs turns a fast build into a slow one for no reason.
-3. **Validation failures fail the build, loudly, with the filename.** A guide with a malformed `updatedAt` should never reach a preview URL — a silently-dropped entry is a page that 404s in production and nobody notices for a month.
+1. **Pages never import from `content/` or from the MDX loader.** They import `contentRepository` from `lib/content`. This is the whole point of [ADR-0002](adr/0002-mdx-behind-content-adapter.md); a single direct import quietly cancels it. `mdx.ts` is, as built, the one file that imports from `'content-collections'` — enforce with an `eslint-plugin-boundaries` rule, not with vigilance, if a second import site ever appears.
+2. **`slugs()` must not compile bodies.** Moot as built — there is no compile step at load time; content-collections only parses and validates frontmatter, so every read (`list`, `get`, `slugs`) is equally cheap. The rule stays here as a constraint on *any future loader swap*, not a warning about the current one.
+3. **Validation failures fail the build, loudly, with the filename.** A guide with a malformed `updatedAt` should never reach a preview URL — a silently-dropped entry is a page that 404s in production and nobody notices for a month. Confirmed working: a fixture entry with an out-of-bounds `description` failed the build with the exact file and field during Wave 0.
 4. **`draft: true` entries are excluded in production and included in development.** This is how a half-written guide lives on `main` without publishing itself.
-5. The loader is content-collections or velite ([ADR-0002](adr/0002-mdx-behind-content-adapter.md)). Whichever is chosen, it is referenced **only** in `mdx.ts`.
+5. **The loader is content-collections**, chosen over velite when Wave 0 started ([ADR-0002](adr/0002-mdx-behind-content-adapter.md) left either permitted). Referenced only in `content-collections.ts` and `lib/content/mdx.ts` — the two files that would change if it's ever swapped.
 
 ### The MDX component whitelist
 
@@ -79,7 +94,7 @@ Everything else in a body is plain markdown. Headings in a body start at `##` �
 
 ## 3. Frontmatter schemas
 
-One Zod schema per kind in `schemas.ts`. Adding a field means editing that file first ([repo-structure.md](repo-structure.md) §5).
+One Zod schema per kind in **`content-collections.ts`** (not `lib/content/schemas.ts` — see §2's note on why). Adding a field means editing that file first ([repo-structure.md](repo-structure.md) §5), and `lib/content/types.ts`'s `Entry<K>` picks it up automatically since it's inferred from content-collections' generated types, not hand-duplicated.
 
 ### Shared base
 
@@ -96,7 +111,7 @@ const base = z.object({
 })
 ```
 
-The `description` bounds are deliberately a hard `min`/`max` rather than a lint warning. A 40-character meta description is the single most common on-page defect on a content site, and it is invisible until you audit.
+The `description` bounds are deliberately a hard `min`/`max` rather than a lint warning. A 40-character meta description is the single most common on-page defect on a content site, and it is invisible until you audit. As built, `baseFields` also declares `content: z.string()` explicitly — content-collections deprecated the implicit content property it used to add for the default "frontmatter" parser, so this repo declares it rather than relying on a deprecated default.
 
 ### `case-studies`
 
@@ -147,68 +162,69 @@ Already sketched in [repo-structure.md](repo-structure.md) §5. Formalized:
 
 ### `insights`
 
-As in [section-library.md](../system/section-library.md) §6 — `title`, `description`, `category`, `publishedAt`, `updatedAt`, `author`. Unchanged; listed here so `schemas.ts` has all five kinds in one file.
+As in [section-library.md](../system/section-library.md) §6 — `title`, `description`, `category`, `publishedAt`, `updatedAt`, `author`. Unchanged; listed here so `content-collections.ts` has all five kinds in one file. No entries exist yet — the `insights` section type (§4) is built and registered, but nothing populates it. Guides could seed it (each guide is a plausible "insight"), or the two kinds could merge; that decision is still open — see §6.
 
 ---
 
-## 4. The seven unbuilt section types
+## 4. The seven section types — six built, one blocked
 
-All seven are already in [section-library.md](../system/section-library.md) §3's catalogue, so none needs an [ADR-0003](adr/0003-section-registry-composition.md) new-type justification. Each needs a folder under `src/sections/`, a `<type>.types.ts`, a union member in `lib/sections/types.ts`, and a line in `registry.ts`.
+All seven were already in [section-library.md](../system/section-library.md) §3's catalogue, so none needed an [ADR-0003](adr/0003-section-registry-composition.md) new-type justification. Each got a folder under `src/sections/`, a `<type>.types.ts`, a union member in `lib/sections/types.ts`, and a line in `registry.ts`.
 
-| Type | Variants | Used by | Notes |
+| Type | Variants | Used by | Status |
 |---|---|---|---|
-| `breadcrumb` | `inline` | Every page ≥ 2 levels deep | Renders `<nav aria-label="Breadcrumb">` + `<ol>`. **Emits nothing** — `BreadcrumbList` schema stays in `lib/seo/schema.ts` and is rendered by the page, so the visible trail and the schema can't drift apart while both exist. Zero motion. |
-| `relatedLinks` | `card-grid` · `inline-list` | Leaves, industries, guides, case studies | 3–5 curated links with a one-line note each. Descriptive anchors only — [seo-strategy.md](../system/seo-strategy.md) §4 bans bare "learn more". Tier 3. |
-| `tableOfContents` | `sticky-rail` · `inline` | Guides, long leaves | Built from the body's `##`/`###` headings at compile time, not by scanning the DOM at runtime. `sticky-rail` on ≥1024px, `inline` collapsible below. Scroll-spy is `IntersectionObserver`, not a scroll listener. Tier 4. |
-| `authorBio` | `compact` | Guides | Name, role, one line, optional photo. Same rule as `team:founder-note` — **omit the photo rather than use a stock one**. Blocked on the same open item as About §4. |
-| `caseStudyBody` | `narrative` | `/case-studies/[slug]` | Problem → approach → solution → results → lessons. Consumes the MDX body ([ADR-0006](adr/0006-content-page-authoring-model.md)) plus `results` frontmatter. Tier 3, `counterRoll` on the metric row only. |
-| `insights` | `three-latest` · `featured-plus-list` | Home §10, `/guides` index | Already a placeholder union member in `lib/sections/types.ts` — this is the one type the codebase already admits is missing. |
-| `testimonial` | `single-large` · `grid` · `with-avatar` | Deferred | **Do not build in Phase 2.** There are no testimonials, and an empty testimonial section is worse than none. Listed for completeness. |
+| `breadcrumb` | `inline` | Every page ≥ 2 levels deep | **Built.** Renders `<nav aria-label="Breadcrumb">` + `<ol>`. Emits nothing — `BreadcrumbList` schema stays a separate `breadcrumbSchema()` call on the page, so the visible trail and the schema can't drift apart. Zero motion. Required reworking `resolveHeadingLevel()` — it assumed index 0 was always the hero; it now finds the first section that isn't `breadcrumb`. |
+| `relatedLinks` | `card-grid` built · `inline-list` not built | Leaves, industries, guides, case studies | **Built** (`card-grid` only — every spec that uses this type uses that variant). 3–5 curated links with a one-line note each. |
+| `tableOfContents` | `inline` built · `sticky-rail` not built | Guides, long leaves | **Built.** `inline`, per guides-spec.md §3's own reasoning against `sticky-rail` — a rail needs to share a grid container with the body, which the flat, sibling-sections composition model under [ADR-0003](adr/0003-section-registry-composition.md) doesn't support. Built from the body's raw `##`/`###` headings via `lib/content/toc.ts` (regex + `github-slugger`), not by scanning the rendered DOM. A native `<details>`/`<summary>` disclosure — zero client JS. |
+| `authorBio` | `compact` | Guides | **Built.** `name` is optional — guides-spec.md §2's fallback ladder, so a guide ships with a role byline (`"Anvio's founding engineer"`) while the employment-disclosure question stays open, same pattern as `team:founder-note`. |
+| `caseStudyBody` | `narrative` | `/case-studies/[slug]` | **Not built.** Blocked on Wave 2's Stratseek gate — there's no case-study content to build it against yet, and building the section without a real entry to verify it against risks getting the `results`-frontmatter integration wrong in a way that only shows up once real content lands. |
+| `insights` | `featured-plus-list` built · `three-latest` not built | `/guides` index | **Built** (`featured-plus-list` — guides-spec.md's index needs editorial, not chronological, ordering). Home §10's `three-latest` stays unbuilt; Home has no insights section instance today, so nothing regressed by leaving it. |
+| `testimonial` | — | Deferred | **Not built, and removed from the `SectionInstance` union entirely** — not even as a placeholder. There are no testimonials to show, and `PlaceholderSection` was deleted once every other placeholder use became real; keeping one dead branch alive for `testimonial` alone wasn't worth the type-union noise. Re-add when there's a real testimonial. |
 
-Plus one variant, not a type: **`richText:mdx`**, per [ADR-0006](adr/0006-content-page-authoring-model.md). It takes compiled MDX and the whitelist from §2, and it is the only section permitted to render a body.
+Plus one variant, not a type: **`richText:mdx`**, per [ADR-0006](adr/0006-content-page-authoring-model.md) — **built**, via `next-mdx-remote/rsc` (§2). The only section permitted to render a body.
 
-That takes the registry from 22 to 28 types, still under [ADR-0003](adr/0003-section-registry-composition.md)'s "revisit at ~30" trigger — but only just. Any Phase 3 type must clear the variant-first bar properly.
+That takes the registry to 28 types (27 registered plus `testimonial` documented-only), under [ADR-0003](adr/0003-section-registry-composition.md)'s "revisit at ~30" trigger — but only just. Any Phase 3 type must clear the variant-first bar properly.
 
 ### New variants on existing types
 
-Four, each clearing [ADR-0003](adr/0003-section-registry-composition.md)'s variant-first bar without a new type.
-
-| Variant | For | Notes |
+| Variant | For | Status |
 |---|---|---|
-| `richText:mdx` | Every content page | [ADR-0006](adr/0006-content-page-authoring-model.md). The only section permitted to render a body |
-| `hero:case-lead` | `/case-studies/[slug]` | Already in the `HeroProps` union in `lib/sections/types.ts`, not yet implemented |
-| `workflowGraph:compact` | The three Automate leaves | 3–5 nodes, `nodeCascade` only, no `pathPulse`, no hover-explainer layer |
-| `buildAssembly:component-grid` | `/services/build/website-development` | Static grid. **Not** the pinned `wireframe-to-render` scene, which stays Build's alone |
-| `problem:automation-calculator` | `/tools/automation-roi-calculator` | Different inputs and formula from Grow's `cost-calculator`, same family |
+| `richText:mdx` | Every content page | **Built** — see §2 |
+| `services:pillar-cards` gains `showViz` | `/services` hub | **Built**, not originally planned here — the hub reuses Home's pillar-cards variant for its full sub-item lists but needed to suppress the per-card looping micro-visual to stay at zero Tier 2 pieces (phase-2-plan.md §4); added as an optional prop rather than a new variant |
+| `hero:case-lead` | `/case-studies/[slug]` | **Not built** — blocked with `caseStudyBody`, same gate |
+| `workflowGraph:compact` | The two shipped Automate leaves | **Built.** Ended up fully server-rendered with zero client JS — no dynamic import at all, unlike `live`. A one-time `fade-up-in` stagger across nodes in authored order turned out to satisfy "reduced nodeCascade, no pathPulse, no hover-explainer layer" without needing any of `live`'s client-side machinery. |
+| `buildAssembly:component-grid` | `/services/build/website-development` | **Not built** — that leaf is Wave 3's third/fourth item, above the floor |
+| `problem:automation-calculator` | `/tools/automation-roi-calculator` | **Not built** — `/tools` is Wave 4, above the floor |
 
-### Missing `lib/seo/schema.ts` builders
+### `lib/seo/schema.ts` builders
 
-`schema.ts` today exports `organizationSchema`, `websiteSchema`, `serviceSchema`, `webPageSchema`, `faqSchema`, `breadcrumbSchema`. Phase 2 needs three more, and they belong in the same typed-builder pattern — never hand-written JSON-LD per page ([seo-strategy.md](../system/seo-strategy.md) §6).
+`schema.ts` had `organizationSchema`, `websiteSchema`, `serviceSchema`, `webPageSchema`, `faqSchema`, `breadcrumbSchema`. Two of the three Phase 2 additions are **built**:
 
-| Builder | Used by | Fields |
+| Builder | Used by | Status |
 |---|---|---|
-| `articleSchema` | `/guides/[slug]`, `/case-studies/[slug]` | `headline`, `description`, `author`, `datePublished`, `dateModified`, `url`. Provenance is the point ([seo-strategy.md](../system/seo-strategy.md) §7.5) |
-| `collectionPageSchema` | `/case-studies`, `/guides` | `name`, `description`, `url` |
-| `softwareApplicationSchema` | `/tools/[slug]` | `name`, `description`, `applicationCategory`, `offers` (free), `url` |
+| `articleSchema` | `/guides/[slug]` (built) · `/case-studies/[slug]` (pending) | **Built.** `headline`, `description`, `author`, `datePublished`, `dateModified`, `url` |
+| `collectionPageSchema` | `/guides` (built) · `/case-studies` (pending) | **Built.** `name`, `description`, `url` |
+| `softwareApplicationSchema` | `/tools/[slug]` | **Not built** — `/tools` is above the floor |
 
-`serviceSchema` also needs an optional `areaServed` for the industry leaves.
+`serviceSchema` still doesn't have `areaServed` — no industry leaf exists yet to need it.
 
 ---
 
 ## 5. Build order
 
-Strictly sequential. Each step is unusable without the one above it.
+Strictly sequential. Each step was unusable without the one above it. **All done except step 5**, which stays blocked in place rather than out of order.
 
-1. **`schemas.ts`** — all five kinds. Nothing to test against yet, but it is the contract.
-2. **`mdx.ts` + `index.ts`** — the loader and the interface, with one real case study MDX file as the fixture. If the adapter can render one entry, it can render forty.
-3. **`richText:mdx` + the three whitelist components.** The moment this works, every article-class page becomes a content file.
-4. **`breadcrumb` + `relatedLinks`.** Small, needed by every Phase 2 page, and `breadcrumb` retires a live schema defect (see [phase-2-plan.md](../specs/phase-2-plan.md) §2).
-5. **`caseStudyBody`**, then the case-study routes.
-6. **`tableOfContents` + `authorBio`**, then the guide routes.
-7. **`insights`**, which unblocks Home §10 as a side effect.
+1. ~~**`content-collections.ts`** — all five kinds.~~ Done, as `content-collections.ts` rather than `lib/content/schemas.ts` — see §2.
+2. ~~**`mdx.ts` + `index.ts`**~~ Done. Verified with a throwaway fixture entry (removed once confirmed) before any real content was written — validation genuinely rejects bad frontmatter, with the file and field named.
+3. ~~**`richText:mdx` + the three whitelist components.**~~ Done, via `next-mdx-remote/rsc` rather than the originally planned `@content-collections/mdx` — see §2.
+4. ~~**`breadcrumb` + `relatedLinks`.**~~ Done. `breadcrumb` retired the live schema defect ([phase-2-plan.md](../specs/phase-2-plan.md) §2) the moment `/services` shipped.
+5. **`caseStudyBody`**, then the case-study routes. **Still blocked** — the Stratseek agreement hasn't been read, so there's no case-study content this section could be built and verified against.
+6. ~~**`tableOfContents` + `authorBio`**, then the guide routes.~~ Done — four guides live at `/guides/[slug]`.
+7. ~~**`insights`**~~ Done (`featured-plus-list` only), which seeded `/guides`' index. Did not unblock Home §10 — Home has no `insights` section instance to begin with, so there was nothing to seed there; adding one is a small, separate, not-yet-done step.
 
 ## 6. Open items
 
-- [ ] Choose the loader: content-collections or velite. [ADR-0002](adr/0002-mdx-behind-content-adapter.md) permits either and defers the pick; §2 rule 5 means this decision costs one file, so it does not need its own ADR — but it does need making before step 2.
-- [ ] Decide whether `readingTime` counts code blocks. Trivial, but it should be decided once rather than per-guide.
-- [ ] `authorBio` is blocked on the same unresolved item as About §4 — a real name and photo, and the employment-disclosure question in [docs/README.md](../README.md).
+- [x] ~~Choose the loader: content-collections or velite.~~ **content-collections.** [ADR-0002](adr/0002-mdx-behind-content-adapter.md)'s two-file guarantee held: swapping it means changing `content-collections.ts` and `lib/content/mdx.ts`, nothing else.
+- [x] ~~Decide whether `readingTime` counts code blocks.~~ It does — the computation is a plain word count over the raw body, including code fences. Not worth special-casing for the volume of code in current guides.
+- [ ] `authorBio`'s `name` field is unused so far — every guide ships at guides-spec.md §2's fallback level 2 (`"Anvio's founding engineer"`, no name). Upgrade when the employment-disclosure question in [docs/README.md](../README.md) resolves; it's a frontmatter string change, not a rebuild.
+- [ ] `caseStudyBody`, `hero:case-lead`, and the case-study routes remain blocked on the Stratseek agreement — same gate as [phase-2-plan.md](../specs/phase-2-plan.md) §7's first item.
+- [ ] `insights` has no entries — only guides populate `/guides`' index today, built by explicit slug list in that page rather than by querying the `insights` kind. Decide whether guides and insights merge into one kind, or whether real insight posts get written separately, before Home's own insights section is built.
