@@ -8,30 +8,45 @@ const SERVICES = [
     label: 'Build',
     href: '/services/build',
     body: 'Websites, ecommerce, web apps, custom software.',
-    items: ['Websites', 'Ecommerce', 'Web applications', 'CRM / ERP'],
+    items: [
+      { label: 'Websites' },
+      { label: 'Ecommerce' },
+      { label: 'Web applications' },
+      { label: 'CRM / ERP' },
+    ],
   },
   {
     label: 'Automate',
     href: '/services/automate',
     body: 'AI agents, chatbots, workflow automation.',
-    items: ['AI agents', 'AI chatbots', 'Workflow automation', 'Integrations'],
+    items: [
+      { label: 'WhatsApp automation', href: '/services/automate/whatsapp-automation' },
+      { label: 'AI chatbots', href: '/services/automate/ai-chatbot-development' },
+      { label: 'Workflow automation' },
+      { label: 'Integrations' },
+    ],
   },
   {
     label: 'Grow',
     href: '/services/grow',
     body: 'SEO, GEO, performance, technical audits.',
-    items: ['Technical SEO', 'GEO', 'Core Web Vitals', 'Conversion optimization'],
+    items: [
+      { label: 'Technical SEO' },
+      { label: 'GEO' },
+      { label: 'Core Web Vitals' },
+      { label: 'Conversion optimization' },
+    ],
   },
 ] as const
 
 /**
  * services-hub-spec.md §9 — the three-column mega-menu design-system.md
  * §6.5 specified, now that /services exists to head it. Sub-items are
- * plain text, not links: none of the leaf pages they name are built
- * yet (Wave 3), and automate-spec.md §4's "never link to an unbuilt
- * page" holds here exactly as it does inside each pillar page's own
- * cluster grid. `Products` · `Case Studies` · `Blog` stay dropped —
- * still no pages to point them at (docs/README.md "Known gaps").
+ * plain text unless `href` is set — automate-spec.md §4's "never link
+ * to an unbuilt page" still holds, so only the two shipped Automate
+ * leaves link out; the rest stay text until their own leaf exists
+ * (Wave 3). `Products` · `Case Studies` · `Blog` stay dropped — still
+ * no pages to point them at (docs/README.md "Known gaps").
  *
  * Fully server-rendered and usable before hydration — NavChrome only
  * ever toggles the condense-on-scroll class, it never gates this
@@ -70,8 +85,14 @@ export function Nav() {
                   </Link>
                   <ul className="mt-1 flex flex-col gap-1.5">
                     {s.items.map((item) => (
-                      <li key={item} className="text-label text-text-3">
-                        {item}
+                      <li key={item.label} className="text-label text-text-3">
+                        {'href' in item && item.href ? (
+                          <Link href={item.href} className="hover:text-accent-text">
+                            {item.label}
+                          </Link>
+                        ) : (
+                          item.label
+                        )}
                       </li>
                     ))}
                   </ul>

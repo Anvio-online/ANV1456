@@ -108,6 +108,7 @@ const sections: SectionInstance[] = [
             name: 'AI-powered chatbots',
             description:
               'Trained on your own documentation and edge cases, not a generic script — handles what it can, hands off what it can’t.',
+            href: '/services/automate/ai-chatbot-development',
           },
           {
             name: 'AI customer support',
@@ -120,6 +121,12 @@ const sections: SectionInstance[] = [
         headline: 'Workflow & Process Automation',
         promise: 'The repetitive path from A to B, without a person in the middle',
         subItems: [
+          {
+            name: 'WhatsApp automation',
+            description:
+              'Orders captured, questions answered, and follow-ups sent — all inside the WhatsApp conversation your customers already use.',
+            href: '/services/automate/whatsapp-automation',
+          },
           {
             name: 'Repetitive task automation',
             description:

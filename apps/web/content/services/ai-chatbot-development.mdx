@@ -1,0 +1,91 @@
+---
+title: 'AI Chatbot Development Services'
+description: 'An AI chatbot that answers from your own documentation and policies, escalates what it should not guess at, and never invents a fact. What it costs to build.'
+slug: 'ai-chatbot-development'
+publishedAt: 2026-08-10
+updatedAt: 2026-08-10
+draft: false
+pillar: 'automate'
+h1: 'A chatbot that answers from your documentation, not from guesswork.'
+keywordPrimary: 'AI chatbot development'
+pains:
+  - pain: 'The same twenty questions, all day'
+    line: "Your team's day gets eaten by questions that are already answered somewhere in writing."
+  - pain: 'A generic bot that invents answers'
+    line: "Off-the-shelf chatbots guess when they don't know — confidently, and wrongly."
+  - pain: 'Nothing that knows your policies'
+    line: "Your actual return policy, pricing, and edge cases live in someone's head, not in the bot."
+  - pain: 'No real escalation path'
+    line: "When it doesn't know, the customer hits a dead end instead of a person."
+  - pain: 'Answers go stale'
+    line: "Policies change; a script written six months ago doesn't know that."
+faq:
+  - question: 'How much does an AI chatbot cost for a small business?'
+    answer: 'Typically ₹30,000–₹90,000 to build, depending mainly on how much documentation there is to structure and how many distinct topics it needs to handle — not on how many conversations it has once live. Ongoing model API costs are usage-based and small at most business volumes.'
+  - question: 'What is RAG, in plain terms?'
+    answer: "Retrieval-augmented generation — the chatbot searches your actual documents for the relevant passage before answering, rather than answering from memory. It's the difference between a chatbot that quotes your real return policy and one that invents a plausible-sounding one."
+  - question: 'Can it still make things up?'
+    answer: "Grounding it in your documentation sharply reduces this, but doesn't make it impossible — no chatbot vendor can honestly promise zero. What we build in instead is a confidence threshold: below it, the bot says it doesn't know and escalates, rather than guessing."
+  - question: 'When does it hand off to a person?'
+    answer: "Whenever a question falls outside what its documentation actually covers, or the confidence threshold isn't met — tuned with you before launch, not left to the bot's own judgement in production."
+  - question: 'How current does it stay?'
+    answer: "As current as the documents it's connected to. Update the source document and the chatbot's answer updates with it — there's no separate script to rewrite by hand."
+  - question: 'When is a chatbot the wrong tool?'
+    answer: "When what you actually need is something that takes action — updates a record, places an order — rather than answers a question. That's AI agent development, a related but different service."
+relatedLinks:
+  - label: 'AI agent development'
+    href: '/services/automate/ai-agent-development'
+    note: 'For work that takes action, not just answers a question.'
+  - label: 'WhatsApp automation'
+    href: '/services/automate/whatsapp-automation'
+    note: 'The most common channel this runs on for our clients.'
+  - label: 'Automate overview'
+    href: '/services/automate'
+    note: 'The full pillar page.'
+  - label: 'AI agent vs. chatbot'
+    href: '/guides/ai-agent-vs-chatbot'
+    note: 'The definitional guide behind the boundary this page draws.'
+---
+
+Most "AI chatbot" products sold to small businesses are a script with better marketing — a fixed decision tree, or a language model with no real connection to your actual policies. Neither holds up past the first unusual question.
+
+## What it is
+
+A chatbot built on **retrieval-augmented generation** — RAG, in the industry's own shorthand. In plain terms: before it answers, it searches your actual documents for the relevant passage, and answers from that, rather than answering from a generic script or from whatever a general-purpose model happens to already "know." Update the source document, and the chatbot's answer updates with it, automatically, without anyone rewriting a script.
+
+## What it actually replaces
+
+The specific thing it replaces is a person answering a question that's already written down somewhere — your return policy, your delivery areas, your pricing tiers, your most common troubleshooting steps. If a question is already answered in a document, a well-built RAG chatbot answers it correctly, in your tone, at any hour, without someone stopping what they're doing to type the same reply for the fortieth time.
+
+It is deliberately not a replacement for judgement. A pricing exception, a genuine complaint, an edge case your documentation doesn't cover — those go to a person, by design, not by accident.
+
+## How it works
+
+Building the knowledge base is most of the real work, and it's also where the honest limits show up early: if your policies live only in someone's head, step one is writing them down, which tends to be useful on its own regardless of the chatbot. Once the documents exist, the chatbot searches them for the passage most relevant to a given question, and answers from that passage — grounded, not invented.
+
+<Callout type="note">
+  Grounding sharply reduces incorrect answers, but no chatbot vendor can honestly promise zero —
+  including us. What we build in instead is a confidence threshold.
+</Callout>
+
+Below that threshold, the chatbot says it doesn't know and hands off to a person, with the full conversation attached, rather than guessing at an answer it isn't confident about. Where that threshold sits — cautious or permissive — is something we tune with you before launch based on how costly a wrong answer would actually be in your business, not left to the model's own judgement once it's live.
+
+## What it costs and how long it takes
+
+|                                | Typical range                                                                  |
+| ------------------------------ | ------------------------------------------------------------------------------ |
+| Build cost                     | ₹30,000–₹90,000, depending mainly on documentation volume and topic count      |
+| Timeline to first live version | 2–4 weeks                                                                      |
+| Ongoing cost                   | Usage-based model API cost — small at most small-business conversation volumes |
+
+The build cost tracks how much there is to structure and connect, not how many conversations the chatbot ends up having — a quiet chatbot and a busy one cost roughly the same to build, and differ only in the small, usage-based API cost of actually running.
+
+## What it doesn't do
+
+It doesn't act — it answers. If a customer needs their order updated, a record changed, or a multi-step process carried out, that's a different job: [AI agent development](/services/automate/ai-agent-development). Building a chatbot to attempt actions it wasn't designed for is the most common way these projects go wrong, and it's also the boundary we hold most carefully in scoping any chatbot engagement.
+
+It also doesn't replace documentation that doesn't exist. If your policies are inconsistent or undocumented, the chatbot will surface that inconsistency rather than paper over it — which, again, tends to be a useful thing to find out.
+
+## What you own afterward
+
+The knowledge base structure, the retrieval setup, and the integration are yours, documented and handed over. If you bring on an in-house developer later, or want to move providers, nothing here is built to make that difficult.

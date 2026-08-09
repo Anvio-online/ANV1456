@@ -291,7 +291,11 @@ export interface WorkflowEdge {
 }
 
 export interface WorkflowGraphProps extends SectionBase {
-  variant: 'live'
+  /** 'compact' — service-leaf-spec.md §3a: a reduced form for the
+   * Automate leaves, 3–5 nodes, one-time staggered reveal, no
+   * `pathPulse`, no hover-to-pause explainer layer, no dynamic import
+   * — server-rendered, real DOM text throughout, same as 'live'. */
+  variant: 'live' | 'compact'
   /** e.g. "A customer messages on WhatsApp at 11pm." */
   scenario: string
   nodes: WorkflowNode[]
@@ -304,11 +308,19 @@ export interface RichTextStep {
 }
 
 export interface RichTextProps extends SectionBase {
-  variant: 'prose' | 'numbered-steps'
+  variant: 'prose' | 'numbered-steps' | 'mdx'
   /** 'prose' only — one or more paragraphs, rendered in order. */
   paragraphs?: string[]
   /** 'numbered-steps' only — e.g. contact-spec.md §4 "What happens next". */
   steps?: RichTextStep[]
+  /** 'mdx' only. ADR-0006 — the raw MDX source of a content entry's
+   * body, compiled server-side per request by next-mdx-remote/rsc
+   * (content-layer.md §2). Reuses SectionBase.body's slot rather than
+   * a dedicated field: same "the body of the page" meaning, and no
+   * other variant sets it. The only section permitted to render a
+   * whitelisted set of MDX components (content-layer.md §2) — never a
+   * section component. */
+  body?: string
 }
 
 export interface ContactProps extends SectionBase {
@@ -444,6 +456,23 @@ export interface BreadcrumbProps extends SectionBase {
   items: BreadcrumbItem[]
 }
 
+export interface RelatedLink {
+  label: string
+  href: string
+  /** One line of context — seo-strategy.md §4 bans bare "learn more"
+   * as the sole anchor, so the descriptive text lives here, next to
+   * the link, not folded into the anchor itself. */
+  note: string
+}
+
+/** content-layer.md §4. 3–5 curated links on leaves, industries,
+ * guides, and case studies — seo-strategy.md §5's hub-and-spoke
+ * internal linking, made a real section rather than ad hoc per page. */
+export interface RelatedLinksProps extends SectionBase {
+  variant: 'card-grid' | 'inline-list'
+  items: RelatedLink[]
+}
+
 interface PlaceholderSection extends SectionBase {
   variant: string
   [key: string]: unknown
@@ -451,6 +480,7 @@ interface PlaceholderSection extends SectionBase {
 
 export type SectionInstance =
   | ({ type: 'breadcrumb' } & BreadcrumbProps)
+  | ({ type: 'relatedLinks' } & RelatedLinksProps)
   | ({ type: 'hero' } & HeroProps)
   | ({ type: 'proofBar' } & ProofBarProps)
   | ({ type: 'services' } & ServicesProps)

@@ -1,0 +1,95 @@
+---
+title: 'WhatsApp Automation for Business'
+description: 'WhatsApp automation that replies instantly, logs orders in your CRM, and hands off to a human with full context when it matters. What it costs, concretely.'
+slug: 'whatsapp-automation'
+publishedAt: 2026-08-10
+updatedAt: 2026-08-10
+draft: false
+pillar: 'automate'
+h1: "Every WhatsApp message shouldn't need a person."
+keywordPrimary: 'WhatsApp automation'
+pains:
+  - pain: 'Orders re-typed from chat'
+    line: 'Someone reads a WhatsApp order and types it into the CRM by hand, every time.'
+  - pain: 'The same question, all day'
+    line: '"Where''s my order" and "are you open" answered dozens of times, identically, by a person.'
+  - pain: 'Messages missed after hours'
+    line: 'A customer messages at 11pm. Nobody sees it until 10am, if they see it at all.'
+  - pain: 'No record of what was promised'
+    line: 'A discount offered in chat, a delivery date confirmed — none of it makes it into any system.'
+  - pain: 'Follow-ups depend on memory'
+    line: "Someone has to remember to scroll back through yesterday's chats and follow up."
+faq:
+  - question: 'How much does WhatsApp automation cost for a small business?'
+    answer: "Most small business setups run ₹25,000–₹80,000 to build, plus Meta's own per-conversation fees once you're live — see the cost breakdown below. The build cost depends mainly on how many order or support flows you want automated, not on message volume."
+  - question: 'Do we need the WhatsApp Business API, or is the regular app enough?'
+    answer: 'If you want automation, you need the Business API — the regular WhatsApp Business app has no way for software to read or send messages. The API requires a Meta Business verification, which takes a few days and is worth starting early.'
+  - question: 'What happens to messages sent outside the 24-hour window?'
+    answer: "WhatsApp only lets you reply freely within 24 hours of a customer's last message. Outside that window, you can only send a pre-approved template message — which is why order updates and reminders use templates by design, not as a workaround."
+  - question: 'Will it sound like a bot?'
+    answer: 'It sounds like whatever you write for it. We build the reply logic and structure; the tone, the phrasing, and the specific answers come from your own documentation and your own voice, not a generic script.'
+  - question: 'What if the automation gets something wrong?'
+    answer: "It escalates to a person with the full conversation attached, rather than guessing. The threshold for escalating — a question outside its knowledge base, a frustrated customer, a request it isn't confident about — is something we tune with you before launch, not something it decides alone."
+  - question: "Do we own the automation once it's built?"
+    answer: 'Yes. The workflow, the integration, and the documentation are handed over — if you want to run it yourself or move it to another developer later, nothing about it is locked to us.'
+relatedLinks:
+  - label: 'AI chatbot development'
+    href: '/services/automate/ai-chatbot-development'
+    note: 'The related service, if the questions need more than a scripted reply.'
+  - label: 'AI agent development'
+    href: '/services/automate/ai-agent-development'
+    note: 'For workflows that take action, not just reply.'
+  - label: 'Automate overview'
+    href: '/services/automate'
+    note: 'The full pillar page — automation beyond WhatsApp.'
+  - label: 'AI agent vs. chatbot'
+    href: '/guides/ai-agent-vs-chatbot'
+    note: 'The definitional guide behind the boundary this page draws.'
+---
+
+Most small businesses run some part of their sales and support through WhatsApp already. The problem isn't the channel — it's that a person has to be the one reading, typing, and remembering, for every single message.
+
+## What WhatsApp automation actually is
+
+It's software that reads incoming WhatsApp messages, decides what to do with them, and acts — replying, logging the order in your CRM, or handing off to a person with the context already attached. It runs on the **WhatsApp Business API**, not the regular WhatsApp Business app you'd install on a phone. That distinction matters more than it sounds: the regular app has no way for software to read or send anything. The API is what makes automation possible at all, and getting Meta's business verification for it is usually the first real step in any project — it can take a few days, so it's worth starting before anything else.
+
+## What it actually replaces
+
+Concretely, three things:
+
+1. **Order capture.** A customer messages their order in free text or a photo of a list. The automation reads it, structures it, and creates or updates the record in your CRM — no one re-typing it from the chat window.
+2. **First-line replies.** "Are you open," "where's my order," "do you deliver to \[area\]" — answered instantly, from your actual policies and current order data, not a static FAQ that goes stale.
+3. **Follow-up timing.** A lead that goes quiet for two days gets a scheduled follow-up automatically, instead of depending on someone remembering to scroll back through yesterday's chats.
+
+## How it works
+
+<Callout type="note">
+  The 24-hour rule below is the single most common thing that trips up a first WhatsApp automation
+  project — worth reading closely if you're new to the Business API.
+</Callout>
+
+The flow for a typical message looks like this: the message arrives, the automation checks whether it can answer confidently from your policies and order data, and either replies directly or hands off to a person with the conversation and its own read on the situation attached. Nothing gets silently dropped — if it can't answer, a human sees it, with context, not a blank ping.
+
+There's one structural constraint that shapes every WhatsApp automation: you can only send a **free-form reply** within 24 hours of the customer's last message. Outside that window — a delivery reminder three days later, a re-engagement message to a lead gone cold — you can only send a **pre-approved template message**, reviewed by Meta in advance. This isn't a limitation we work around; it's why order confirmations, shipping updates, and reminders are built as templates from the start rather than retrofitted later when the free-form window has already closed.
+
+After-hours messages don't wait for the next business day. The automation handles what it confidently can at 11pm the same way it would at 11am, and queues anything genuinely needing a person for the morning — with nothing lost in between.
+
+## What it costs and how long it takes
+
+|                                   | Typical range                                                                   |
+| --------------------------------- | ------------------------------------------------------------------------------- |
+| Build cost                        | ₹25,000–₹80,000, depending on how many flows (orders, support, follow-ups)      |
+| Timeline to first live automation | 2–4 weeks                                                                       |
+| Meta's per-conversation fee       | Varies by category and market — confirmed with you before launch, not estimated |
+
+The build cost depends mainly on scope — how many distinct flows you want handled — not on how many messages you send. Meta charges separately, per conversation, once you're live; that fee changes periodically and is genuinely Meta's to set, so we confirm the current rate with you rather than quote a number here that might already be stale by the time you read this.
+
+## What it doesn't do
+
+It doesn't replace a person who needs to make a judgement call — a genuine complaint, a custom quote, a situation your policies don't cover. Those are exactly the cases it's built to recognize and hand off, not attempt. It also doesn't work if your policies and pricing live only in someone's head — the automation is only as good as what it can actually reference, so part of the build is usually making that information explicit for the first time, which tends to be useful on its own.
+
+It's also worth being direct about the difference between this and a chatbot: this page is about **acting** on a message — logging an order, updating a record. If what you need is mainly **answering** questions accurately from documentation, that's [AI chatbot development](/services/automate/ai-chatbot-development) — a related but distinct service, and the two are often used together.
+
+## What you own afterward
+
+The workflow, the integration code, and the documentation are yours. If you want to hand it to an in-house developer later, or move to a different vendor, nothing here is built to lock you in — that's a deliberate position, not a courtesy.

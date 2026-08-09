@@ -31,6 +31,9 @@ const baseFields = {
   publishedAt: z.coerce.date(),
   updatedAt: z.coerce.date(),
   draft: z.boolean().default(false),
+  // Explicit per content-collections' own deprecation notice — it used
+  // to add this implicitly for the default "frontmatter" parser.
+  content: z.string(),
 }
 
 const services = defineCollection({

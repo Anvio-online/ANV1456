@@ -1,6 +1,7 @@
 import type { ComponentType } from 'react'
 import type { SectionType } from './types'
 import { Breadcrumb } from '@/sections/breadcrumb'
+import { RelatedLinks } from '@/sections/related-links'
 import { Hero } from '@/sections/hero'
 import { ProofBar } from '@/sections/proof-bar'
 import { Services } from '@/sections/services'
@@ -61,6 +62,7 @@ import { Team } from '@/sections/team'
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const sectionRegistry: Partial<Record<SectionType, ComponentType<any>>> = {
   breadcrumb: Breadcrumb,
+  relatedLinks: RelatedLinks,
   hero: Hero,
   proofBar: ProofBar,
   services: Services,

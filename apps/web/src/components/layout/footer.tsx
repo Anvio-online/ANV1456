@@ -6,8 +6,8 @@ import Link from 'next/link'
  * no pages to link to (docs/README.md "Known gaps" #3). Legal now
  * exists (legal-spec.md, Wave 1) so that column ships here; Resources
  * still waits on /case-studies and /guides (Waves 2 and 5) — add it
- * then, not before. Individual leaf-service links under Services wait
- * on Wave 3 for the same reason (service-leaf-spec.md §5).
+ * then, not before. Services gains the two shipped leaves
+ * (service-leaf-spec.md §5) — the rest wait until they exist too.
  */
 const columns = [
   {
@@ -17,6 +17,8 @@ const columns = [
       ['Build', '/services/build'],
       ['Automate', '/services/automate'],
       ['Grow', '/services/grow'],
+      ['WhatsApp automation', '/services/automate/whatsapp-automation'],
+      ['AI chatbot development', '/services/automate/ai-chatbot-development'],
     ],
   },
   {
