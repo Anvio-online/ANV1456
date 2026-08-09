@@ -8,6 +8,10 @@ node_modules/
 out/
 dist/
 
+# docs/engineering/content-layer.md §2 — generated from content/*.mdx
+# at build/dev time, never hand-edited, never committed.
+.content-collections/
+
 # env
 .env
 .env*.local
