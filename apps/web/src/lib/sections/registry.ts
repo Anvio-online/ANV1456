@@ -4,6 +4,7 @@ import { Breadcrumb } from '@/sections/breadcrumb'
 import { RelatedLinks } from '@/sections/related-links'
 import { TableOfContents } from '@/sections/table-of-contents'
 import { AuthorBio } from '@/sections/author-bio'
+import { Insights } from '@/sections/insights'
 import { Hero } from '@/sections/hero'
 import { ProofBar } from '@/sections/proof-bar'
 import { Services } from '@/sections/services'
@@ -67,6 +68,7 @@ export const sectionRegistry: Partial<Record<SectionType, ComponentType<any>>> =
   relatedLinks: RelatedLinks,
   tableOfContents: TableOfContents,
   authorBio: AuthorBio,
+  insights: Insights,
   hero: Hero,
   proofBar: ProofBar,
   services: Services,

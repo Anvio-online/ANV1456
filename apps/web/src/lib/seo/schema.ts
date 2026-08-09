@@ -90,6 +90,55 @@ export function faqSchema(items: { question: string; answer: string }[]) {
   }
 }
 
+/** content-layer.md §4 — guides and case studies, both needing named
+ * authorship and dates for GEO's provenance argument
+ * (seo-strategy.md §7.5), which a generic WebPage doesn't carry. */
+export function articleSchema({
+  headline,
+  description,
+  author,
+  datePublished,
+  dateModified,
+  path,
+}: {
+  headline: string
+  description: string
+  author: string
+  datePublished: Date
+  dateModified: Date
+  path: string
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline,
+    description,
+    author: { '@type': 'Person', name: author },
+    datePublished: datePublished.toISOString(),
+    dateModified: dateModified.toISOString(),
+    url: new URL(path, SITE_URL).toString(),
+  }
+}
+
+/** content-layer.md §4 — /guides and /case-studies indexes. */
+export function collectionPageSchema({
+  name,
+  description,
+  path,
+}: {
+  name: string
+  description: string
+  path: string
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name,
+    description,
+    url: new URL(path, SITE_URL).toString(),
+  }
+}
+
 export function breadcrumbSchema(items: { name: string; path: string }[]) {
   return {
     '@context': 'https://schema.org',

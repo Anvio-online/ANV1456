@@ -30,11 +30,11 @@ export interface SectionBase {
 
 // ---- Per-type prop shapes. Each section folder owns its own <type>.types.ts;
 // this file re-exports the union so the renderer has one place to widen.
-// Only Hero is implemented in the scaffold — the rest use PlaceholderSection
-// until their section folders land, so registry.ts stays honest about
-// what's actually built vs. documented in section-library.md. Every
-// placeholder still extends SectionBase, so `id`/`theme` type correctly
-// throughout the renderer even before the real props are filled in.
+// Every type below is now real and registered — `testimonial` is the
+// one exception, documented in section-library.md §3 but deliberately
+// unbuilt (no testimonials exist to show), and it isn't in the
+// SectionInstance union below for that reason: an unregistered type
+// fails at the call site, which is the honest state for it right now.
 
 export interface HeroProps extends SectionBase {
   variant: 'centered-statement' | 'split-visual' | 'page-lead' | 'case-lead'
@@ -500,9 +500,21 @@ export interface AuthorBioProps extends SectionBase {
   photo?: { src: string; alt: string }
 }
 
-interface PlaceholderSection extends SectionBase {
-  variant: string
-  [key: string]: unknown
+export interface InsightItem {
+  title: string
+  description: string
+  href: string
+  category: string
+}
+
+/** section-library.md §3 — the one placeholder type the codebase
+ * already admitted was missing. 'featured-plus-list' built first: it's
+ * what guides-spec.md's index needs (editorial ordering, not
+ * chronological — the first item is the deliberate pick, not
+ * "most recent"). 'three-latest' (Home §10) stays a placeholder. */
+export interface InsightsProps extends SectionBase {
+  variant: 'three-latest' | 'featured-plus-list'
+  items: InsightItem[]
 }
 
 export type SectionInstance =
@@ -533,6 +545,6 @@ export type SectionInstance =
   | ({ type: 'growthChart' } & GrowthChartProps)
   | ({ type: 'team' } & TeamProps)
   // Documented in section-library.md, not yet scaffolded:
-  | ({ type: 'insights' } & PlaceholderSection)
+  | ({ type: 'insights' } & InsightsProps)
 
 export type SectionType = SectionInstance['type']
