@@ -255,7 +255,7 @@ Full plan: [phase-2-plan.md](../specs/phase-2-plan.md). Authoring model: [ADR-00
 
 **No Phase 2 page carries a Tier 1 scene.** [phase-2-plan.md](../specs/phase-2-plan.md) §4.
 
-### `/services` hub — composed · [spec](../specs/services-hub-spec.md)
+### `/services` hub — composed · [spec](../specs/services-hub-spec.md) · **Built**
 ```
 breadcrumb:inline (dark)
 hero:page-lead (dark)
@@ -267,13 +267,13 @@ whyUs:principle-cards (dark)
 ctaClosing:split-with-form (dark)
 ```
 
-### `/case-studies` index — composed · [spec](../specs/case-studies-spec.md)
+### `/case-studies` index — composed · [spec](../specs/case-studies-spec.md) · **Not built — blocked on the Stratseek agreement**
 ```
 breadcrumb:inline (dark) · hero:page-lead (dark) · featuredWork:grid (dark)
 · ctaClosing:centered-bold (dark)
 ```
 
-### `/case-studies/[slug]` — hybrid · [spec](../specs/case-studies-spec.md)
+### `/case-studies/[slug]` — hybrid · [spec](../specs/case-studies-spec.md) · **Not built — same gate**
 ```
 breadcrumb:inline (dark)
 hero:case-lead (dark)
@@ -284,7 +284,7 @@ relatedLinks:card-grid (light)
 ctaClosing:split-with-form (dark)
 ```
 
-### `/projects` — composed · [spec](../specs/projects-spec.md)
+### `/projects` — composed · [spec](../specs/projects-spec.md) · **Built** (internal items only)
 ```
 breadcrumb:inline (dark) · hero:page-lead (dark) · featuredWork:grid (dark)
 · richText:prose (light) · ctaClosing:centered-bold (dark)
@@ -292,7 +292,7 @@ breadcrumb:inline (dark) · hero:page-lead (dark) · featuredWork:grid (dark)
 `CaseStudyCard` gains a required `kind: 'client' | 'internal' | 'partner-agency'` — the label
 renders from the field, so honest attribution is structural rather than editorial.
 
-### Service leaf — hybrid · [spec](../specs/service-leaf-spec.md)
+### Service leaf — hybrid · [spec](../specs/service-leaf-spec.md) · **2 of 4 built** (`whatsapp-automation`, `ai-chatbot-development`)
 ```
 breadcrumb:inline (dark)
 hero:page-lead (dark)               ← deliberately not split-visual, which is the pillars'
@@ -308,21 +308,21 @@ The Build leaf swaps `agentDemo:full` for `results:metric-row` (dark) — the de
 automation-scoped, and Build has real client work to point at instead. The Automate leaves
 carry it because they have none: see [phase-2-plan.md](../specs/phase-2-plan.md) §1a.
 
-### `/industries` hub — composed · [spec](../specs/industries-spec.md)
+### `/industries` hub — composed · [spec](../specs/industries-spec.md) · **Built**
 ```
 breadcrumb:inline (dark) · hero:page-lead (dark) · industries:compact-grid (dark)
 · problem:pain-grid (light) · richText:prose (light) · faq:accordion (dark)
 · ctaClosing:centered-bold (dark)
 ```
 
-### `/industries/[slug]` — hybrid · [spec](../specs/industries-spec.md)
+### `/industries/[slug]` — hybrid · [spec](../specs/industries-spec.md) · **Built** (`ecommerce`, `accounting-firms`) — `featuredWork:grid` omitted on both, no case studies exist yet
 ```
 breadcrumb:inline (dark) · hero:page-lead (dark) · problem:pain-grid (dark)
 · richText:mdx (light) · services:cluster-grid (light) · featuredWork:grid (light, optional)
 · faq:accordion (dark) · relatedLinks:card-grid (dark) · ctaClosing:split-with-form (dark)
 ```
 
-### `/guides` index and `/guides/[slug]` — composed / article · [spec](../specs/guides-spec.md)
+### `/guides` index and `/guides/[slug]` — composed / article · [spec](../specs/guides-spec.md) · **Built, all 8 guides**
 ```
 index:   breadcrumb:inline (dark) · hero:page-lead (dark)
          · insights:featured-plus-list (dark) · ctaClosing:centered-bold (dark)
@@ -332,7 +332,7 @@ article: breadcrumb:inline (dark) · hero:page-lead (dark) · tableOfContents:in
          · relatedLinks:card-grid (dark) · ctaClosing:centered-bold (dark)
 ```
 
-### `/tools/automation-roi-calculator` — composed · [spec](../specs/tools-spec.md)
+### `/tools/automation-roi-calculator` — composed · [spec](../specs/tools-spec.md) · **Built**
 ```
 breadcrumb:inline (dark) · hero:page-lead (dark)
 · problem:automation-calculator (dark)   ← Tier 2
@@ -340,12 +340,12 @@ breadcrumb:inline (dark) · hero:page-lead (dark)
 · faq:accordion (dark) · relatedLinks:card-grid (dark) · ctaClosing:centered-bold (dark)
 ```
 
-### `/privacy` · `/terms` · `/cookies` — composed · [spec](../specs/legal-spec.md)
+### `/privacy` · `/terms` · `/cookies` — composed · [spec](../specs/legal-spec.md) · **Built** — content pending real legal review
 ```
 breadcrumb:inline (dark) · hero:page-lead (dark) · richText:prose (dark)
 ```
 
-**Registry entries: 27, built** (§3's catalogue counts the same surface as "24 types" by folding the utility group into one line). The 22 from Phase 1 plus `breadcrumb`, `relatedLinks`, `tableOfContents`, `authorBio`, `insights` — all registered and live as of the Phase 2 floor build (2026-08-10). `caseStudyBody` is the one documented type still unbuilt, blocked on the same Stratseek gate as `/case-studies` itself — nothing to build and verify it against yet. `testimonial` was removed from the `SectionInstance` union entirely rather than kept as a dead placeholder (no testimonials exist to show); re-add when one does. Still under [ADR-0003](../engineering/adr/0003-section-registry-composition.md)'s "revisit at ~30" trigger, but only just — Phase 3 types must clear the variant-first bar properly. New variants and the missing schema builders are itemized in [content-layer.md](../engineering/content-layer.md) §4.
+**Registry entries: 27, built** (§3's catalogue counts the same surface as "24 types" by folding the utility group into one line). The 22 from Phase 1 plus `breadcrumb`, `relatedLinks`, `tableOfContents`, `authorBio`, `insights` — all registered and live as of 2026-08-10, along with a second `problem` variant (`automation-calculator`, for `/tools`) and a `showViz` prop on `services:pillar-cards`. `caseStudyBody` is the one documented type still unbuilt, blocked on the same Stratseek gate as `/case-studies` itself — nothing to build and verify it against yet. `testimonial` was removed from the `SectionInstance` union entirely rather than kept as a dead placeholder (no testimonials exist to show); re-add when one does. Still under [ADR-0003](../engineering/adr/0003-section-registry-composition.md)'s "revisit at ~30" trigger, but only just — Phase 3 types must clear the variant-first bar properly. New variants and the missing schema builders are itemized in [content-layer.md](../engineering/content-layer.md) §4. One known defect: the `<Comparison>` MDX component is registered but broken — see content-layer.md §2.
 
 ---
 
@@ -392,7 +392,7 @@ content/
   guides/*.mdx           # Phase 2 — author, readingTime, commercialLink
 ```
 
-**Built, as of the Phase 2 floor.** The adapter, the schemas (in `content-collections.ts`, not a `lib/content/schemas.ts` — see [content-layer.md](../engineering/content-layer.md) §2), and six of the seven section types are live. `content/services/` and `content/guides/` hold real entries; `content/case-studies/` and `content/industries/` are still empty, blocked on their own gates.
+**Built.** The adapter, the schemas (in `content-collections.ts`, not a `lib/content/schemas.ts` — see [content-layer.md](../engineering/content-layer.md) §2), and six of the seven section types are live. `content/services/`, `content/guides/`, and `content/industries/` all hold real entries; `content/case-studies/` is still empty, blocked on the Stratseek agreement.
 
 Section props for content-driven sections come from these files, not from page files. Migrate to Sanity or Payload when a non-developer needs to publish — the section contract doesn't change, only the data source.
 

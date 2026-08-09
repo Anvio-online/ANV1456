@@ -6,7 +6,7 @@ Motion & animation system - done → docs/system/motion-system.md
 Section library / component registry - done → docs/system/section-library.md
 SEO structure (keywords, internal linking, metadata) - done → docs/system/seo-strategy.md
 Copywriting for every page - drafted for Home + Automate in the specs; open items listed at the bottom of each
-Development - Phase 1's six pages built; Phase 2's floor built 2026-08-10 (docs/specs/phase-2-plan.md §5a)
+Development - Phase 1's six pages built; Phase 2 built in full except /case-studies, 2026-08-10 (docs/specs/phase-2-plan.md)
 Analytics, lead capture, and automation - specced in seo-strategy.md §9, not implemented
 Content marketing
 International expansion (starting with India, then UAE, then other English-speaking markets)
@@ -34,19 +34,21 @@ Documentation index - done → docs/README.md
 
 ## Phase 2 status
 
-Planned 2026-08-08. **Floor built 2026-08-10**, on `feat/phase-2-wave-1` — not yet merged to `main`, not yet pushed. Fourteen routes across five waves.
+Planned 2026-08-08. **Everything except `/case-studies` built 2026-08-10**, on `feat/phase-2-wave-1` — not yet merged to `main`, not yet pushed. Thirteen of fourteen planned routes across five waves.
 
 | Wave | Contents | Status |
 |---|---|---|
 | 0 | Content adapter, frontmatter schemas, 6 new section types, 5 new variants, 3 SEO schema builders | **Built** — loader is content-collections + `next-mdx-remote/rsc` (see [docs/engineering/content-layer.md](../engineering/content-layer.md) §2 for why not content-collections' own MDX package). `caseStudyBody` unbuilt, blocked with Wave 2 |
-| 1 | `/services` hub, legal trio, nav mega-menu, footer's four columns | **Built** (footer's Resources column still absent, correctly — nothing to link yet) |
-| 2 | `/case-studies` + detail, **and `/projects`** | `/projects` **built**, internal items only. Case studies **not built** — still blocked on the Stratseek agreement |
-| 3 | 4 service leaves | **2 of 4 built** — `whatsapp-automation`, `ai-chatbot-development`. Shipped on provisional slugs; keyword validation still hasn't run |
-| 4 | `/industries` + 2 industries, `/tools/automation-roi-calculator` | Not started |
-| 5 | `/guides` + 6–8 guides | **4 of 4 floor guides built** — ai-agent-vs-chatbot, whatsapp-business-api-cost-and-limits, which-processes-are-worth-automating, geo-vs-seo-getting-cited-by-ai. 5–8 not started |
+| 1 | `/services` hub, legal trio, nav mega-menu, footer's four columns | **Built, in full** — all four footer columns now real |
+| 2 | `/case-studies` + detail, **and `/projects`** | `/projects` **built**, internal items only. Case studies **not built** — the one route in this whole plan still blocked, on the Stratseek agreement |
+| 3 | 4 service leaves | **2 of 4 built** — `whatsapp-automation`, `ai-chatbot-development`. Shipped on provisional slugs; keyword validation still hasn't run, and now applies retroactively to what's live, not just what's next |
+| 4 | `/industries` + 2 industries, `/tools/automation-roi-calculator` | **Built, in full** |
+| 5 | `/guides` + 6–8 guides | **Built, in full — all 8 guides** shipped in one session: ai-agent-vs-chatbot, whatsapp-business-api-cost-and-limits, which-processes-are-worth-automating, geo-vs-seo-getting-cited-by-ai, n8n-vs-zapier-vs-make, how-to-automate-invoice-data-entry, what-is-rag, what-a-business-website-should-cost |
 
 Wave 1 also retired the live defect: `/services` 404'd while being emitted as a `BreadcrumbList` URL on all three pillar pages.
 
-**The floor is built.** Waves 0 and 1 in full, `/projects`, two leaves, four guides — verified with a full production build (25 routes, 154KB First Load JS held) and spot-checked in-browser. Everything above the floor remains specced and not started ([phase-2-plan.md](../specs/phase-2-plan.md) §5a).
+**Two real bugs surfaced and were fixed while shipping the above-the-floor scope**, not left in place: both live leaves had a link to an unbuilt third leaf (`ai-agent-development`) that would have 404'd, now repointed; and the `<Comparison>` MDX component crashes the build on array-literal props under `next-mdx-remote/rsc` — its one usage became a plain markdown table, and the component stays registered but flagged broken pending a real fix. Full detail in [docs/engineering/content-layer.md](../engineering/content-layer.md) and [phase-2-plan.md](../specs/phase-2-plan.md) §7.
+
+**The whole plan is built except one page.** Verified with a full production build (33 routes, 154KB First Load JS held throughout, lint and typecheck clean) and spot-checked in-browser — the ROI calculator's arithmetic, the industries pages' full section frame, and a guide's table-of-contents links resolving to the exact heading IDs `rehype-slug` assigns. `/case-studies` is the only page in [phase-2-plan.md](../specs/phase-2-plan.md) not shipped, correctly, behind the Stratseek gate.
 
 **Both case studies are Build work, while the brand is positioned on Automate.** That asymmetry moved `/projects` into the floor and put the agent demo on the two shipped Automate leaves instead of a results section ([phase-2-plan.md](../specs/phase-2-plan.md) §1a) — both held through the actual build, not just the plan.

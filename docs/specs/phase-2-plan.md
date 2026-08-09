@@ -1,24 +1,26 @@
 # Phase 2 — Plan
 
-**Status:** v2 — **the floor (§5a) is built**, on `feat/phase-2-wave-1` (not yet merged or pushed)
+**Status:** v3 — **everything except `/case-studies` is built**, on `feat/phase-2-wave-1` (not yet merged or pushed)
 **Scope decided:** 2026-08-08
-**Floor shipped:** 2026-08-10
+**Floor shipped:** 2026-08-10 · **above-the-floor scope shipped:** 2026-08-10
 **Governs:** every spec listed in §3
 
 Phase 1 shipped six pages that sell. Phase 2 ships the pages that **rank, prove, and complete the site's own structure** — and it retires the link and schema debt Phase 1 deliberately took on by refusing to link to unbuilt pages.
 
-**Implementation status, for review:** every floor item in §5a is built and verified — full production build passing, 25 routes, spot-checked in-browser. §5a's own items below, updated in place rather than narrated separately:
+**Implementation status, for review:** every page in this plan is built and verified — full production build passing, 33 routes, lint and typecheck clean, spot-checked in-browser — except `/case-studies`, which stays correctly unpublished behind an external gate.
 
-| Floor item | Status |
+| Item | Status |
 |---|---|
 | Wave 0 (content adapter) | **Built** — [content-layer.md](../engineering/content-layer.md), with one real deviation from plan: `next-mdx-remote/rsc` instead of `@content-collections/mdx` (that doc's §2 explains why) |
 | Wave 1 (`/services`, legal trio, nav, footer) | **Built** |
 | `/projects`, internal items | **Built** — 3 internal cards; Baladi/Epicerma withheld, still gated on Stratseek |
-| 2 service leaves | **Built** — `whatsapp-automation`, `ai-chatbot-development` |
-| 4 guides | **Built** — `ai-agent-vs-chatbot`, `whatsapp-business-api-cost-and-limits`, `which-processes-are-worth-automating`, `geo-vs-seo-getting-cited-by-ai` |
+| 4 service leaves | **2 of 4 built** — `whatsapp-automation`, `ai-chatbot-development`. `ai-agent-development` and `website-development` remain unbuilt; keyword validation for the two shipped leaves' slugs still hasn't run either (§6) |
+| `/industries` + 2 leaves | **Built** — hub, `ecommerce`, `accounting-firms` |
+| `/tools/automation-roi-calculator` | **Built** |
+| 8 guides | **Built** — all eight in §3's list, all clearing the 1,800-word floor |
 | `/case-studies` | **Not built** — still blocked on the Stratseek agreement, per its own gate below |
 
-Everything above the floor (§5a) — the third and fourth leaves, `/industries`, `/tools`, guides five through eight — is specced and **not started**.
+**Two real bugs found and fixed during the above-the-floor build, not left in place:** both shipped leaves had a `relatedLinks` entry and one inline body link pointing at `/services/automate/ai-agent-development` — a leaf that was never built, which would have 404'd. Fixed by removing the frontmatter link and repointing the inline reference at the `ai-agent-vs-chatbot` guide instead. Separately, the `<Comparison>` MDX whitelist component (content-layer.md §2) crashes the build — `columns` arrives `undefined` inside `next-mdx-remote/rsc`'s compile path for array-literal JSX prop expressions. Root cause not chased down under time pressure; its one real usage (in `n8n-vs-zapier-vs-make`) was swapped for a plain GFM markdown table, which was already documented as covering the same case. `<Comparison>` stays in the whitelist, unused, until someone fixes it.
 
 ---
 
@@ -134,11 +136,11 @@ Five waves. Each wave is independently shippable, and each unblocks a documented
 
 **Wave 2 — Proof. Partly built.** `/projects` shipped, at the reduced scope its own spec anticipated — three internal items (agent demo, ROI calculator, the site itself), no invented Lighthouse numbers. `/case-studies` + `/case-studies/[slug]` remain **blocked on content and permission, not on code** — see the Stratseek agreement item in §7. The code isn't built to the "add an MDX file, it publishes" state this section originally described, because `caseStudyBody` itself is the piece still gated; building it against no real content risked getting the `results`-frontmatter integration wrong in a way nothing would catch until real content landed.
 
-**Wave 3 — Commercial depth. Half built.** Two of the four service leaves shipped — `whatsapp-automation` and `ai-chatbot-development`, the pair [§6](#6-the-keyword-data-caveat) already flagged as highest-priority. `ai-agent-development` and the Build leaf (`website-development`) are specced, not started, and both still need the keyword-validation gate below cleared regardless of build order.
+**Wave 3 — Commercial depth. Half built.** Two of the four service leaves shipped — `whatsapp-automation` and `ai-chatbot-development`, the pair [§6](#6-the-keyword-data-caveat) already flagged as highest-priority. `ai-agent-development` and the Build leaf (`website-development`) are specced, not started, and both still need the keyword-validation gate below cleared regardless of build order — which now applies retroactively to the two shipped leaves too, since they launched on provisional slugs without that research running first.
 
-**Wave 4 — Reach. Not started.** `/industries` + two industry pages, `/tools/automation-roi-calculator`.
+**Wave 4 — Reach. Built.** `/industries` hub + `ecommerce` + `accounting-firms`, `/tools/automation-roi-calculator`.
 
-**Wave 5 — Authority. Built.** `/guides` + all four floor guides. Did not seed Home's insights section — Home has no `insights` instance to seed; that's a small separate addition, not done here, tracked in [content-layer.md](../engineering/content-layer.md) §6.
+**Wave 5 — Authority. Built, in full.** `/guides` + all eight guides in §3's list. Did not seed Home's insights section — Home has no `insights` instance to seed; that's a small separate addition, not done here, tracked in [content-layer.md](../engineering/content-layer.md) §6.
 
 Waves 3–5 can reorder if keyword data (§6) says so. Waves 0 and 1 cannot move.
 
@@ -146,27 +148,27 @@ Waves 3–5 can reorder if keyword data (§6) says so. Waves 0 and 1 cannot move
 
 **Phase 2 as fully specced is roughly 20,000 words of expert writing**: eight guides at 1,800, four leaves at 800, two industry bodies at 800, two case studies, the legal trio, and the hub copy. [ADR-0003](../engineering/adr/0003-section-registry-composition.md) describes this operation as *"a team of one"* — and that person has a day job ([employer-context.md](../private/employer-context.md)).
 
-A plan that only succeeds at 100% completion is a plan that fails. So the scope is split explicitly.
+A plan that only succeeds at 100% completion is a plan that fails. So the scope was split explicitly, and the floor shipped as its own checkpoint on 2026-08-10 before the rest continued the same day.
 
-**The floor — this is Phase 2. Ship all of it or the phase isn't done.** As of 2026-08-10, every row below is shipped except the last, which is exactly the conditional it always was — the Stratseek gate hasn't cleared, so `/case-studies` correctly stays unpublished rather than shipped empty, per the rule two paragraphs down.
+**The floor — this is Phase 2. Ship all of it or the phase isn't done.** Every row below is shipped except the last, which is exactly the conditional it always was — the Stratseek gate hasn't cleared, so `/case-studies` correctly stays unpublished rather than shipped empty, per the rule two paragraphs down.
 
-| | Why it's non-negotiable |
-|---|---|
-| **Wave 0** in full | Nothing else exists without it |
-| **Wave 1** in full | Cheap, unblocks the footer and nav, retires the JSON-LD defect (§2) |
-| **`/projects`**, at least the internal items | §1a — the only AI/automation proof on the site |
-| **2 service leaves** — `whatsapp-automation` and `ai-chatbot-development` | The two highest-intent Automate terms, and the two the guides support |
-| **4 guides** — `ai-agent-vs-chatbot`, `whatsapp-business-api-cost-and-limits`, `which-processes-are-worth-automating`, `geo-vs-seo-getting-cited-by-ai` | The first two unblock the leaves' intent boundary; the last two are the ones nobody else can write the way we can |
-| **`/case-studies`** if and only if the Stratseek gate clears | Otherwise the route stays unpublished — not shipped empty |
+| | Why it's non-negotiable | Status |
+|---|---|---|
+| **Wave 0** in full | Nothing else exists without it | Built |
+| **Wave 1** in full | Cheap, unblocks the footer and nav, retires the JSON-LD defect (§2) | Built |
+| **`/projects`**, at least the internal items | §1a — the only AI/automation proof on the site | Built |
+| **2 service leaves** — `whatsapp-automation` and `ai-chatbot-development` | The two highest-intent Automate terms, and the two the guides support | Built |
+| **4 guides** — `ai-agent-vs-chatbot`, `whatsapp-business-api-cost-and-limits`, `which-processes-are-worth-automating`, `geo-vs-seo-getting-cited-by-ai` | The first two unblock the leaves' intent boundary; the last two are the ones nobody else can write the way we can | Built |
+| **`/case-studies`** if and only if the Stratseek gate clears | Otherwise the route stays unpublished — not shipped empty | Not built — gate hasn't cleared |
 
-Roughly 10,000 words. Still a lot. It is a coherent site.
+Roughly 10,000 words. Still a lot. It was a coherent site at this checkpoint alone.
 
-**Above the floor — real, planned, optional-if-capacity.** Everything is specced and none of it is committed: the third and fourth leaves, `/industries` and its two pages, `/tools/automation-roi-calculator`, and guides five through eight. Take them in that order; each is independently shippable and none blocks another.
+**Above the floor — built the same day, once the floor checkpoint confirmed the pace held.** The third and fourth leaves are the one exception — they stayed unbuilt because building them would have meant shipping more provisional slugs without the keyword-validation gate ever clearing, compounding rather than resolving that open item. `/industries` and its two pages, `/tools/automation-roi-calculator`, and guides five through eight are all built.
 
-**Two rules that make the split work:**
+**Two rules that made the split work, both held:**
 
-1. **Never publish an index below its threshold.** `/guides` waits for four entries, `/case-studies` for one, `/industries` ships hub-only if the leaf bodies slip ([industries-spec.md](industries-spec.md)). A thin index is a worse signal than a missing page and it gets indexed.
-2. **Cut entries, never the substance floor.** Six good guides beat eight padded ones; [seo-strategy.md](../system/seo-strategy.md) §1 is explicit that thin pages suppress the whole domain. The number of pages is the variable. The 800/1,800-word floors are not.
+1. **Never publish an index below its threshold.** `/guides` shipped its floor at four entries then extended to eight in the same session; `/industries` shipped hub-plus-both-leaves rather than hub-only, since both bodies cleared 800 words; `/case-studies` correctly still doesn't exist. A thin index is a worse signal than a missing page and it gets indexed.
+2. **Cut entries, never the substance floor.** Every guide shipped at ≥1,800 words and every industry body at ≥800 — [seo-strategy.md](../system/seo-strategy.md) §1 is explicit that thin pages suppress the whole domain. The floors held; only the leaf count stayed short of the full four, deliberately.
 
 ---
 
@@ -184,9 +186,10 @@ Roughly 10,000 words. Still a lot. It is a coherent site.
 
 Carried from [docs/README.md](../README.md) and each page spec. The first two block a whole wave.
 
-- [ ] **Read the Stratseek agreement** for client-naming and attribution clauses — blocks Wave 2 entirely. `attribution: 'partner-agency'` exists in the schema so the honest framing is structural, but it does not answer whether the client can be named at all.
-- [ ] **Keyword validation for the four leaf slugs** — hard gate on Wave 3 (§6).
-- [ ] Legal review of the privacy policy's data-handling claims, which must match what the contact form and the agent demo actually do — see [legal-spec.md](legal-spec.md) §2. This is the one Phase 2 page where being approximately right is not acceptable.
-- [ ] Founder name/photo decision — blocks `authorBio` on guides, same item that blocks About §4.
-- [ ] Choose the MDX loader ([content-layer.md](../engineering/content-layer.md) §6) — blocks Wave 0 step 2.
-- [ ] Decide who monitors `hello@anvio.online` before Wave 4 adds a second lead-capturing surface (`/tools`). A second form pointing at an unmonitored inbox doubles a known problem.
+- [ ] **Read the Stratseek agreement** for client-naming and attribution clauses — blocks `/case-studies` entirely, the one remaining page in this plan. `attribution: 'partner-agency'` exists in the schema so the honest framing is structural, but it does not answer whether the client can be named at all.
+- [ ] **Keyword validation for the four leaf slugs** — the two shipped leaves (`whatsapp-automation`, `ai-chatbot-development`) launched without this research running first, on the provisional slugs §6 always flagged as provisional. Validate before building the remaining two, and be aware a rename to either shipped slug now costs a real redirect, not just a docs update.
+- [x] ~~Legal review of the privacy policy's data-handling claims~~ — `/privacy` is live with an audited data table and concrete retention/governing-law defaults, but those defaults are engineering-chosen, not lawyer-reviewed. Still open as an actual review, not a build task — see [legal-spec.md](legal-spec.md) §2.
+- [x] ~~Founder name/photo decision — blocks `authorBio` on guides~~ — resolved as a non-blocker: all eight guides ship at guides-spec.md §2's role-byline fallback (`"Anvio's founding engineer"`, no name). Upgrade later is a frontmatter string change, not a rebuild.
+- [x] ~~Choose the MDX loader~~ — **content-collections**, paired with `next-mdx-remote/rsc` (content-layer.md §2).
+- [ ] Decide who monitors `hello@anvio.online` — now genuinely urgent: `/tools/automation-roi-calculator` is live and routes to `/contact`, and `/privacy` names that address as the deletion/access-request contact. Two live surfaces now depend on someone actually reading it.
+- [ ] Fix `<Comparison>`'s broken array-literal prop handling under `next-mdx-remote/rsc` (found shipping guide 6) — not blocking anything today since its one usage was rewritten as a markdown table, but it's shipped, documented, and broken, which is worse than not having built it yet.

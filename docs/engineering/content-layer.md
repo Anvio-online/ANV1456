@@ -5,7 +5,7 @@
 
 This document was the build contract for the content adapter and the seven section types Phase 2 needed. It's kept in the same shape — plan first, then what actually shipped — because the gap between the two is exactly the part worth a reader's attention: **the original plan called for `@content-collections/mdx`'s `compileMDX` + `MDXContent`, and that was dropped mid-build** because it renders MDX bodies client-side, which would have put guide and leaf content only in the post-hydration DOM — a direct hit on this repo's non-negotiable server-rendered-copy rule. §2 below describes what actually ships instead: `next-mdx-remote/rsc`.
 
-**Everything in [specs/phase-2-plan.md](../specs/phase-2-plan.md)'s floor (§5a) is built on top of this.** Two service leaves and four guides are live; case studies remain blocked on the Stratseek agreement, and `caseStudyBody` (§4) is the one section type still unbuilt as a direct result.
+**Everything in [specs/phase-2-plan.md](../specs/phase-2-plan.md) is built on top of this except `/case-studies`.** Two service leaves, two industry leaves, eight guides, and the ROI tool are all live; case studies remain blocked on the Stratseek agreement, and `caseStudyBody` (§4) is the one section type still unbuilt as a direct result.
 
 ---
 
@@ -15,11 +15,14 @@ This document was the build contract for the content adapter and the seven secti
 |---|---|---|
 | `lib/content/` adapter | [repo-structure.md](repo-structure.md) §2, [ADR-0002](adr/0002-mdx-behind-content-adapter.md) | **Yes** — `index.ts`, `mdx.ts`, `types.ts`, `toc.ts` |
 | `content-collections.ts` (frontmatter schemas) | §3 below | **Yes** — all five kinds, at the repo root next to `next.config.ts` |
-| `content/services/*.mdx`, `content/guides/*.mdx` | [repo-structure.md](repo-structure.md) §5 | **Yes** — 2 leaves, 4 guides. `case-studies/`, `industries/` still empty |
+| `content/services/*.mdx`, `content/guides/*.mdx`, `content/industries/*.mdx` | [repo-structure.md](repo-structure.md) §5 | **Yes** — 2 leaves, 8 guides, 2 industries. `content/case-studies/` still empty |
 | 28 section types | [section-library.md](../system/section-library.md) §3 | **Yes**, registered — `testimonial` deliberately excluded from the union (§4) |
 | `breadcrumb` · `tableOfContents` · `authorBio` · `relatedLinks` · `insights` | [section-library.md](../system/section-library.md) §3 | **Yes** |
-| `caseStudyBody` | [section-library.md](../system/section-library.md) §3 | **No** — blocked on Wave 2's Stratseek gate, nothing to build it against yet |
+| `caseStudyBody` | [section-library.md](../system/section-library.md) §3 | **No** — blocked on the Stratseek gate, nothing to build it against yet |
 | `richText:mdx` variant | [ADR-0006](adr/0006-content-page-authoring-model.md) | **Yes** — via `next-mdx-remote/rsc`, not `@content-collections/mdx` (see §2) |
+| `problem:automation-calculator` variant | tools-spec.md §3 | **Yes** — a second interactive calculator alongside Grow's `cost-calculator`, different question and formula, same section family |
+| `softwareApplicationSchema` | §4 below | **Yes** |
+| `<Comparison>` (MDX whitelist component) | §2 below | **Registered, broken.** `columns` prop arrives `undefined` inside `next-mdx-remote/rsc`'s compile path for array-literal JSX prop expressions — root cause not found. Its one real usage was rewritten as a plain GFM markdown table instead. Do not use `<Comparison>` until this is fixed. |
 
 Phase 1 got away with none of this because all six pages are composed pages with literal copy. Phase 2 is content pages, and this is what makes them work.
 
@@ -82,11 +85,11 @@ interface ListOptions {
 
 Per [ADR-0006](adr/0006-content-page-authoring-model.md), an MDX body may use exactly these, and no section components:
 
-| Component | Purpose |
-|---|---|
-| `<Callout type="note" \| "warning">` | An aside. Renders as a bordered block, amber marker. |
-| `<Figure src alt caption>` | Image with a real `<figcaption>`. Wraps `next/image` with explicit dimensions — CLS ([motion-system.md](../system/motion-system.md) §6.6). |
-| `<Comparison>` | A two-column comparison table. Emits a real `<table>`, because [seo-strategy.md](../system/seo-strategy.md) §7.6 says extractors parse structure. |
+| Component | Purpose | Status |
+|---|---|---|
+| `<Callout type="note" \| "warning">` | An aside. Renders as a bordered block, amber marker. | Built, in use — confirmed rendering correctly in-browser |
+| `<Figure src alt caption>` | Image with a real `<figcaption>`. Wraps `next/image` with explicit dimensions — CLS ([motion-system.md](../system/motion-system.md) §6.6). | Built, not yet used in any published body |
+| `<Comparison>` | A two-column comparison table. Emits a real `<table>`, because [seo-strategy.md](../system/seo-strategy.md) §7.6 says extractors parse structure. | **Built, broken.** `columns` prop arrives `undefined` at render — its array-literal JSX props don't survive `next-mdx-remote/rsc`'s compile path, for a reason not yet diagnosed. Caught when it crashed the production build on `n8n-vs-zapier-vs-make`; that guide uses a plain GFM markdown table instead. Do not use until fixed — §6 |
 
 Everything else in a body is plain markdown. Headings in a body start at `##` — the renderer owns the `<h1>`.
 
@@ -228,3 +231,4 @@ Strictly sequential. Each step was unusable without the one above it. **All done
 - [ ] `authorBio`'s `name` field is unused so far — every guide ships at guides-spec.md §2's fallback level 2 (`"Anvio's founding engineer"`, no name). Upgrade when the employment-disclosure question in [docs/README.md](../README.md) resolves; it's a frontmatter string change, not a rebuild.
 - [ ] `caseStudyBody`, `hero:case-lead`, and the case-study routes remain blocked on the Stratseek agreement — same gate as [phase-2-plan.md](../specs/phase-2-plan.md) §7's first item.
 - [ ] `insights` has no entries — only guides populate `/guides`' index today, built by explicit slug list in that page rather than by querying the `insights` kind. Decide whether guides and insights merge into one kind, or whether real insight posts get written separately, before Home's own insights section is built.
+- [ ] **Fix `<Comparison>`.** Found shipping guide 6 (`n8n-vs-zapier-vs-make`) — it crashed the production build, not just a dev-time warning. Worth a real debugging session against `next-mdx-remote/rsc`'s prop-passing for array/object-literal JSX expressions before anyone reaches for it again; a plain GFM table covers the same need in the meantime.
