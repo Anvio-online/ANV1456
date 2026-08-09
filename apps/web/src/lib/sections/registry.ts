@@ -2,6 +2,8 @@ import type { ComponentType } from 'react'
 import type { SectionType } from './types'
 import { Breadcrumb } from '@/sections/breadcrumb'
 import { RelatedLinks } from '@/sections/related-links'
+import { TableOfContents } from '@/sections/table-of-contents'
+import { AuthorBio } from '@/sections/author-bio'
 import { Hero } from '@/sections/hero'
 import { ProofBar } from '@/sections/proof-bar'
 import { Services } from '@/sections/services'
@@ -63,6 +65,8 @@ import { Team } from '@/sections/team'
 export const sectionRegistry: Partial<Record<SectionType, ComponentType<any>>> = {
   breadcrumb: Breadcrumb,
   relatedLinks: RelatedLinks,
+  tableOfContents: TableOfContents,
+  authorBio: AuthorBio,
   hero: Hero,
   proofBar: ProofBar,
   services: Services,

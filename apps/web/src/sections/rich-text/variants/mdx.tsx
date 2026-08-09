@@ -1,5 +1,6 @@
 import { MDXRemote } from 'next-mdx-remote/rsc'
 import remarkGfm from 'remark-gfm'
+import rehypeSlug from 'rehype-slug'
 import type { RichTextProps } from '../rich-text.types'
 import { mdxComponents } from '@/components/mdx'
 
@@ -14,7 +15,11 @@ import { mdxComponents } from '@/components/mdx'
  *
  * remark-gfm gets every body — GitHub-flavored tables, strikethrough,
  * task lists — real semantics for markdown authors who never touch
- * the <Comparison> component (content-layer.md §2).
+ * the <Comparison> component (content-layer.md §2). rehype-slug adds a
+ * matching `id` to every heading, using the same github-slugger
+ * algorithm lib/content/toc.ts uses to build tableOfContents — the two
+ * have to agree independently since the ToC is built from raw source,
+ * before this component ever runs.
  */
 export async function Mdx({ body }: RichTextProps) {
   if (!body) return null
@@ -25,7 +30,7 @@ export async function Mdx({ body }: RichTextProps) {
         <MDXRemote
           source={body}
           components={mdxComponents}
-          options={{ mdxOptions: { remarkPlugins: [remarkGfm] } }}
+          options={{ mdxOptions: { remarkPlugins: [remarkGfm], rehypePlugins: [rehypeSlug] } }}
         />
       </div>
     </div>

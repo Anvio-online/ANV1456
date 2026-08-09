@@ -473,6 +473,33 @@ export interface RelatedLinksProps extends SectionBase {
   items: RelatedLink[]
 }
 
+export interface TocHeadingItem {
+  level: 2 | 3
+  text: string
+  id: string
+}
+
+/** content-layer.md §4. Built from the body's own `##`/`###` headings
+ * at compile time (lib/content/toc.ts) — guides-spec.md §3's `inline`
+ * option, chosen there over a sticky rail for a structural reason: a
+ * sticky-positioned rail needs to share a grid container with the
+ * body, and sections are flat siblings under ADR-0003. */
+export interface TableOfContentsProps extends SectionBase {
+  variant: 'inline'
+  items: TocHeadingItem[]
+}
+
+/** content-layer.md §4. guides-spec.md §2's fallback ladder: a real
+ * name when available, otherwise a role byline with no name — `name`
+ * is optional for exactly that reason, same pattern as TeamProps. */
+export interface AuthorBioProps extends SectionBase {
+  variant: 'compact'
+  name?: string
+  role: string
+  bio: string
+  photo?: { src: string; alt: string }
+}
+
 interface PlaceholderSection extends SectionBase {
   variant: string
   [key: string]: unknown
@@ -481,6 +508,8 @@ interface PlaceholderSection extends SectionBase {
 export type SectionInstance =
   | ({ type: 'breadcrumb' } & BreadcrumbProps)
   | ({ type: 'relatedLinks' } & RelatedLinksProps)
+  | ({ type: 'tableOfContents' } & TableOfContentsProps)
+  | ({ type: 'authorBio' } & AuthorBioProps)
   | ({ type: 'hero' } & HeroProps)
   | ({ type: 'proofBar' } & ProofBarProps)
   | ({ type: 'services' } & ServicesProps)
