@@ -12,6 +12,7 @@ import type { CSSVarStyle } from '@/lib/utils/css-vars'
 export function PillarCards({
   heading,
   pillars = [],
+  showViz = true,
   headingTag,
 }: ServicesProps & { headingTag: HeadingTag }) {
   const HeadingTagEl = headingTag
@@ -26,17 +27,17 @@ export function PillarCards({
 
       <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
         {pillars.map((pillar) => (
-          <PillarCard key={pillar.key} pillar={pillar} />
+          <PillarCard key={pillar.key} pillar={pillar} showViz={showViz} />
         ))}
       </div>
     </div>
   )
 }
 
-function PillarCard({ pillar }: { pillar: ServicePillar }) {
+function PillarCard({ pillar, showViz }: { pillar: ServicePillar; showViz: boolean }) {
   return (
     <article className="min-h-105 border-border bg-surface duration-fast ease-soft-ui hover:border-accent-line hover:bg-surface-2 group flex flex-col gap-4 rounded-xl border p-8 transition hover:-translate-y-0.5">
-      <PillarViz pillarKey={pillar.key} />
+      {showViz ? <PillarViz pillarKey={pillar.key} /> : null}
       <h3 className="font-display text-h3 leading-tight tracking-tight">{pillar.title}</h3>
       <p className="text-body-s text-text-2">{pillar.body}</p>
       <div className="mt-auto flex flex-wrap gap-1.5">

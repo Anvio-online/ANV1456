@@ -8,21 +8,30 @@ const SERVICES = [
     label: 'Build',
     href: '/services/build',
     body: 'Websites, ecommerce, web apps, custom software.',
+    items: ['Websites', 'Ecommerce', 'Web applications', 'CRM / ERP'],
   },
   {
     label: 'Automate',
     href: '/services/automate',
     body: 'AI agents, chatbots, workflow automation.',
+    items: ['AI agents', 'AI chatbots', 'Workflow automation', 'Integrations'],
   },
-  { label: 'Grow', href: '/services/grow', body: 'SEO, GEO, performance, technical audits.' },
+  {
+    label: 'Grow',
+    href: '/services/grow',
+    body: 'SEO, GEO, performance, technical audits.',
+    items: ['Technical SEO', 'GEO', 'Core Web Vitals', 'Conversion optimization'],
+  },
 ] as const
 
 /**
- * design-system.md §6.5 specifies a three-column mega-menu plus
- * Products/Case Studies/Blog links — none of those pages exist yet
- * (docs/README.md "Known gaps"), so this ships a plain dropdown over
- * the three real pillar pages and drops the rest rather than linking
- * to 404s. Extend to the full mega-menu once those routes land.
+ * services-hub-spec.md §9 — the three-column mega-menu design-system.md
+ * §6.5 specified, now that /services exists to head it. Sub-items are
+ * plain text, not links: none of the leaf pages they name are built
+ * yet (Wave 3), and automate-spec.md §4's "never link to an unbuilt
+ * page" holds here exactly as it does inside each pillar page's own
+ * cluster grid. `Products` · `Case Studies` · `Blog` stay dropped —
+ * still no pages to point them at (docs/README.md "Known gaps").
  *
  * Fully server-rendered and usable before hydration — NavChrome only
  * ever toggles the condense-on-scroll class, it never gates this
@@ -49,17 +58,31 @@ export function Nav() {
             >
               Services
             </button>
-            <div className="border-border bg-surface shadow-card invisible absolute left-1/2 top-full flex w-72 -translate-x-1/2 translate-y-1 flex-col gap-1 rounded-lg border p-2 opacity-0 transition duration-150 group-hover:visible group-hover:translate-y-2 group-hover:opacity-100">
+            <div className="border-border bg-surface shadow-card invisible absolute left-1/2 top-full grid w-fit -translate-x-1/2 translate-y-1 grid-cols-3 gap-1 rounded-lg border p-2 opacity-0 transition duration-150 group-hover:visible group-hover:translate-y-2 group-hover:opacity-100">
               {SERVICES.map((s) => (
-                <Link
-                  key={s.href}
-                  href={s.href}
-                  className="hover:bg-surface-2 flex flex-col gap-0.5 rounded-md px-3 py-2"
-                >
-                  <span className="text-body-s text-text font-medium">{s.label}</span>
-                  <span className="text-label text-text-3">{s.body}</span>
-                </Link>
+                <div key={s.href} className="flex w-56 flex-col gap-2 rounded-md p-3">
+                  <Link
+                    href={s.href}
+                    className="hover:bg-surface-2 -m-1 flex flex-col gap-0.5 rounded-md p-1"
+                  >
+                    <span className="text-body-s text-text font-medium">{s.label}</span>
+                    <span className="text-label text-text-3">{s.body}</span>
+                  </Link>
+                  <ul className="mt-1 flex flex-col gap-1.5">
+                    {s.items.map((item) => (
+                      <li key={item} className="text-label text-text-3">
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               ))}
+              <Link
+                href="/services"
+                className="text-label text-accent-text hover:text-accent-hover col-span-3 rounded-md px-4 py-2 font-medium"
+              >
+                All services →
+              </Link>
             </div>
           </div>
           <Link href="/about" className="text-body-s text-text-2 hover:text-text">

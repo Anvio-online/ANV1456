@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import type { FeaturedWorkProps, CaseStudyCard } from '../featured-work.types'
 import type { HeadingTag } from '@/lib/sections/heading-level'
+import { KindLabel } from '../kind-label'
 
 /**
  * build-spec.md §8. Not two-up-deep — Build has more shippable
@@ -40,6 +41,7 @@ function CaseStudyCardEl({ item }: { item: CaseStudyCard }) {
         <span className="text-label text-text-3 font-mono uppercase tracking-widest">
           {item.client} · {item.industry}
         </span>
+        <KindLabel kind={item.kind} />
         <div className="flex flex-wrap gap-1.5">
           {item.stack.map((s) => (
             <span
@@ -55,7 +57,7 @@ function CaseStudyCardEl({ item }: { item: CaseStudyCard }) {
             href={item.href}
             className="text-body-s text-accent-text mt-1 font-medium hover:underline"
           >
-            Read the case study →
+            {item.hrefLabel ?? 'Read the case study →'}
           </Link>
         ) : null}
       </div>

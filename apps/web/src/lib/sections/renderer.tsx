@@ -14,7 +14,7 @@ export function SectionRenderer({ sections }: { sections: SectionInstance[] }) {
     <>
       {sections.map((instance, index) => {
         const Component = sectionRegistry[instance.type]
-        const headingTag = resolveHeadingLevel(index)
+        const headingTag = resolveHeadingLevel(sections, index)
 
         if (!Component) {
           if (process.env.NODE_ENV !== 'production') {

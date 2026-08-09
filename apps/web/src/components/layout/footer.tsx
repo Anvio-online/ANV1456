@@ -2,16 +2,18 @@ import Link from 'next/link'
 
 /**
  * design-system.md §6.6 specifies Services / Company / Resources /
- * Legal, with individual leaf-service links under Services. None of
- * the leaf pages, Resources content, or Legal pages exist yet
- * (docs/README.md "Known gaps") — linking to them would just move the
- * 404s from nav into the footer. Ships with two columns of real
- * routes only; extend as those pages land.
+ * Legal. Phase 1 shipped two columns because Resources and Legal had
+ * no pages to link to (docs/README.md "Known gaps" #3). Legal now
+ * exists (legal-spec.md, Wave 1) so that column ships here; Resources
+ * still waits on /case-studies and /guides (Waves 2 and 5) — add it
+ * then, not before. Individual leaf-service links under Services wait
+ * on Wave 3 for the same reason (service-leaf-spec.md §5).
  */
 const columns = [
   {
     heading: 'Services',
     links: [
+      ['All services', '/services'],
       ['Build', '/services/build'],
       ['Automate', '/services/automate'],
       ['Grow', '/services/grow'],
@@ -21,7 +23,16 @@ const columns = [
     heading: 'Company',
     links: [
       ['About', '/about'],
+      ['Projects', '/projects'],
       ['Contact', '/contact'],
+    ],
+  },
+  {
+    heading: 'Legal',
+    links: [
+      ['Privacy', '/privacy'],
+      ['Terms', '/terms'],
+      ['Cookies', '/cookies'],
     ],
   },
 ] as const
@@ -30,7 +41,7 @@ export function Footer() {
   return (
     <footer data-theme="dark" className="border-border bg-bg text-text border-t">
       <div className="max-w-page px-gutter mx-auto py-16">
-        <div className="mb-14 grid grid-cols-2 gap-8">
+        <div className="mb-14 grid grid-cols-2 gap-8 sm:grid-cols-3">
           {columns.map((col) => (
             <div key={col.heading}>
               {/* A styled label, not a document heading — footer nav groups

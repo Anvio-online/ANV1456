@@ -86,6 +86,13 @@ export interface ServicesProps extends SectionBase {
   variant: 'pillar-cards' | 'cluster-grid' | 'list-detail'
   /** 'pillar-cards' only. */
   pillars?: ServicePillar[]
+  /** 'pillar-cards' only. Home's per-card looping micro-visual is Tier 2
+   * (motion-system.md §8) and reserved for the page that has to sell.
+   * services-hub-spec.md §3 reuses the same variant for the full
+   * sub-item lists but explicitly drops the visual — the hub carries
+   * zero Tier 2 pieces (phase-2-plan.md §4). Defaults true so Home's
+   * existing instance is unaffected. */
+  showViz?: boolean
   /** 'cluster-grid' only. */
   clusters?: ServiceCluster[]
 }
@@ -144,6 +151,21 @@ export interface CaseStudyCard {
    * docs/README.md "Known gaps". A 404 from the homepage is worse than
    * a card with no "read more". */
   href?: string
+  /** Overrides the card's default "Read the case study →" link text.
+   * Needed the moment `href` points somewhere that isn't a case study —
+   * projects-spec.md's internal-build cards link to a live demo or a
+   * tool, not a write-up. Defaults to "Read the case study →" so every
+   * existing card (all real case studies) is unaffected. */
+  hrefLabel?: string
+  /** projects-spec.md §0 — renders the honesty label structurally so it
+   * can't be dropped in a later edit. Omit (or 'client') for a named
+   * client project with no label needed; 'partner-agency' renders
+   * "Delivered via partner agency"; 'internal' renders "Internal build"
+   * — required for anything on /projects that isn't client work
+   * (phase-2-plan.md §1a: the agent demo, the ROI tool, this site
+   * itself). Left optional here rather than required so Home's existing
+   * featuredWork cards, which predate this field, render unchanged. */
+  kind?: 'client' | 'internal' | 'partner-agency'
 }
 
 export interface FeaturedWorkProps extends SectionBase {
@@ -408,12 +430,27 @@ export interface TeamProps extends SectionBase {
   role?: string
 }
 
+export interface BreadcrumbItem {
+  name: string
+  path: string
+}
+
+/** content-layer.md §4. Renders the visible trail only — BreadcrumbList
+ * JSON-LD stays a separate call to breadcrumbSchema() on the page, so
+ * the two can't drift while both exist independently. Same `items`
+ * shape as breadcrumbSchema's input for that reason. */
+export interface BreadcrumbProps extends SectionBase {
+  variant: 'inline'
+  items: BreadcrumbItem[]
+}
+
 interface PlaceholderSection extends SectionBase {
   variant: string
   [key: string]: unknown
 }
 
 export type SectionInstance =
+  | ({ type: 'breadcrumb' } & BreadcrumbProps)
   | ({ type: 'hero' } & HeroProps)
   | ({ type: 'proofBar' } & ProofBarProps)
   | ({ type: 'services' } & ServicesProps)

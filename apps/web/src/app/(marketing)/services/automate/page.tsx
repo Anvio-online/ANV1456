@@ -390,7 +390,7 @@ const sections: SectionInstance[] = [
       {
         question: 'Is our data safe? Where does it go?',
         answer:
-          'Your data stays in the tools you already use — we connect to them, we don’t copy your database into a separate system by default. Any AI provider in the workflow (OpenAI, Anthropic, etc.) only sees what a given step needs, never your full dataset.',
+          "Your data stays in the tools you already use — we connect to them, we don’t copy your database into a separate system by default. Any AI provider in the workflow only sees what a given step needs, never your full dataset. (That's about automations we build for you — for what this website itself collects, including the AI agent demo above, see our Privacy Policy at anvio.online/privacy.)",
       },
       {
         question: "What's the difference between an AI agent and a chatbot?",

@@ -61,7 +61,10 @@ export function webPageSchema({
   description,
   path,
 }: {
-  type: 'AboutPage' | 'ContactPage'
+  /** 'WebPage' is legal-spec.md's fallback — schema.org has no
+   * dedicated Privacy/Terms/Cookies type, and inventing one via
+   * additionalType is more machinery than three reference pages need. */
+  type: 'AboutPage' | 'ContactPage' | 'WebPage'
   name: string
   description: string
   path: string
