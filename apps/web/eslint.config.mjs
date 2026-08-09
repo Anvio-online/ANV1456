@@ -12,7 +12,11 @@ export default [
   {
     // next-env.d.ts is Next.js-generated boilerplate that always uses a
     // triple-slash reference — Next's own eslint config excludes it too.
-    ignores: ['.next/**', 'node_modules/**', 'drizzle/**', 'next-env.d.ts'],
+    // .next-verify is next.config.ts's alternate build dir for a one-off
+    // verification build alongside a live `pnpm dev` — same generated-
+    // output status as .next, just missing from ignores until a lint run
+    // against a leftover .next-verify surfaced compiled-bundle "errors".
+    ignores: ['.next/**', '.next-verify/**', 'node_modules/**', 'drizzle/**', 'next-env.d.ts'],
   },
   {
     files: ['**/*.{ts,tsx}'],

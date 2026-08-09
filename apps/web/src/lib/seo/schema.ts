@@ -139,6 +139,30 @@ export function collectionPageSchema({
   }
 }
 
+/** content-layer.md §4 — /tools/[slug]. Free tools, so `offers` is
+ * always a fixed zero-price Offer rather than a parameter. */
+export function softwareApplicationSchema({
+  name,
+  description,
+  applicationCategory,
+  path,
+}: {
+  name: string
+  description: string
+  applicationCategory: string
+  path: string
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name,
+    description,
+    applicationCategory,
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
+    url: new URL(path, SITE_URL).toString(),
+  }
+}
+
 export function breadcrumbSchema(items: { name: string; path: string }[]) {
   return {
     '@context': 'https://schema.org',

@@ -77,6 +77,7 @@ const industries = defineCollection({
   schema: z.object({
     ...baseFields,
     industry: z.string(),
+    h1: z.string(),
     pains: z.array(painItem).max(6),
     useCases: z
       .array(z.object({ title: z.string(), body: z.string() }))

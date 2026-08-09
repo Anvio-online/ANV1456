@@ -225,7 +225,7 @@ export interface PainGridItem {
 }
 
 export interface ProblemProps extends SectionBase {
-  variant: 'before-after' | 'pain-grid' | 'cost-calculator'
+  variant: 'before-after' | 'pain-grid' | 'cost-calculator' | 'automation-calculator'
   /** 'before-after' only. Real <table> semantics — automate-spec.md
    * §3, this is a GEO asset. */
   rows?: ProblemRow[]
@@ -245,6 +245,22 @@ export interface ProblemProps extends SectionBase {
     defaultEnquiryRate: number
     targetEnquiryRate: number
     defaultDealValue: number
+    disclaimer: string
+  }
+  /** 'automation-calculator' only — tools-spec.md §3. A different
+   * question and formula from 'cost-calculator' (what manual work
+   * costs vs. what underperforming traffic costs), same family per
+   * ADR-0003's variant-first rule rather than a new section type.
+   * `buildCostLow/High` are fixed reference figures, not user inputs —
+   * they anchor the payback-period estimate. `disclaimer` is required
+   * for the same reason as `calculator.disclaimer` above. */
+  automationCalculator?: {
+    defaultHoursPerWeek: number
+    defaultPeople: number
+    defaultLoadedHourlyCost: number
+    defaultAutomatableShare: number
+    buildCostLow: number
+    buildCostHigh: number
     disclaimer: string
   }
 }

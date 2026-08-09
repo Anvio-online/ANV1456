@@ -11,6 +11,8 @@ const LINKS = [
   { label: 'Build', href: '/services/build' },
   { label: 'Automate', href: '/services/automate' },
   { label: 'Grow', href: '/services/grow' },
+  { label: 'Guides', href: '/guides' },
+  { label: 'Industries', href: '/industries' },
   { label: 'Projects', href: '/projects' },
   { label: 'About', href: '/about' },
 ] as const

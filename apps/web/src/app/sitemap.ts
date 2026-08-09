@@ -4,10 +4,11 @@ import { contentRepository } from '@/lib/content'
 
 /**
  * seo-strategy.md §8. Composed routes are literals; hybrid/article
- * routes (leaves, guides) are generated from contentRepository.slugs()
- * so a new MDX file publishes itself here automatically — content-
- * layer.md's whole point. case-studies and industries stay out until
- * Waves 2/4 add real entries.
+ * routes (leaves, guides, industries) are generated from
+ * contentRepository.list()/slugs() so a new MDX file publishes itself
+ * here automatically — content-layer.md's whole point. case-studies
+ * stays out until Wave 2 clears the Stratseek gate and has real
+ * entries.
  */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticRoutes = [
@@ -20,14 +21,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     '/services/grow',
     '/projects',
     '/guides',
+    '/industries',
+    '/tools/automation-roi-calculator',
     '/privacy',
     '/terms',
     '/cookies',
   ]
 
-  const [services, guideSlugs] = await Promise.all([
+  const [services, guideSlugs, industrySlugs] = await Promise.all([
     contentRepository.list('services'),
     contentRepository.slugs('guides'),
+    contentRepository.slugs('industries'),
   ])
 
   const routes = [
@@ -37,6 +41,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // under a different pillar and this must not silently mislink it.
     ...services.map((s) => `/services/${s.pillar}/${s.slug}`),
     ...guideSlugs.map((slug) => `/guides/${slug}`),
+    ...industrySlugs.map((slug) => `/industries/${slug}`),
   ]
 
   return routes.map((path) => ({

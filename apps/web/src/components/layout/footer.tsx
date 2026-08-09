@@ -2,12 +2,12 @@ import Link from 'next/link'
 
 /**
  * design-system.md §6.6 specifies Services / Company / Resources /
- * Legal. Phase 1 shipped two columns because Resources and Legal had
- * no pages to link to (docs/README.md "Known gaps" #3). Legal now
- * exists (legal-spec.md, Wave 1) so that column ships here; Resources
- * still waits on /case-studies and /guides (Waves 2 and 5) — add it
- * then, not before. Services gains the two shipped leaves
- * (service-leaf-spec.md §5) — the rest wait until they exist too.
+ * Legal — all four now shipped. Legal landed in Wave 1
+ * (legal-spec.md); Resources waited on real content and now links
+ * Guides and Industries (case studies still don't exist, blocked on
+ * the Stratseek agreement — no "Case Studies" link until they do).
+ * Services carries the two shipped leaves (service-leaf-spec.md §5)
+ * and the free tool; the rest wait until they exist too.
  */
 const columns = [
   {
@@ -30,6 +30,14 @@ const columns = [
     ],
   },
   {
+    heading: 'Resources',
+    links: [
+      ['Guides', '/guides'],
+      ['Industries', '/industries'],
+      ['Automation ROI calculator', '/tools/automation-roi-calculator'],
+    ],
+  },
+  {
     heading: 'Legal',
     links: [
       ['Privacy', '/privacy'],
@@ -43,7 +51,7 @@ export function Footer() {
   return (
     <footer data-theme="dark" className="border-border bg-bg text-text border-t">
       <div className="max-w-page px-gutter mx-auto py-16">
-        <div className="mb-14 grid grid-cols-2 gap-8 sm:grid-cols-3">
+        <div className="mb-14 grid grid-cols-2 gap-8 sm:grid-cols-4">
           {columns.map((col) => (
             <div key={col.heading}>
               {/* A styled label, not a document heading — footer nav groups

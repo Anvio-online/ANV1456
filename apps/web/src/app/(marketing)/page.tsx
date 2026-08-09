@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import type { SectionInstance } from '@/lib/sections/types'
 import { SectionRenderer } from '@/lib/sections/renderer'
 import { buildMetadata } from '@/lib/seo/metadata'
+import { INDUSTRY_TILES } from '@/lib/content/industry-tiles'
 
 /**
  * home-spec.md. Ten of twelve sections are built. Insights (§10) is
@@ -276,32 +277,7 @@ const sections: SectionInstance[] = [
     theme: 'dark',
     eyebrow: 'Who we work with',
     heading: 'Is this for a business like mine?',
-    items: [
-      {
-        name: 'Healthcare',
-        line: 'Patient scheduling, intake, and follow-ups — automated without losing the human touch.',
-      },
-      {
-        name: 'Ecommerce',
-        line: 'Order confirmations, inventory syncs, and support tickets that used to eat your afternoon.',
-      },
-      {
-        name: 'Real Estate',
-        line: 'Lead follow-up and listing updates that happen the moment they should, not when someone remembers.',
-      },
-      {
-        name: 'Accounting & Finance',
-        line: "Invoice entry and reconciliation off your team's desk and into a system that never forgets.",
-      },
-      {
-        name: 'Education',
-        line: 'Admissions inquiries and enrollment follow-ups answered in minutes, not days.',
-      },
-      {
-        name: 'Logistics',
-        line: 'Shipment updates and customer queries handled automatically, end to end.',
-      },
-    ],
+    items: INDUSTRY_TILES,
   },
   {
     type: 'ctaClosing',
