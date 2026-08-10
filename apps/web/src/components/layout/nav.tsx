@@ -73,7 +73,15 @@ export function Nav() {
             >
               Services
             </button>
-            <div className="border-border bg-surface shadow-card invisible absolute left-1/2 top-full flex w-fit -translate-x-1/2 translate-y-1 flex-col gap-1 rounded-lg border p-2 opacity-0 transition duration-150 group-hover:visible group-hover:translate-y-2 group-hover:opacity-100">
+            {/* The wrapper is the hover target, not the visible card.
+                `pt-2` is a deliberate bridge: it sits directly under
+                the button with no gap, so moving the cursor from the
+                button down into the panel never leaves the hovered
+                element. Putting that 0.5rem of separation on the card
+                as a `translate-y` instead left an unhoverable dead
+                zone, and the menu closed before anyone could click
+                anything in it. */}
+            <div className="invisible absolute left-1/2 top-full w-fit -translate-x-1/2 pt-2 opacity-0 transition duration-150 group-focus-within:visible group-focus-within:opacity-100 group-hover:visible group-hover:opacity-100">
               {/* flex, not grid-cols-3: a `w-fit` container around a
                   grid with `1fr` tracks is a real CSS footgun — the
                   browser's shrink-to-fit pass can size the grid from
@@ -82,38 +90,40 @@ export function Nav() {
                   too-narrow track and overlaps its neighbors. Flexbox
                   has no such ambiguity: it shrink-wraps to the sum of
                   its children's widths correctly. */}
-              <div className="flex gap-1">
-                {SERVICES.map((s) => (
-                  <div key={s.href} className="flex w-56 flex-col gap-2 rounded-md p-3">
-                    <Link
-                      href={s.href}
-                      className="hover:bg-surface-2 -m-1 flex flex-col gap-0.5 rounded-md p-1"
-                    >
-                      <span className="text-body-s text-text font-medium">{s.label}</span>
-                      <span className="text-label text-text-3">{s.body}</span>
-                    </Link>
-                    <ul className="mt-1 flex flex-col gap-1.5">
-                      {s.items.map((item) => (
-                        <li key={item.label} className="text-label text-text-3">
-                          {'href' in item && item.href ? (
-                            <Link href={item.href} className="hover:text-accent-text">
-                              {item.label}
-                            </Link>
-                          ) : (
-                            item.label
-                          )}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
+              <div className="border-border bg-surface shadow-card flex flex-col gap-1 rounded-lg border p-2">
+                <div className="flex gap-1">
+                  {SERVICES.map((s) => (
+                    <div key={s.href} className="flex w-56 flex-col gap-2 rounded-md p-3">
+                      <Link
+                        href={s.href}
+                        className="hover:bg-surface-2 -m-1 flex flex-col gap-0.5 rounded-md p-1"
+                      >
+                        <span className="text-body-s text-text font-medium">{s.label}</span>
+                        <span className="text-label text-text-3">{s.body}</span>
+                      </Link>
+                      <ul className="mt-1 flex flex-col gap-1.5">
+                        {s.items.map((item) => (
+                          <li key={item.label} className="text-label text-text-3">
+                            {'href' in item && item.href ? (
+                              <Link href={item.href} className="hover:text-accent-text">
+                                {item.label}
+                              </Link>
+                            ) : (
+                              item.label
+                            )}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+                <Link
+                  href="/services"
+                  className="text-label text-accent-text hover:text-accent-hover w-full rounded-md px-4 py-2 font-medium"
+                >
+                  All services →
+                </Link>
               </div>
-              <Link
-                href="/services"
-                className="text-label text-accent-text hover:text-accent-hover w-full rounded-md px-4 py-2 font-medium"
-              >
-                All services →
-              </Link>
             </div>
           </div>
           <Link href="/about" className="text-body-s text-text-2 hover:text-text">
