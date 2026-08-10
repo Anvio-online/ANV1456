@@ -68,8 +68,9 @@ Six items at launch, each with: name · `kind` label · one-line problem · what
 | **The Anvio agent demo** | internal | The strongest AI artifact we own. Two-stage architecture, schema-constrained output, server-enforced email gate, graceful degradation. Links to `/services/automate#agent-demo` — it's live on the site, which is the whole point |
 | **Automation ROI calculator** | internal | Links to `/tools/automation-roi-calculator` ([tools-spec.md](tools-spec.md)) |
 | **anvio.online itself** | internal | **With its real Lighthouse and Core Web Vitals numbers.** A site that sells performance optimization and publishes its own scores is a verifiable claim, not a promise |
-| **Baladi Food Stuff** | partner-agency | UAE · FMCG distribution · ecommerce |
-| **Epicerma** | partner-agency | UAE · skincare retail · ecommerce |
+| **Baladi Food Stuff** | client | UAE · FMCG distribution · ecommerce. **Corrected 2026-08-10** — see below |
+| **Epicerma** | client | UAE · skincare retail · ecommerce. **Corrected 2026-08-10** |
+| **StableGuard.AI** | internal | Multi-agent stablecoin monitoring. 3rd prize, ETHOnline 2025 (best use of ASI Alliance / Fetch.ai). **The strongest AI proof on the site** — the only artifact with an external, competitive result behind it rather than our own description |
 | **One further internal build** | internal | Open item — see below |
 
 **The third item is the one to get right.** [grow-spec.md](grow-spec.md) already claims CWV expertise, and [docs/README.md](../README.md) already carries *"anvio.online's own Lighthouse/CWV scores must clear 90+ before grow-spec.md ships, since that page claims it"* as an open item. Publishing the numbers here converts that obligation into an asset — and makes it permanently visible if it ever regresses, which is the correct incentive for a site that sells this.
@@ -123,5 +124,16 @@ Links to `/services/automate#agent-demo`, not `/contact`. This page's visitor is
 
 - [ ] **Decide the sixth item**, or ship with five. Five real projects beat six with a filler.
 - [ ] Run Lighthouse/CWV against production and publish the actual numbers. If they don't clear 90+, that blocks [grow-spec.md](grow-spec.md) anyway — this page just makes it visible sooner
-- [ ] Confirm partner-agency labelling wording is permitted for Baladi and Epicerma — **same Stratseek gate as [case-studies-spec.md](case-studies-spec.md)**. The two internal items are unblocked, so a reduced version of this page can ship without that answer
+- [ ] **Ask Baladi and Epicerma directly for permission to name them.** Not a Stratseek question — see the correction below. A short email to each, not a contract review
+- [ ] BluPebble stays behind the Stratseek gate — that one *was* delivered through the agency
+
+### Correction, 2026-08-10 — Baladi and Epicerma were never agency work
+
+This spec, [case-studies-spec.md](case-studies-spec.md), and [phase-2-plan.md](phase-2-plan.md) §1a all assumed Baladi and Epicerma came through Stratseek and were therefore blocked by the unread agency agreement. **They didn't. They were direct freelance clients** — confirmed by the person who did the work, and consistent with the public portfolio at ag.anvio.online, which describes that engagement as *"Delivered commercial sites solo for Dubai-based clients… Owned the full engagement from scope through launch and handover"* and names no agency.
+
+**What this changes:** the Stratseek agreement never blocked these two. Permission to name them is a direct conversation with each client — an email, not a contract review. It still needs asking (naming a client publicly without their say-so is a bad habit regardless of who holds the contract), but the blocker is hours, not weeks.
+
+**What it doesn't change:** the `partner-agency` value stays in the schema and is still correct — BluPebble genuinely did come through Stratseek, so the field has a real user and the honest-framing mechanism still earns its place.
+
+**Worth noting how this was missed:** it was written down as an assumption early, then cited as established fact by three later documents, and nothing in a build or a test could have caught it. The only thing that surfaced it was asking the person who did the work.
 - [ ] Decide whether the agent demo card links to the live demo or to a short write-up of how it's built. The write-up is the stronger engineering signal; the live demo is the stronger conversion

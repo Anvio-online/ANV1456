@@ -6,17 +6,25 @@ import { breadcrumbSchema } from '@/lib/seo/schema'
 
 /**
  * projects-spec.md. Moved into Wave 2 alongside /case-studies —
- * phase-2-plan.md §1a: both shippable case studies (Baladi, Epicerma)
- * are Build/ecommerce work, so without this page Phase 2 would ship
- * three Automate leaf pages with nothing demonstrable behind the
- * category the brand is positioned on.
+ * phase-2-plan.md §1a: the shippable client work (Baladi, Epicerma)
+ * is Build/ecommerce, so without this page Phase 2 would ship three
+ * Automate leaf pages with nothing demonstrable behind the category
+ * the brand is positioned on.
  *
- * Ships at the reduced scope projects-spec.md's Open Items already
- * anticipates: internal items only. Baladi and Epicerma are withheld
- * here too, not just from /case-studies — the same Stratseek
- * permission gate applies to naming them anywhere (phase-2-plan.md
- * §7), and neither is internal work this page can label around that.
- * Add them once that agreement has been read.
+ * StableGuard.AI is the answer to that gap and the reason this page
+ * finally earns its place: a real, award-winning multi-agent system
+ * (3rd prize, ETHOnline 2025) that is genuinely ours to show — no
+ * employer IP, no client permission needed. It is the only AI/
+ * automation artifact on the site backed by an external result rather
+ * than our own say-so.
+ *
+ * Deliberately absent: any project built under employment
+ * (employer-context.md — GeniusCFO, Healthcare.AI, DFinance are all
+ * out, and anonymizing them does not make them showable, since the
+ * architecture is the confidential part and the public portfolio
+ * de-anonymizes them instantly). BluPebble is out too — that one did
+ * come through the partner agency, so it sits behind the Stratseek
+ * gate that Baladi and Epicerma turned out never to have been behind.
  *
  * The "anvio.online itself" card ships without a published CWV/
  * Lighthouse number, deliberately — projects-spec.md's own rule against
@@ -42,7 +50,7 @@ const sections: SectionInstance[] = [
     theme: 'dark',
     eyebrow: 'PROJECTS',
     heading: 'Things we’ve built, including the ones on this page.',
-    body: "Client work where we can show it, and our own builds where we can't yet. Both are labelled, so you can weigh them differently.",
+    body: 'Our own work — an award-winning multi-agent system, the AI agent running on this site, and the site itself. Client work is a separate list, and we’re asking permission before it goes up.',
   },
   {
     type: 'featuredWork',
@@ -50,6 +58,20 @@ const sections: SectionInstance[] = [
     variant: 'grid',
     theme: 'dark',
     items: [
+      {
+        client: 'StableGuard.AI',
+        region: 'ETHOnline 2025',
+        industry: 'Multi-agent AI · real-time monitoring',
+        problem:
+          'Monitoring a stablecoin means watching several independent signals at once — the usual approach flattens all of them into one model and loses the distinctions that matter.',
+        build:
+          'A real-time multi-agent system instead: each agent owns one defined responsibility in the monitoring loop rather than collapsing everything into a single model. Third prize at ETHOnline 2025, for best use of ASI Alliance / Fetch.ai.',
+        outcome: '3rd prize · ETHOnline 2025',
+        stack: ['Multi-agent systems', 'Real-time monitoring', 'Full-stack'],
+        href: 'https://ag.anvio.online/projects/stableguard-ai',
+        hrefLabel: 'Read the write-up →',
+        kind: 'internal',
+      },
       {
         client: 'The Anvio agent demo',
         region: 'Live on this site',
@@ -91,8 +113,9 @@ const sections: SectionInstance[] = [
     theme: 'light',
     heading: 'How to read this page',
     paragraphs: [
-      "This is a partial list on purpose. Two client ecommerce projects are pending a permissions check before we can show them properly — when that clears, they'll be added here and told in full on our case studies page.",
-      "In the meantime, what's here is our own work: the AI agent that runs the demo on this site, the tool above it, and the site itself. We've labelled them as internal builds rather than implying they're client work, because the category we're positioned around is AI and automation, and being straightforward about where our proof currently comes from is worth more than padding this page.",
+      "Everything here is our own — built by us, shown with nobody else's permission required. StableGuard is the one with an outside result attached: third prize at ETHOnline 2025, judged against a global field, which is a harder thing to claim than anything we could write about ourselves.",
+      "Client ecommerce work is a separate list, and it's coming — those are real projects for real businesses, and we'd rather ask them properly before putting their names on our site than assume it's fine. When that's done, they'll be told in full on our case studies page rather than reduced to a logo.",
+      "What isn't here, and won't be: anything built under employment. That work belongs to the people who paid for it, and no amount of anonymizing changes that.",
     ],
   },
   {
