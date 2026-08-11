@@ -31,5 +31,4 @@ pnpm dev          # http://localhost:3000
 - [apps/web/src/sections/](apps/web/src/sections/) — the section library in code; `hero` is the reference implementation
 - [apps/web/src/app/api/agent/route.ts](apps/web/src/app/api/agent/route.ts) — the agent-demo backend (see [ADR-0005](docs/engineering/adr/0005-agent-demo-model-and-email-gate.md))
 
-
 Contributing? Read [docs/engineering/conventions.md](docs/engineering/conventions.md) and [docs/engineering/workflow.md](docs/engineering/workflow.md) first.
