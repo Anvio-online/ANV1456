@@ -2,26 +2,47 @@ import Link from 'next/link'
 
 /**
  * design-system.md §6.6 specifies Services / Company / Resources /
- * Legal, with individual leaf-service links under Services. None of
- * the leaf pages, Resources content, or Legal pages exist yet
- * (docs/README.md "Known gaps") — linking to them would just move the
- * 404s from nav into the footer. Ships with two columns of real
- * routes only; extend as those pages land.
+ * Legal — all four now shipped. Legal landed in Wave 1
+ * (legal-spec.md); Resources waited on real content and now links
+ * Guides and Industries (case studies still don't exist, blocked on
+ * the Stratseek agreement — no "Case Studies" link until they do).
+ * Services carries the two shipped leaves (service-leaf-spec.md §5)
+ * and the free tool; the rest wait until they exist too.
  */
 const columns = [
   {
     heading: 'Services',
     links: [
+      ['All services', '/services'],
       ['Build', '/services/build'],
       ['Automate', '/services/automate'],
       ['Grow', '/services/grow'],
+      ['WhatsApp automation', '/services/automate/whatsapp-automation'],
+      ['AI chatbot development', '/services/automate/ai-chatbot-development'],
     ],
   },
   {
     heading: 'Company',
     links: [
       ['About', '/about'],
+      ['Projects', '/projects'],
       ['Contact', '/contact'],
+    ],
+  },
+  {
+    heading: 'Resources',
+    links: [
+      ['Guides', '/guides'],
+      ['Industries', '/industries'],
+      ['Automation ROI calculator', '/tools/automation-roi-calculator'],
+    ],
+  },
+  {
+    heading: 'Legal',
+    links: [
+      ['Privacy', '/privacy'],
+      ['Terms', '/terms'],
+      ['Cookies', '/cookies'],
     ],
   },
 ] as const
@@ -30,7 +51,7 @@ export function Footer() {
   return (
     <footer data-theme="dark" className="border-border bg-bg text-text border-t">
       <div className="max-w-page px-gutter mx-auto py-16">
-        <div className="mb-14 grid grid-cols-2 gap-8">
+        <div className="mb-14 grid grid-cols-2 gap-8 sm:grid-cols-4">
           {columns.map((col) => (
             <div key={col.heading}>
               {/* A styled label, not a document heading — footer nav groups

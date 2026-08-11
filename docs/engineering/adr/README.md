@@ -15,6 +15,7 @@ A short document per significant technical decision: what we chose, what we reje
 | [0003](0003-section-registry-composition.md) | Pages compose from a section registry | Accepted | 2026-08-07 |
 | [0004](0004-motion-budget-and-perf-gates.md) | Per-page motion budget and CI performance gates | Accepted | 2026-08-07 |
 | [0005](0005-agent-demo-model-and-email-gate.md) | Agent demo runs on Sonnet 5, behind an email gate | Accepted | 2026-08-07 |
+| [0006](0006-content-page-authoring-model.md) | Content pages are a section frame around one MDX body | Accepted | 2026-08-08 |
 
 ## Template
 

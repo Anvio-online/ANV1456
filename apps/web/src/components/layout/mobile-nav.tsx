@@ -7,9 +7,13 @@ import { cn } from '@/lib/utils/cn'
 import type { CSSVarStyle } from '@/lib/utils/css-vars'
 
 const LINKS = [
+  { label: 'Services', href: '/services' },
   { label: 'Build', href: '/services/build' },
   { label: 'Automate', href: '/services/automate' },
   { label: 'Grow', href: '/services/grow' },
+  { label: 'Guides', href: '/guides' },
+  { label: 'Industries', href: '/industries' },
+  { label: 'Projects', href: '/projects' },
   { label: 'About', href: '/about' },
 ] as const
 

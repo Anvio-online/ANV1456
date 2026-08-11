@@ -238,6 +238,39 @@ Home: 1 signature + 3 supporting. Automate: 1 signature + 3 supporting. Build: 1
 
 ---
 
+## 8a. Section-to-motion map (Phase 2)
+
+Full page specs: [phase-2-plan.md](../specs/phase-2-plan.md) §3.
+
+**No Phase 2 page carries a Tier 1 scene, and the per-page Tier 2 allowance is ≤ 2.** Reasoning in [phase-2-plan.md](../specs/phase-2-plan.md) §4, in short: these are ranking and reading pages, their competitive advantage is load speed and extractability, and a fifth signature scene devalues the four in §2. The same restraint About and Contact already use, applied to a whole phase.
+
+| Page | Tier 1 | Tier 2 | Tier 3/4 |
+|---|---|---|---|
+| `/services` | — | **none** | `maskReveal` (hero), `fadeUpGroup`, `hoverLift`, `accordionOpen` |
+| `/case-studies` index | — | **none** | `fadeUpGroup`, `hoverLift`, `arrowSlide` |
+| `/case-studies/[slug]` | — | `counterRoll` on the results row — **omitted with the section when `results[]` is empty** | `fadeUp` on body blocks |
+| `/projects` | — | **none** | `fadeUpGroup`, `hoverLift` |
+| Automate leaf (×3) | — | `workflowGraph:compact` — `nodeCascade` only, **no `pathPulse`** · **plus `agentDemo:full`** — **at the 2-piece cap** | `fadeUpGroup`, `accordionOpen`, `arrowSlide` |
+| Build leaf (×1) | — | `buildAssembly:component-grid`, static | as above |
+| `/industries` hub | — | **none** | `fadeUpGroup`, `hoverLift` on linked tiles only |
+| `/industries/[slug]` | — | **none** | `fadeUpGroup`, `accordionOpen` |
+| `/guides` index | — | **none** | `fadeUpGroup`, `hoverLift` |
+| `/guides/[slug]` | — | **none** | `fadeUp` on block entry, `accordionOpen` on the ToC |
+| `/tools/automation-roi-calculator` | — | `counterRoll` on outputs, debounced ~300ms | `fadeUp`, `accordionOpen` |
+| `/privacy` · `/terms` · `/cookies` | — | **none** | a single `fadeUp` |
+
+**Four notes on the exceptions:**
+
+**The Automate leaves are the only Phase 2 pages at the 2-piece cap**, and both pieces are already-built machinery placed differently rather than new work. The demo is there because those pages have no case study behind them — [phase-2-plan.md](../specs/phase-2-plan.md) §1a. Nothing else on them may take a Tier 2 slot.
+
+`workflowGraph:compact` is reuse of §7.2's machinery at reduced scope — 3–5 nodes, no traveling pulse, no hover-to-pause explainer layer — not a new scene. Same DOM+SVG rule, same static all-active fallback on mobile and under reduced motion.
+
+`results:metric-row` on a **service leaf** carries **no** `counterRoll`, unlike the case-study version. Leaf metrics are definitions rather than measured outcomes, which is the same call §8 already makes for Grow's "what we report" section — counting animations on definitions are theatre.
+
+**Guides get zero supporting motion on purpose.** A reader arriving from an LLM citation lands mid-page and needs the quoted paragraph immediately. Per-block reveals on long-form reading are friction on exactly the page type whose whole argument is extractability.
+
+---
+
 ## 9. Review checklist
 
 Before any animated section merges:

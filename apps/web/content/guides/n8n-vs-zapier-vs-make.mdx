@@ -1,0 +1,102 @@
+---
+title: 'n8n vs. Zapier vs. Make: Which One for Your Business?'
+description: 'An honest comparison of n8n, Zapier, and Make for a small business — what each is actually good at, what self-hosting changes, and which to pick.'
+slug: 'n8n-vs-zapier-vs-make'
+publishedAt: 2026-08-10
+updatedAt: 2026-08-10
+draft: false
+category: 'Tools'
+author: "Anvio's founding engineer"
+commercialLink:
+  label: 'AI automation services'
+  href: '/services/automate'
+relatedLinks:
+  - label: 'AI agent vs. chatbot'
+    href: '/guides/ai-agent-vs-chatbot'
+    note: "The definitional guide behind what you'd actually be automating with any of these."
+  - label: 'Which processes are actually worth automating'
+    href: '/guides/which-processes-are-worth-automating'
+    note: 'Decide what to build before deciding which tool to build it in.'
+  - label: 'WhatsApp automation'
+    href: '/services/automate/whatsapp-automation'
+    note: 'A common automation built on exactly this kind of tool.'
+  - label: 'Automate overview'
+    href: '/services/automate'
+    note: 'The full pillar page.'
+---
+
+For most small businesses, **n8n** wins on cost and control if you're comfortable self-hosting or paying for hosted n8n, **Zapier** wins on ease of use and the largest app library, and **Make** sits between them — a visual builder with more power than Zapier's simpler flows and less setup burden than self-hosted n8n. None of the three is universally "best" — the right one depends on your technical comfort, your budget shape, and how complex your actual workflows are, and this guide is written to help you place your own situation against those three variables rather than to crown a winner.
+
+## What do these tools actually do?
+
+All three are **workflow automation platforms** — they connect apps together so an action in one triggers a step in another, without a person manually moving data between them. "When a new order comes in on Shopify, add the customer to a Google Sheet and send a Slack notification" is the shape of thing all three handle. They differ in how you build that workflow, what it costs to run, and how far you can push it before hitting a wall.
+
+## What's the actual difference between them?
+
+**Zapier** is the simplest to start with — a linear, step-by-step builder, the largest library of pre-built app connections, and pricing based on how many "tasks" (individual actions) you run per month. It's the easiest to learn and the fastest to get a first automation live, and that ease has a ceiling: complex branching logic and custom data transformation get awkward fast, and the per-task pricing gets expensive at real volume.
+
+**Make** (formerly Integromat) uses a visual, node-based canvas rather than Zapier's linear steps, which makes genuinely complex workflows — multiple branches, loops, conditional logic — easier to build and easier to actually understand once built. It costs less per operation than Zapier at comparable volume, and the visual canvas has a real learning curve that Zapier's simpler interface doesn't.
+
+**n8n** is open-source and can be self-hosted, which means no per-task pricing ceiling at all if you're running your own server — you pay for hosting, not for volume. It supports writing custom JavaScript directly inside a workflow step, which neither Zapier nor Make does as naturally, making it the most flexible of the three for a genuinely custom process. That flexibility comes with real setup and maintenance responsibility if you self-host, which is not a fair trade for every business.
+
+## n8n: where it's the right choice
+
+n8n is the strongest pick when **volume is high enough that per-task pricing would get expensive**, when a workflow needs **custom logic** a visual builder alone can't express cleanly, or when a business specifically wants to **own its automation infrastructure** rather than depend on a third-party platform's pricing and uptime. The tradeoff is real: self-hosted n8n needs someone responsible for keeping the server updated and running, which is either a genuine cost or a genuine risk if nobody owns it. n8n Cloud (their hosted option) removes that specific burden at a cost closer to the other two.
+
+## Zapier: where it's the right choice
+
+Zapier is the strongest pick for **a first automation, full stop** — the fastest path from "we do this by hand" to "this happens automatically," especially for anyone without engineering background on the team. Its app library is the deepest of the three, so if you're connecting mainstream SaaS tools, Zapier almost certainly already has a clean, tested connector for both. The cost catches up at real volume — a business running thousands of tasks a month will pay noticeably more on Zapier than the same workflow on n8n or Make.
+
+## Make: where it's the right choice
+
+Make is the strongest pick when a workflow has **real branching complexity** — several conditional paths, loops, multi-step data transformation — that would turn into an unmanageable chain of Zapier steps, but a business doesn't want the self-hosting responsibility n8n can carry. The visual canvas genuinely helps here: a complex Make scenario is usually easier to look at and understand six months later than the equivalent built any other way.
+
+## Which one should a small business actually use?
+
+|                                | Zapier                          | Make                             |
+| ------------------------------ | ------------------------------- | -------------------------------- |
+| Easiest to learn               | Yes                             | Moderate learning curve          |
+| Best for complex branching     | Awkward past a few steps        | Yes, visual canvas               |
+| Pricing model                  | Per task, gets costly at volume | Per operation, cheaper at volume |
+| Self-hosting option            | No                              | No                               |
+| Custom code in a workflow step | Limited                         | Limited                          |
+
+n8n sits outside this table because its defining feature — self-hosting — changes the comparison entirely: no per-task or per-operation ceiling at all, at the cost of owning the infrastructure. As a rough decision rule: **start with Zapier if you want the fastest first automation and don't yet know how complex your needs will get. Move to Make once branching complexity makes Zapier awkward. Consider n8n once volume or custom logic makes either platform's pricing or limits a real constraint** — or from the start, if someone on the team is comfortable maintaining a self-hosted service.
+
+## A worked example: the same automation, three ways
+
+Take a common small-business workflow: a WhatsApp order comes in, gets logged to a CRM, and triggers a confirmation reply. Here's how the build differs across the three.
+
+**On Zapier:** a linear Zap — WhatsApp Business trigger, a formatting step, a CRM "create record" action, a WhatsApp reply action. Fast to build, maybe 20 minutes for someone who's used Zapier before. If a message doesn't parse cleanly — a customer sends a photo instead of text, say — handling that exception cleanly in Zapier's linear model means either a second Zap or an awkward filter step; it's doable but not elegant.
+
+**On Make:** the same four steps, but on Make's canvas you can add a genuine branch — "if the message is text, do this; if it's an image, route to a different path" — as a first-class part of the same workflow, visually clear rather than bolted on. The build takes a bit longer than the equivalent Zap, mostly because the canvas has more to configure, but the result handles the exception case more gracefully.
+
+**On n8n:** the same branching is available, plus the option to write a short piece of custom code directly in the workflow — useful if the message needs non-trivial parsing logic that neither platform's built-in steps handle cleanly. Self-hosted, there's no per-task cost at all once the server is running; hosted on n8n Cloud, pricing sits in a similar range to Make's.
+
+The workflow itself is nearly identical across all three. What differs is how cleanly each platform handles the exception case, and what it costs once it's running at real volume — which is exactly the two things worth evaluating before committing to one.
+
+## What each actually costs at real volume
+
+Illustrative, not a quote — check current pricing directly, since all three change their tiers periodically. As a shape: Zapier's per-task pricing means a workflow running a few thousand tasks a month can land in the low hundreds of dollars monthly at higher tiers. Make's per-operation pricing tends to come out lower than Zapier's at comparable volume, often by a meaningful margin, because Make counts a full scenario run as fewer billable operations than Zapier counts steps. n8n, self-hosted, has no volume-based platform fee at all — the cost is a cloud server, typically a small fraction of either platform's fee at real volume, plus whoever's time it takes to maintain it. n8n Cloud, if self-hosting isn't the right fit, prices closer to Make's range.
+
+The crossover point — where n8n's server cost plus maintenance time becomes cheaper than Make or Zapier's platform fee — depends heavily on volume and on how much maintenance time actually costs at your team's rates. For a genuinely high-volume workflow, self-hosted n8n is very often the cheapest option by a wide margin. For a lower-volume one, the platform fee on Zapier or Make may cost less than the equivalent maintenance time would, even before counting the risk of something breaking with nobody watching it.
+
+## What about self-hosting, concretely?
+
+Self-hosting n8n means running it on a server you control — a small cloud instance is enough for most small-business workloads — and taking responsibility for keeping it updated, backed up, and running. This is a genuinely different commitment from clicking into a hosted platform's dashboard, and it's not the right choice for every team. We often handle this piece directly for clients who want n8n's flexibility without taking on server maintenance themselves, which is a reasonable middle path between "fully hosted, less flexible" and "self-hosted, more responsibility."
+
+## Common mistakes when choosing
+
+**Picking based on which tool a blog post prefers, not your own workflow's shape.** All three genuinely are the right choice in different situations — the comparison above exists because the answer depends on your specifics, not because one tool is secretly best.
+
+**Underestimating Zapier's cost curve.** A workflow that looks cheap in a Zapier demo at low volume can get expensive fast once it's actually running your real order volume. Model the cost at your real usage before committing, not at the trial-account volume.
+
+**Choosing n8n for the cost savings without a plan for who maintains it.** Self-hosting only saves money if the maintenance time doesn't quietly cost more than the platform fee would have. Be honest about who actually owns that responsibility before choosing it for the price alone.
+
+**Building complex logic in Zapier because that's what you already know.** If a workflow needs real branching, forcing it through Zapier's linear model usually produces something fragile and hard to debug. Recognizing the moment to move to Make (or n8n) is worth more than the switching cost.
+
+**Treating the choice as permanent.** None of these three lock you in irreversibly — a workflow built on one can usually be rebuilt on another without starting from zero conceptually, since the underlying logic (trigger, steps, conditions) transfers even when the specific implementation doesn't. Choosing the tool that fits today's volume and complexity, and revisiting the choice if the business changes shape, is a more realistic plan than trying to pick the one true platform up front.
+
+## The honest bottom line
+
+There's no universally correct answer among these three — only a correct answer for a specific workflow, team, and budget shape. If you're not sure which fits your situation, describing the actual workflow to us is more useful than researching the tools in the abstract; we build on all three depending on what a client's process actually needs, and [we'll tell you which one fits](/services/automate) rather than defaulting to whichever we personally prefer, or whichever pays the best referral fee — a real conflict of interest some vendors don't disclose, and one worth asking about directly if a recommendation seems to arrive suspiciously fast.

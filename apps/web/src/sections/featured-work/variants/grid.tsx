@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import type { FeaturedWorkProps, CaseStudyCard } from '../featured-work.types'
 import type { HeadingTag } from '@/lib/sections/heading-level'
+import { KindLabel } from '../kind-label'
 
 /**
  * build-spec.md §8. Not two-up-deep — Build has more shippable
@@ -40,6 +41,14 @@ function CaseStudyCardEl({ item }: { item: CaseStudyCard }) {
         <span className="text-label text-text-3 font-mono uppercase tracking-widest">
           {item.client} · {item.industry}
         </span>
+        <KindLabel kind={item.kind} />
+        {/* An external result — an award, a measured outcome — is the
+            hardest thing on a card to claim, so it renders when it
+            exists. Still optional and still never invented: same rule
+            as CaseStudyCard.outcome's own doc. */}
+        {item.outcome ? (
+          <p className="text-body-s text-accent-ink font-mono tabular-nums">{item.outcome}</p>
+        ) : null}
         <div className="flex flex-wrap gap-1.5">
           {item.stack.map((s) => (
             <span
@@ -53,9 +62,16 @@ function CaseStudyCardEl({ item }: { item: CaseStudyCard }) {
         {item.href ? (
           <Link
             href={item.href}
+            // An off-site card (e.g. a write-up hosted elsewhere) opens in a
+            // new tab; internal ones navigate normally. rel is required with
+            // target="_blank" — without noopener the opened page gets a
+            // window.opener handle back into this one.
+            {...(item.href.startsWith('http')
+              ? { target: '_blank', rel: 'noopener noreferrer' }
+              : {})}
             className="text-body-s text-accent-text mt-1 font-medium hover:underline"
           >
-            Read the case study →
+            {item.hrefLabel ?? 'Read the case study →'}
           </Link>
         ) : null}
       </div>

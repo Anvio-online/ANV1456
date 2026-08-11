@@ -30,11 +30,11 @@ export interface SectionBase {
 
 // ---- Per-type prop shapes. Each section folder owns its own <type>.types.ts;
 // this file re-exports the union so the renderer has one place to widen.
-// Only Hero is implemented in the scaffold — the rest use PlaceholderSection
-// until their section folders land, so registry.ts stays honest about
-// what's actually built vs. documented in section-library.md. Every
-// placeholder still extends SectionBase, so `id`/`theme` type correctly
-// throughout the renderer even before the real props are filled in.
+// Every type below is now real and registered — `testimonial` is the
+// one exception, documented in section-library.md §3 but deliberately
+// unbuilt (no testimonials exist to show), and it isn't in the
+// SectionInstance union below for that reason: an unregistered type
+// fails at the call site, which is the honest state for it right now.
 
 export interface HeroProps extends SectionBase {
   variant: 'centered-statement' | 'split-visual' | 'page-lead' | 'case-lead'
@@ -86,6 +86,13 @@ export interface ServicesProps extends SectionBase {
   variant: 'pillar-cards' | 'cluster-grid' | 'list-detail'
   /** 'pillar-cards' only. */
   pillars?: ServicePillar[]
+  /** 'pillar-cards' only. Home's per-card looping micro-visual is Tier 2
+   * (motion-system.md §8) and reserved for the page that has to sell.
+   * services-hub-spec.md §3 reuses the same variant for the full
+   * sub-item lists but explicitly drops the visual — the hub carries
+   * zero Tier 2 pieces (phase-2-plan.md §4). Defaults true so Home's
+   * existing instance is unaffected. */
+  showViz?: boolean
   /** 'cluster-grid' only. */
   clusters?: ServiceCluster[]
 }
@@ -144,6 +151,21 @@ export interface CaseStudyCard {
    * docs/README.md "Known gaps". A 404 from the homepage is worse than
    * a card with no "read more". */
   href?: string
+  /** Overrides the card's default "Read the case study →" link text.
+   * Needed the moment `href` points somewhere that isn't a case study —
+   * projects-spec.md's internal-build cards link to a live demo or a
+   * tool, not a write-up. Defaults to "Read the case study →" so every
+   * existing card (all real case studies) is unaffected. */
+  hrefLabel?: string
+  /** projects-spec.md §0 — renders the honesty label structurally so it
+   * can't be dropped in a later edit. Omit (or 'client') for a named
+   * client project with no label needed; 'partner-agency' renders
+   * "Delivered via partner agency"; 'internal' renders "Internal build"
+   * — required for anything on /projects that isn't client work
+   * (phase-2-plan.md §1a: the agent demo, the ROI tool, this site
+   * itself). Left optional here rather than required so Home's existing
+   * featuredWork cards, which predate this field, render unchanged. */
+  kind?: 'client' | 'internal' | 'partner-agency'
 }
 
 export interface FeaturedWorkProps extends SectionBase {
@@ -203,7 +225,7 @@ export interface PainGridItem {
 }
 
 export interface ProblemProps extends SectionBase {
-  variant: 'before-after' | 'pain-grid' | 'cost-calculator'
+  variant: 'before-after' | 'pain-grid' | 'cost-calculator' | 'automation-calculator'
   /** 'before-after' only. Real <table> semantics — automate-spec.md
    * §3, this is a GEO asset. */
   rows?: ProblemRow[]
@@ -223,6 +245,22 @@ export interface ProblemProps extends SectionBase {
     defaultEnquiryRate: number
     targetEnquiryRate: number
     defaultDealValue: number
+    disclaimer: string
+  }
+  /** 'automation-calculator' only — tools-spec.md §3. A different
+   * question and formula from 'cost-calculator' (what manual work
+   * costs vs. what underperforming traffic costs), same family per
+   * ADR-0003's variant-first rule rather than a new section type.
+   * `buildCostLow/High` are fixed reference figures, not user inputs —
+   * they anchor the payback-period estimate. `disclaimer` is required
+   * for the same reason as `calculator.disclaimer` above. */
+  automationCalculator?: {
+    defaultHoursPerWeek: number
+    defaultPeople: number
+    defaultLoadedHourlyCost: number
+    defaultAutomatableShare: number
+    buildCostLow: number
+    buildCostHigh: number
     disclaimer: string
   }
 }
@@ -269,7 +307,11 @@ export interface WorkflowEdge {
 }
 
 export interface WorkflowGraphProps extends SectionBase {
-  variant: 'live'
+  /** 'compact' — service-leaf-spec.md §3a: a reduced form for the
+   * Automate leaves, 3–5 nodes, one-time staggered reveal, no
+   * `pathPulse`, no hover-to-pause explainer layer, no dynamic import
+   * — server-rendered, real DOM text throughout, same as 'live'. */
+  variant: 'live' | 'compact'
   /** e.g. "A customer messages on WhatsApp at 11pm." */
   scenario: string
   nodes: WorkflowNode[]
@@ -282,11 +324,19 @@ export interface RichTextStep {
 }
 
 export interface RichTextProps extends SectionBase {
-  variant: 'prose' | 'numbered-steps'
+  variant: 'prose' | 'numbered-steps' | 'mdx'
   /** 'prose' only — one or more paragraphs, rendered in order. */
   paragraphs?: string[]
   /** 'numbered-steps' only — e.g. contact-spec.md §4 "What happens next". */
   steps?: RichTextStep[]
+  /** 'mdx' only. ADR-0006 — the raw MDX source of a content entry's
+   * body, compiled server-side per request by next-mdx-remote/rsc
+   * (content-layer.md §2). Reuses SectionBase.body's slot rather than
+   * a dedicated field: same "the body of the page" meaning, and no
+   * other variant sets it. The only section permitted to render a
+   * whitelisted set of MDX components (content-layer.md §2) — never a
+   * section component. */
+  body?: string
 }
 
 export interface ContactProps extends SectionBase {
@@ -408,12 +458,86 @@ export interface TeamProps extends SectionBase {
   role?: string
 }
 
-interface PlaceholderSection extends SectionBase {
-  variant: string
-  [key: string]: unknown
+export interface BreadcrumbItem {
+  name: string
+  path: string
+}
+
+/** content-layer.md §4. Renders the visible trail only — BreadcrumbList
+ * JSON-LD stays a separate call to breadcrumbSchema() on the page, so
+ * the two can't drift while both exist independently. Same `items`
+ * shape as breadcrumbSchema's input for that reason. */
+export interface BreadcrumbProps extends SectionBase {
+  variant: 'inline'
+  items: BreadcrumbItem[]
+}
+
+export interface RelatedLink {
+  label: string
+  href: string
+  /** One line of context — seo-strategy.md §4 bans bare "learn more"
+   * as the sole anchor, so the descriptive text lives here, next to
+   * the link, not folded into the anchor itself. */
+  note: string
+}
+
+/** content-layer.md §4. 3–5 curated links on leaves, industries,
+ * guides, and case studies — seo-strategy.md §5's hub-and-spoke
+ * internal linking, made a real section rather than ad hoc per page. */
+export interface RelatedLinksProps extends SectionBase {
+  variant: 'card-grid' | 'inline-list'
+  items: RelatedLink[]
+}
+
+export interface TocHeadingItem {
+  level: 2 | 3
+  text: string
+  id: string
+}
+
+/** content-layer.md §4. Built from the body's own `##`/`###` headings
+ * at compile time (lib/content/toc.ts) — guides-spec.md §3's `inline`
+ * option, chosen there over a sticky rail for a structural reason: a
+ * sticky-positioned rail needs to share a grid container with the
+ * body, and sections are flat siblings under ADR-0003. */
+export interface TableOfContentsProps extends SectionBase {
+  variant: 'inline'
+  items: TocHeadingItem[]
+}
+
+/** content-layer.md §4. guides-spec.md §2's fallback ladder: a real
+ * name when available, otherwise a role byline with no name — `name`
+ * is optional for exactly that reason, same pattern as TeamProps. */
+export interface AuthorBioProps extends SectionBase {
+  variant: 'compact'
+  name?: string
+  role: string
+  bio: string
+  photo?: { src: string; alt: string }
+}
+
+export interface InsightItem {
+  title: string
+  description: string
+  href: string
+  category: string
+}
+
+/** section-library.md §3 — the one placeholder type the codebase
+ * already admitted was missing. 'featured-plus-list' built first: it's
+ * what guides-spec.md's index needs (editorial ordering, not
+ * chronological — the first item is the deliberate pick, not
+ * "most recent"). 'three-latest' (Home §10) stays a placeholder. */
+export interface InsightsProps extends SectionBase {
+  variant: 'three-latest' | 'featured-plus-list'
+  items: InsightItem[]
 }
 
 export type SectionInstance =
+  | ({ type: 'breadcrumb' } & BreadcrumbProps)
+  | ({ type: 'relatedLinks' } & RelatedLinksProps)
+  | ({ type: 'tableOfContents' } & TableOfContentsProps)
+  | ({ type: 'authorBio' } & AuthorBioProps)
   | ({ type: 'hero' } & HeroProps)
   | ({ type: 'proofBar' } & ProofBarProps)
   | ({ type: 'services' } & ServicesProps)
@@ -437,6 +561,6 @@ export type SectionInstance =
   | ({ type: 'growthChart' } & GrowthChartProps)
   | ({ type: 'team' } & TeamProps)
   // Documented in section-library.md, not yet scaffolded:
-  | ({ type: 'insights' } & PlaceholderSection)
+  | ({ type: 'insights' } & InsightsProps)
 
 export type SectionType = SectionInstance['type']

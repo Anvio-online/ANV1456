@@ -4,11 +4,10 @@ import type { HeadingTag } from '@/lib/sections/heading-level'
 
 /**
  * home-spec.md §9. Tier 4 motion only — hoverLift, this is a
- * navigational aid, not a performance. /industries isn't built yet
- * (docs/README.md "Known gaps"), so tiles render without a link and
- * without hover affordance until it exists, rather than 404ing —
- * home-spec.md's "never link to an unbuilt page" applies to the hub
- * route itself, not just invented per-industry URLs.
+ * navigational aid, not a performance. Four of six tiles still render
+ * without a link or hover affordance — industries-spec.md ships two
+ * real industry pages, not six, and a tile without a page stays
+ * unlinked rather than 404ing, per "never link to an unbuilt page."
  */
 export function CompactGrid({
   eyebrow,

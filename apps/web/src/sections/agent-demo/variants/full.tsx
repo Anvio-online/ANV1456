@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState, type FormEvent } from 'react'
+import Link from 'next/link'
 import type { AgentDemoProps } from '../agent-demo.types'
 import type { HeadingTag } from '@/lib/sections/heading-level'
 import type { ChatTurn, AutomationPlan } from '@/lib/ai/schemas'
@@ -281,6 +282,15 @@ export function Full({
                       {phase.kind === 'gate-submitting' ? 'Building…' : 'Get my plan'}
                     </Button>
                   </div>
+                  {/* legal-spec.md §2 point 2 — the transcript-storage
+                      disclosure has to live here, at the point of use, not
+                      only in the privacy policy itself. */}
+                  <p className="text-label text-text-3">
+                    We store this conversation and send it to our AI provider to build your plan.{' '}
+                    <Link href="/privacy" className="hover:text-accent-text underline">
+                      Privacy policy
+                    </Link>
+                  </p>
                 </form>
               ) : null}
             </>

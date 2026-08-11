@@ -1,4 +1,5 @@
 import type { NextConfig } from 'next'
+import { withContentCollections } from '@content-collections/next'
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
@@ -32,4 +33,8 @@ const nextConfig: NextConfig = {
   },
 }
 
-export default nextConfig
+// content-layer.md §2 — the MDX loader chosen for ADR-0002's adapter.
+// Wraps the config to generate .content-collections/generated at build
+// and dev time from content-collections.ts; nothing outside
+// lib/content/mdx.ts should ever import that generated output directly.
+export default withContentCollections(nextConfig)

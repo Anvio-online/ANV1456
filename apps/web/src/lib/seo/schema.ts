@@ -61,7 +61,10 @@ export function webPageSchema({
   description,
   path,
 }: {
-  type: 'AboutPage' | 'ContactPage'
+  /** 'WebPage' is legal-spec.md's fallback — schema.org has no
+   * dedicated Privacy/Terms/Cookies type, and inventing one via
+   * additionalType is more machinery than three reference pages need. */
+  type: 'AboutPage' | 'ContactPage' | 'WebPage'
   name: string
   description: string
   path: string
@@ -84,6 +87,79 @@ export function faqSchema(items: { question: string; answer: string }[]) {
       name: item.question,
       acceptedAnswer: { '@type': 'Answer', text: item.answer },
     })),
+  }
+}
+
+/** content-layer.md §4 — guides and case studies, both needing named
+ * authorship and dates for GEO's provenance argument
+ * (seo-strategy.md §7.5), which a generic WebPage doesn't carry. */
+export function articleSchema({
+  headline,
+  description,
+  author,
+  datePublished,
+  dateModified,
+  path,
+}: {
+  headline: string
+  description: string
+  author: string
+  datePublished: Date
+  dateModified: Date
+  path: string
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline,
+    description,
+    author: { '@type': 'Person', name: author },
+    datePublished: datePublished.toISOString(),
+    dateModified: dateModified.toISOString(),
+    url: new URL(path, SITE_URL).toString(),
+  }
+}
+
+/** content-layer.md §4 — /guides and /case-studies indexes. */
+export function collectionPageSchema({
+  name,
+  description,
+  path,
+}: {
+  name: string
+  description: string
+  path: string
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name,
+    description,
+    url: new URL(path, SITE_URL).toString(),
+  }
+}
+
+/** content-layer.md §4 — /tools/[slug]. Free tools, so `offers` is
+ * always a fixed zero-price Offer rather than a parameter. */
+export function softwareApplicationSchema({
+  name,
+  description,
+  applicationCategory,
+  path,
+}: {
+  name: string
+  description: string
+  applicationCategory: string
+  path: string
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name,
+    description,
+    applicationCategory,
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
+    url: new URL(path, SITE_URL).toString(),
   }
 }
 

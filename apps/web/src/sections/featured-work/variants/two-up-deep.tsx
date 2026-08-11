@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import type { FeaturedWorkProps, CaseStudyCard } from '../featured-work.types'
 import type { HeadingTag } from '@/lib/sections/heading-level'
+import { KindLabel } from '../kind-label'
 
 /**
  * home-spec.md §5. First light section on the page — this is where
@@ -41,6 +42,7 @@ function CaseStudyCardEl({ item }: { item: CaseStudyCard }) {
         <span className="text-label text-text-3 font-mono uppercase tracking-widest">
           {item.client} · {item.region} · {item.industry}
         </span>
+        <KindLabel kind={item.kind} />
         <p className="text-body-s text-text-2">{item.problem}</p>
         <p className="text-body-s text-text-2">{item.build}</p>
         {item.outcome ? (
@@ -61,7 +63,7 @@ function CaseStudyCardEl({ item }: { item: CaseStudyCard }) {
             href={item.href}
             className="text-body-s text-accent-text mt-2 font-medium hover:underline"
           >
-            Read the case study →
+            {item.hrefLabel ?? 'Read the case study →'}
           </Link>
         ) : null}
       </div>
