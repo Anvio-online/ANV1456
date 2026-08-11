@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
+import { Analytics } from '@vercel/analytics/next'
 import { fontDisplay, fontBody, fontMono } from '@/styles/fonts'
 import { SITE_NAME, SITE_URL, SITE_DESCRIPTION } from '@/lib/seo/constants'
 import { organizationSchema, websiteSchema } from '@/lib/seo/schema'
@@ -27,6 +28,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema()) }}
         />
         {children}
+        <Analytics />
       </body>
     </html>
   )
