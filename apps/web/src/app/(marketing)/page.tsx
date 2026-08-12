@@ -287,7 +287,7 @@ const sections: SectionInstance[] = [
     eyebrow: "Let's talk",
     heading: "Let's find the first thing worth automating.",
     body: "A 30-minute call. We'll look at one process in your business and tell you honestly whether automation is worth it. No pitch deck.",
-    altContact: 'Or email us directly at hello@anvio.online',
+    altContact: 'Or email us directly at teamanvio@gmail.com',
   },
 ]
 

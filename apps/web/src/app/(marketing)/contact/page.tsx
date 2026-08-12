@@ -58,7 +58,7 @@ const sections: SectionInstance[] = [
     variant: 'details',
     theme: 'dark',
     eyebrow: 'OTHER WAYS TO REACH US',
-    email: 'hello@anvio.online',
+    email: 'teamanvio@gmail.com',
     responseTime: 'Within one working day, Monday–Friday',
     location: 'India · working with clients in India, the UAE, and remote-first elsewhere',
   },

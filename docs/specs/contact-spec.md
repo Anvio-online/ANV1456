@@ -87,7 +87,7 @@ Both already exist as conversion devices on their own pages; this section routes
 
 Plain, scannable, no form:
 
-> **Email** hello@anvio.online
+> **Email** teamanvio@gmail.com
 > **Response time** Within one working day, Monday–Friday
 > **Where we are** India · working with clients in India, the UAE, and remote-first elsewhere
 
