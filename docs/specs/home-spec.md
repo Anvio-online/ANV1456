@@ -223,7 +223,7 @@ Close with the founder note (`team:founder-note`): real photo, real name, two ho
 > **H2:** Let's find the first thing worth automating.
 > **Body:** A 30-minute call. We'll look at one process in your business and tell you honestly whether automation is worth it. No pitch deck.
 > **Form:** Name · Work email · Company · "What's the most repetitive thing your team does?" (textarea) · **Book the call**
-> **Alt:** Or email us directly at hello@anvio.online
+> **Alt:** Or email us directly at teamanvio@gmail.com
 
 The qualifying textarea does double duty: it filters tyre-kickers and gives you a real answer to open the call with.
 
