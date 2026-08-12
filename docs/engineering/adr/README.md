@@ -16,6 +16,7 @@ A short document per significant technical decision: what we chose, what we reje
 | [0004](0004-motion-budget-and-perf-gates.md) | Per-page motion budget and CI performance gates | Accepted | 2026-08-07 |
 | [0005](0005-agent-demo-model-and-email-gate.md) | Agent demo runs on Sonnet 5, behind an email gate | Accepted | 2026-08-07 |
 | [0006](0006-content-page-authoring-model.md) | Content pages are a section frame around one MDX body | Accepted | 2026-08-08 |
+| [0007](0007-agent-operating-system.md) | Team operating knowledge lives in the repo, split across `.claude/`, `docs/business/`, and `ops/` | Accepted | 2026-08-11 |
 
 ## Template
 

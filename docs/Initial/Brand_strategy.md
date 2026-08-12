@@ -1,3 +1,5 @@
+> **Superseded by [`docs/business/`](../business/).** This is the original thinking, kept as the record of where the strategy started. The living version — and the one every agent reads — is `docs/business/positioning.md`, `icp.md`, and `services-and-pricing.md`. If the two disagree, `business/` wins.
+
 anvio.online
 
 

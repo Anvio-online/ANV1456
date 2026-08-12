@@ -8,7 +8,7 @@ Everything that isn't code. Start here.
 
 **New to the project?** Read in this order — each builds on the last.
 
-1. [Initial/Brand_strategy.md](Initial/Brand_strategy.md) — who we serve, what we sell, what we refuse to be
+1. [business/](business/) — positioning, ICP, services and pricing, and **what is actually true today**
 2. [Initial/Information_arch.md](Initial/Information_arch.md) — the sitemap and URL structure
 3. [system/design-system.md](system/design-system.md) — colour, type, space, components
 4. [system/section-library.md](system/section-library.md) — how pages are assembled
@@ -16,20 +16,35 @@ Everything that isn't code. Start here.
 
 **About to write code?** [engineering/conventions.md](engineering/conventions.md) and [engineering/workflow.md](engineering/workflow.md), then the spec for the page you're building.
 
+**Working with an AI assistant?** [`.claude/README.md`](../.claude/README.md) — the rules, the nine agents, the commands, and the hooks. Why it's split that way: [ADR-0007](engineering/adr/0007-agent-operating-system.md).
+
 ---
 
 ## Index
 
+### `business/` — the factual base
+
+The living version of the brand strategy, and the source every business decision and every agent output is checked against. It supersedes `Initial/Brand_strategy.md`, which stays as the record of where the thinking started.
+
+| Document                                                    | Contents                                                                            |
+| ----------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| [positioning.md](business/positioning.md)                   | The claim, the differentiator, what Anvio refuses to be, the long-term goal         |
+| [icp.md](business/icp.md)                                   | Who we sell to, who we decline, the buying triggers, the disqualifiers              |
+| [services-and-pricing.md](business/services-and-pricing.md) | The three pillars and the real Build price floors                                   |
+| [current-situation.md](business/current-situation.md)       | **Read before proposing anything** — the proof, authority, and capacity constraints |
+| [competitors.md](business/competitors.md)                   | The real alternatives, and an honest read on our own weaknesses                     |
+| [voice-and-tone.md](business/voice-and-tone.md)             | How Anvio writes, in any channel, and what's banned                                 |
+
 ### `Initial/` — strategy and original planning
 
-| Document                                                                                                                                                   | Contents                                                         |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
-| [Brand_strategy.md](Initial/Brand_strategy.md)                                                                                                             | Target audience, problems solved, positioning, what we won't be  |
-| [Information_arch.md](Initial/Information_arch.md)                                                                                                         | Sitemap, URL structure, footer, Build/Automate/Grow rationale    |
-| [SCOPE.md](Initial/SCOPE.md)                                                                                                                               | Progress tracker, locked decisions, phasing                      |
-| [design_direction.md](Initial/design_direction.md)                                                                                                         | Original design intent — superseded by `system/design-system.md` |
-| [design_reference.md](Initial/design_reference.md)                                                                                                         | Framer template references                                       |
-| [home_wireframe.md](Initial/home_wireframe.md) · [automate_wireframe.md](Initial/automate_wireframe.md) · [build_wireframe.md](Initial/build_wireframe.md) | Original section sketches — superseded by `specs/`               |
+| Document                                                                                                                                                   | Contents                                                                               |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| [Brand_strategy.md](Initial/Brand_strategy.md)                                                                                                             | Target audience, problems solved, positioning — superseded by [`business/`](business/) |
+| [Information_arch.md](Initial/Information_arch.md)                                                                                                         | Sitemap, URL structure, footer, Build/Automate/Grow rationale                          |
+| [SCOPE.md](Initial/SCOPE.md)                                                                                                                               | Progress tracker, locked decisions, phasing                                            |
+| [design_direction.md](Initial/design_direction.md)                                                                                                         | Original design intent — superseded by `system/design-system.md`                       |
+| [design_reference.md](Initial/design_reference.md)                                                                                                         | Framer template references                                                             |
+| [home_wireframe.md](Initial/home_wireframe.md) · [automate_wireframe.md](Initial/automate_wireframe.md) · [build_wireframe.md](Initial/build_wireframe.md) | Original section sketches — superseded by `specs/`                                     |
 
 ### `system/` — the design and content systems
 
