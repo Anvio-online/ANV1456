@@ -26,8 +26,16 @@ export async function sendAutomationPlanEmail(to: string, plan: AutomationPlan) 
   // ADR-0005's every-plan-produces-a-contactable-lead guarantee exists
   // to prevent, so it has to be checked explicitly, not assumed away
   // by the lack of a thrown exception.
+  // `from` is a real, monitored mailbox rather than hello@anvio.online.
+  // Resend verifies the *domain*, so either address sends fine — but a
+  // visitor who replies to their plan with "yes, let's talk" is the
+  // highest-intent lead this site produces, and hello@ has no mailbox
+  // behind it, so those replies bounced silently. That failure mode
+  // defeats the point of ADR-0005's email gate: the gate exists to
+  // guarantee every plan produces a *contactable* lead, which is only
+  // true if the contact works in both directions.
   const { error } = await resend.emails.send({
-    from: 'Anvio <hello@anvio.online>',
+    from: 'Anvio <anshika@anvio.online>',
     to,
     subject: 'Your automation plan from Anvio',
     text: [
