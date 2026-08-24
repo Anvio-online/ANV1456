@@ -297,6 +297,10 @@ Four link columns (Services / Company / Resources / Legal) + oversized `ANVIO` w
 
 ## 7. Iconography & visual language
 
+**The brand mark has two forms, and which one you use is decided by aspect ratio, not preference.** The full lockup is 4.28:1 — fine in a nav bar or a footer band, unusable in a square. Anywhere the space is square or near it (the favicon, a social avatar, an app tile), use the **compact mark**: the wave with the star, 1.30:1, which fills a square properly and stays legible to 16px. Never letterbox the lockup into a square, and never redraw the wave to fit — `app/icon.tsx` composes it by transforming the artwork's own paths from their measured bounding boxes.
+
+In the compact mark the star sits **top-right**, not trailing the wave the way it trails the `O` in the lockup: the wave's descender crowds the bottom-right and the star is lost there below ~20px. Stroke caps stay flat in both forms — rounded caps read softer standalone but would mean the site draws one wave two different ways.
+
 - Line icons, **1.5px stroke**, 24px grid, rounded caps. Lucide as the base set, custom only where Lucide has no equivalent.
 - Icons are `--text-2` by default, `--accent-text` when active or when they *are* the visual subject.
 - **No emoji anywhere in the UI.** (Your `design_direction.md` already rejected 🤖💻📈 — enforcing it here.)
