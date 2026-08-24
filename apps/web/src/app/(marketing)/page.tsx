@@ -34,7 +34,12 @@ const sections: SectionInstance[] = [
     variant: 'centered-statement',
     theme: 'dark',
     eyebrow: 'AI Automation · Software · Growth',
-    heading: 'Your business runs on\nwork a machine should be doing.',
+    // Break points are sized to the 18ch headline measure (design-system.md
+    // §3.3). The previous two lines ran 21 and 31 characters, so both
+    // overflowed and re-wrapped, and text-wrap: balance then split each
+    // fragment on its own — landing on four ragged lines with "runs on"
+    // orphaned. These three all fit the measure, so they render as authored.
+    heading: 'Your business runs\non work a machine\nshould be doing.',
     body: 'Anvio builds the AI automations, software, and websites that take manual work off your team — and bring the right customers in. Built for businesses with 10 to 200 people, not enterprise timelines.',
     cta: { label: 'See what we’d automate →', href: '#agent-demo', style: 'primary' },
     ctaSecondary: { label: 'Book a free consultation', href: '/contact', style: 'secondary' },
