@@ -118,7 +118,16 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Plan generation failed validation.' }, { status: 502 })
   }
 
-  await sendAutomationPlanEmail(email, res.parsed_output)
+  // The model call already succeeded and cost real money — a Resend
+  // failure here must not crash to a bare, uncaught 500 (Next swallows
+  // the message entirely). Log the real reason server-side and still
+  // hand the visitor their plan; losing the emailed copy is better than
+  // losing a plan we already paid to generate.
+  try {
+    await sendAutomationPlanEmail(email, res.parsed_output)
+  } catch (err) {
+    console.error('[agent] plan email failed to send', err)
+  }
 
   return NextResponse.json({ plan: res.parsed_output })
 }
