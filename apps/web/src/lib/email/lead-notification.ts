@@ -8,9 +8,11 @@ const resend = env.RESEND_API_KEY ? new Resend(env.RESEND_API_KEY) : null
 /**
  * Where new leads land. docs/README.md's open item — "Decide who
  * monitors hello@anvio.online and where form submissions notify" —
- * resolved: the user's own inbox, not the shared hello@ address.
- * `from` stays hello@anvio.online below regardless — that's the
- * verified sending domain; only the recipient changes here.
+ * resolved: notifications go to the founder's personal inbox, separate
+ * from the anvio.online mailbox itself. hello@anvio.online is now a
+ * real alias on anshika@anvio.online (Hostinger), so it's monitored
+ * too — this recipient is a deliberate second copy, not a workaround
+ * for an unmonitored address.
  */
 const LEAD_NOTIFICATION_RECIPIENT = 'anshika1307goel@gmail.com'
 

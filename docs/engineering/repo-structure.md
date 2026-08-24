@@ -107,9 +107,24 @@ anvio/
 ├─ docs/
 │  ├─ README.md                     # index — start here
 │  ├─ Initial/                      # brand, IA, scope, original wireframes
+│  ├─ business/                     # positioning · icp · services-and-pricing · current-situation · competitors · voice
 │  ├─ system/                       # design-system · motion-system · section-library · seo-strategy
 │  ├─ specs/                        # home-spec · automate-spec · …
 │  └─ engineering/                  # tech-stack · repo-structure · conventions · workflow · adr/
+│
+├─ .claude/                         # how the team works — see ADR-0007
+│  ├─ README.md
+│  ├─ settings.json                 # permissions + hook wiring
+│  ├─ launch.json                   # dev-server config
+│  ├─ rules/                        # modular conventions, linked from CLAUDE.md
+│  ├─ agents/                       # the nine specialist roles
+│  ├─ commands/                     # /ship · /weekly · /find-leads · …
+│  ├─ skills/                       # anvio-brand-voice · lead-qualification · proposal-builder
+│  └─ hooks/                        # check-secrets · check-git-safety · check-styles
+│
+├─ ops/                             # agent output, dated. See .claude/rules/agent-outputs.md
+│  ├─ strategy/  growth/  content/  seo/  templates/     # tracked
+│  └─ leads/  outreach/  meetings/  proposals/           # GITIGNORED — personal + client-confidential
 │
 ├─ CHANGELOG.md
 ├─ CLAUDE.md                        # conventions summary for AI assistants
@@ -133,6 +148,9 @@ anvio/
 | `lib/` | Pure logic, adapters, typed clients | JSX. If it renders, it isn't lib |
 | `content/` | MDX with validated frontmatter | Anything a page imports directly — always go through `lib/content` |
 | `styles/` | `tokens.css` and `globals.css`. That's it | Component styles. Those are Tailwind classes on the component |
+| `docs/business/` | The factual base — positioning, ICP, pricing, situation, competitors, voice | Behaviour or instructions. Those are `.claude/rules/` |
+| `.claude/` | Rules, agents, commands, skills, hooks — how the team works | Business *facts*. Those live once, in `docs/business/`, and are read from there |
+| `ops/` | Dated agent deliverables | Anything the product imports. Four of its subdirectories hold PII and are gitignored |
 
 **The layering rule:** `app/` → `sections/` → `components/` → `lib/`. Dependencies point one direction. A `component` importing from `sections/` is a design error; a `lib` importing JSX is a design error. Enforced by `eslint-plugin-boundaries`.
 
@@ -191,6 +209,11 @@ updatedAt: 2026-02-14
 | A UI primitive | `components/ui/` | Both themes, both a11y states, no domain knowledge |
 | An animation primitive | `components/motion/` | Reduced-motion + mobile path, documented in [motion-system.md](../system/motion-system.md) §3 |
 | A case study or post | `content/<kind>/<slug>.mdx` | Frontmatter passing the Zod schema |
+| A business fact (pricing, ICP, positioning) | `docs/business/` | State it **once**. If it also lives in code, name the code as canonical |
+| A rule an assistant must follow | `.claude/rules/` | Link the `docs/` page that reasons about it; add a row to `.claude/rules/README.md` |
+| A specialist role | `.claude/agents/` | Have it *read* `docs/business/` — never restate facts inside the agent file |
+| A repeatable workflow | `.claude/commands/` (short) or `.claude/skills/` (needs its own reference material) | Add it to `.claude/README.md` |
+| An agent deliverable | `ops/<area>/YYYY-MM-DD-slug.md` | Provenance frontmatter. If it names individuals, it goes in a gitignored subdirectory |
 | Anything else | **Stop.** Decide the home, add it to §3 in this file, then write the file | |
 
 ---

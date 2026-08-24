@@ -34,6 +34,14 @@ test-results/
 # private — never tracked, never pushed. See docs/private/README.md.
 /docs/private/
 
+# agent output containing personal or client-confidential data — named individuals,
+# their contact details, meeting intelligence, and client proposals.
+# See .claude/rules/agent-outputs.md §2. A PreToolUse hook blocks `git add -f` on these.
+/ops/leads/
+/ops/outreach/
+/ops/meetings/
+/ops/proposals/
+
 # logs
 npm-debug.log*
 yarn-debug.log*

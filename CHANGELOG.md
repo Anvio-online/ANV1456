@@ -15,6 +15,9 @@ All notable changes to this project. Format follows [Keep a Changelog](https://k
 - Drizzle schema for captured leads and contact submissions
 - SEO scaffolding: typed metadata builder, JSON-LD schema builders, sitemap, robots (AI-crawler allowlist)
 - CI-facing quality gates: ESLint with the `app → sections → components → lib` boundary rule and a no-arbitrary-Tailwind-values rule, Prettier, commitlint, Husky pre-commit
+- `docs/business/` — the living business layer (positioning, ICP, services and pricing, current situation, competitors, voice), superseding `Initial/Brand_strategy.md`
+- `.claude/` operating system: modular rules, nine specialist agents, twelve commands, three skills, and three enforcement hooks ([ADR-0007](docs/engineering/adr/0007-agent-operating-system.md))
+- `ops/` for dated agent deliverables, with lead/outreach/meeting/proposal output gitignored as personal and client-confidential data
 
 ### Notes
 
