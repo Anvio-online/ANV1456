@@ -21,8 +21,25 @@ export const planRateLimitDaily = redis
   ? new Ratelimit({ redis, limiter: Ratelimit.slidingWindow(10, '1 d'), prefix: 'agent:plan:1d' })
   : null
 
+/**
+ * Sized off the plan caps above, not picked independently. One demo run
+ * costs up to MAX_USER_TURNS (4) chat calls before the visitor ever
+ * reaches the email gate, so the chat ceiling has to clear
+ * plan_limit × 4 or it becomes the binding constraint and the plan
+ * allowance is unreachable:
+ *
+ *   3 plans/hour × 4 turns = 12 chat calls/hour minimum → 20 (was 10)
+ *   10 plans/day  × 4 turns = 40 chat calls/day  minimum → 60 (was 20)
+ *
+ * At the old 10/hour and 20/day, chat ran out first every time — a
+ * visitor burned four turns, got refused mid-conversation, and never
+ * saw the email field. That inverts ADR-0005: we paid for the cheap
+ * turns and captured nothing, which is the one outcome the gate exists
+ * to prevent. The plan caps are untouched — they remain the actual
+ * spend control, exactly as the ADR specifies.
+ */
 export const chatRateLimitHourly = redis
-  ? new Ratelimit({ redis, limiter: Ratelimit.slidingWindow(10, '1 h'), prefix: 'agent:chat:1h' })
+  ? new Ratelimit({ redis, limiter: Ratelimit.slidingWindow(20, '1 h'), prefix: 'agent:chat:1h' })
   : null
 
 /** Plan had both an hourly and a daily cap from the start; chat only
@@ -30,7 +47,7 @@ export const chatRateLimitHourly = redis
  * the clock, indefinitely, from one IP, since there was no ceiling
  * above the hourly window. */
 export const chatRateLimitDaily = redis
-  ? new Ratelimit({ redis, limiter: Ratelimit.slidingWindow(20, '1 d'), prefix: 'agent:chat:1d' })
+  ? new Ratelimit({ redis, limiter: Ratelimit.slidingWindow(60, '1 d'), prefix: 'agent:chat:1d' })
   : null
 
 export async function checkPlanRateLimit(ip: string) {

@@ -24,7 +24,16 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Agent demo is not configured.' }, { status: 503 })
   }
 
-  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? '127.0.0.1'
+  // x-real-ip before the literal fallback: when x-forwarded-for is absent
+  // the old code dropped every caller into a single '127.0.0.1' bucket, so
+  // the per-IP cap silently became one global cap for the whole site and
+  // strangers rate-limited each other. Keep the constant as the last
+  // resort — failing closed on a shared bucket is still safer than
+  // skipping the limit — but reach for a real client IP first.
+  const ip =
+    req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+    req.headers.get('x-real-ip')?.trim() ||
+    '127.0.0.1'
 
   const parsed = agentRequestSchema.safeParse(await req.json().catch(() => null))
   if (!parsed.success) {
