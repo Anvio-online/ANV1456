@@ -132,11 +132,19 @@ export async function POST(req: NextRequest) {
   // the message entirely). Log the real reason server-side and still
   // hand the visitor their plan; losing the emailed copy is better than
   // losing a plan we already paid to generate.
+  // emailSent is reported back so a delivery failure is visible from the
+  // response itself rather than only in a runtime log. Swallowing the
+  // throw keeps the demo alive, but it also makes a broken mailer look
+  // identical to a working one from outside — this is the one bit that
+  // tells them apart. It carries no detail beyond the boolean; the
+  // reason stays server-side.
+  let emailSent = false
   try {
     await sendAutomationPlanEmail(email, res.parsed_output)
+    emailSent = true
   } catch (err) {
     console.error('[agent] plan email failed to send', err)
   }
 
-  return NextResponse.json({ plan: res.parsed_output })
+  return NextResponse.json({ plan: res.parsed_output, emailSent })
 }
