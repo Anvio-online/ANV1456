@@ -43,6 +43,18 @@
   --accent-glow-core: rgba(255, 145, 48, 0.16);
   --accent-glow-mid: rgba(255, 145, 48, 0.05);
 
+  /* ---- 2.5 Logo halo ----
+   * The amber bloom that ships baked into the source artwork
+   * (assets/anvio_logo_glow_transparent.png). Reproduced as a two-stop
+   * drop-shadow on the vector instead of a raster, so the mark stays
+   * crisp at any size and keeps currentColor letterforms. Distinct from
+   * --accent-wash (calibrated for focus halos — too faint to read as a
+   * bloom) and from --accent-glow-core (sized for a hero-scale light
+   * source). Theme-scoped below: the halo exists to lift near-white
+   * letters off a dark canvas, and has no job behind near-black ones. */
+  --logo-glow-core: rgba(255, 145, 48, 0.5);
+  --logo-glow-mid: rgba(255, 145, 48, 0.22);
+
   /* ---- 2.4 Semantic — product UI / forms / agent demo only, never marketing ---- */
   --success: #4ade80;
   --warning: #facc15;
@@ -191,6 +203,8 @@
      section scrolls under it. NavChrome retargets the nav's data-theme
      to whichever section it currently overlaps. */
   --nav-condensed-bg: rgba(10, 10, 11, 0.72);
+  --logo-glow: var(--logo-glow-core);
+  --logo-glow-soft: var(--logo-glow-mid);
 }
 
 [data-theme='dark'] {
@@ -210,6 +224,8 @@
      section scrolls under it. NavChrome retargets the nav's data-theme
      to whichever section it currently overlaps. */
   --nav-condensed-bg: rgba(10, 10, 11, 0.72);
+  --logo-glow: var(--logo-glow-core);
+  --logo-glow-soft: var(--logo-glow-mid);
 }
 
 [data-theme='light'] {
@@ -224,4 +240,9 @@
   --accent-text: var(--accent-ink); /* #FF9130 is 2.15:1 on light — never as text there */
   --nav-condensed-bg: rgba(250, 250, 248, 0.72);
   --shadow-elevated: var(--shadow-1);
+  /* The bloom reads as a dirty edge around near-black letterforms —
+     the mark carries itself on light, so the halo drops out rather
+     than being restated at a lower alpha. */
+  --logo-glow: transparent;
+  --logo-glow-soft: transparent;
 }

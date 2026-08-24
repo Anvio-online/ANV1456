@@ -205,6 +205,8 @@ Restraint rule: at most **two** radii visible in one section.
 
 Amber glow (`0 0 40px var(--accent-wash)`) is permitted on **at most one element per viewport** — the active process node or the primary CTA. It is a focal device, not a style.
 
+For the *logo bloom* baked into the source artwork, use `--logo-glow-core` / `--logo-glow-mid`, resolved through the theme-scoped `--logo-glow` / `--logo-glow-soft` aliases (transparent on light — the halo exists to lift near-white letterforms off a dark canvas and has no job behind near-black ones). **The nav ships flat**: the mark sits in the corner of every page, which makes it the worst possible claimant on the one-glow-per-viewport budget. The bloom is opt-in via `<Logo glow />` for large-format use where the mark is alone in frame.
+
 For a *large ambient* glow (the hero drop light), use `--accent-glow-core` / `--accent-glow-mid` instead. `--accent-wash` is calibrated for small focus halos and goes effectively invisible when stretched across a hero-sized area. Keep the glow concentrated — a sized circle offset above the fold reads as a light source; the same alpha spread across `inset: 0` reads as a flat tint.
 
 ---
@@ -274,6 +276,8 @@ Reference: agero. Sticky, `72px` tall (`--nav-h`), transparent over hero → on 
 
 **No bottom hairline.** The scrim sits on `.nav-chrome::before` and its bottom edge is masked to fade out. A solid bar with a crisp hairline reads as a rectangle pasted over the hero's amber glow — the hairline is the most visible edge of that rectangle. The fade provides the separation instead. Nav content sits above the pseudo-element via `relative z-10`.
 Structure: `Anvio` wordmark · Services (mega-menu: Build / Automate / Grow, three columns with descriptions) · Products · Case Studies · About · Blog · `[Book a call]` primary button.
+
+**The wordmark is the real mark, inlined as SVG** (`components/layout/logo.tsx`) — not an `<img>`, and no longer typeset text. Inlining keeps it out of the critical request path on the one element present on every route, and keeps its letterforms on `currentColor` so it inverts with the nav's `data-theme` retarget; a flat raster of near-white letters disappears over a light section. The link keeps real `sr-only` text so the sitewide home link still carries anchor text. Default `h-5` (86px x 20px): the mark is a 4.28:1 lockup where the typeset stand-in was 1.6:1, so matching cap height put 2.4x the old footprint in the corner.
 Mobile: full-screen overlay, sections stagger in at `--stagger`, body scroll locked.
 Nav must render server-side and be usable before hydration.
 

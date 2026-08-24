@@ -19,6 +19,10 @@ All notable changes to this project. Format follows [Keep a Changelog](https://k
 - `.claude/` operating system: modular rules, nine specialist agents, twelve commands, three skills, and three enforcement hooks ([ADR-0007](docs/engineering/adr/0007-agent-operating-system.md))
 - `ops/` for dated agent deliverables, with lead/outreach/meeting/proposal output gitignored as personal and client-confidential data
 
+### Changed
+
+- Nav wordmark is now the real Anvio mark, inlined as SVG instead of typeset text. Server-rendered with no extra request and no layout shift; letterforms stay on `currentColor` so the mark inverts over light sections. Ships flat — the amber bloom from the source artwork is opt-in (`<Logo glow />`) rather than spending the one-glow-per-viewport budget on every page.
+
 ### Notes
 
 - Only the Home hero section is implemented; the remaining ~23 section types are typed and documented in [section-library.md](docs/system/section-library.md) but not yet built — this is the scaffold, not the finished site.

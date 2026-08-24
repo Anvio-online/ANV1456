@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { NavChrome } from '@/components/layout/nav-chrome'
 import { MobileNav } from '@/components/layout/mobile-nav'
+import { Logo } from '@/components/layout/logo'
 
 const SERVICES = [
   {
@@ -62,8 +63,14 @@ export function Nav() {
       {/* relative + z-10 keeps the nav's own content above .nav-chrome::before,
           which is absolutely positioned and would otherwise paint over it. */}
       <div className="h-nav-h max-w-page px-gutter relative z-10 mx-auto flex items-center justify-between">
-        <Link href="/" className="font-display text-text text-xl font-bold">
-          Anv<span className="text-accent">i</span>o
+        {/* The typeset stand-in is retired — this is the real mark, inlined
+            as SVG so it stays in the server-rendered response with no extra
+            request and no layout shift. See components/layout/logo.tsx for
+            why it isn't an <img>. `text-text` still matters: the letterforms
+            are currentColor, so this is what makes the mark invert when
+            NavChrome retargets data-theme over a light section. */}
+        <Link href="/" className="text-text hover:text-text -m-2 flex items-center p-2">
+          <Logo />
         </Link>
         <nav aria-label="Primary" className="hidden gap-7 md:flex">
           <div className="group relative">
