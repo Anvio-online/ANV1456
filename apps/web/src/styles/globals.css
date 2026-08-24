@@ -48,9 +48,6 @@
   --text-label: var(--fs-label);
   --text-metric: var(--fs-metric);
   --text-code: var(--fs-code);
-  /* footer wordmark band only — not part of the core type scale in
-     design-system.md §3.2, but still a token rather than an arbitrary value */
-  --text-wordmark: clamp(3.5rem, 14vw, 11rem);
 
   --spacing-section-y: var(--section-y);
   --spacing-section-y-compact: var(--section-y-compact);
@@ -398,6 +395,36 @@
   }
   .nav-chrome.is-condensed::before {
     opacity: 1;
+  }
+
+  /* Brand halo for the inline wordmark (components/layout/logo.tsx).
+     The source artwork bakes this bloom into a 173KB raster; as a
+     filter on the vector it costs nothing, survives any scale, and
+     leaves the letterforms on currentColor so the mark still inverts
+     with the nav's data-theme retarget.
+
+     Opt-in, and currently unused in-app: the nav ships flat. §4.4 caps
+     amber glow at one focal element per viewport, and the one element
+     present in the corner of every page is the worst possible claimant
+     on that budget — with the bloom on it read as a light source
+     instead of a wordmark. This stays for large-format use (an OG
+     image, a social avatar) where the mark is alone in frame.
+
+     Blur radii are in `em`, so they track the surrounding type scale
+     rather than being a fixed pixel value that only looks right at one
+     size. In the source art the bloom reaches ~16% of the mark's
+     height; at 1em = 16px with the nav's 20px-tall mark, 0.2em puts the
+     outer stop at ~3.2px — the same ratio. Two stops rather than one
+     for the same reason --accent-glow-* has two: a single Gaussian
+     falls off like a flat tint, not like light.
+
+     §4.4 also bans drop shadows on dark as invisible paint cost; that
+     rule is about neutral elevation, not a coloured brand bloom. Either
+     way it is a static filter — never animate it. On light both stops
+     resolve to transparent, so the filter is a no-op there rather than
+     a second code path. */
+  .logo-glow {
+    filter: drop-shadow(0 0 0.075em var(--logo-glow)) drop-shadow(0 0 0.2em var(--logo-glow-soft));
   }
 
   /* why-us contrast-table — home-spec.md §8's table is wider than

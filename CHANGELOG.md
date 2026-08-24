@@ -19,6 +19,14 @@ All notable changes to this project. Format follows [Keep a Changelog](https://k
 - `.claude/` operating system: modular rules, nine specialist agents, twelve commands, three skills, and three enforcement hooks ([ADR-0007](docs/engineering/adr/0007-agent-operating-system.md))
 - `ops/` for dated agent deliverables, with lead/outreach/meeting/proposal output gitignored as personal and client-confidential data
 
+### Changed
+
+- Nav wordmark is now the real Anvio mark, inlined as SVG instead of typeset text. Server-rendered with no extra request and no layout shift; letterforms stay on `currentColor` so the mark inverts over light sections. Ships flat — the amber bloom from the source artwork is opt-in (`<Logo glow />`) rather than spending the one-glow-per-viewport budget on every page.
+
+- Footer watermark band is the real mark too (`<Logo decorative mono />`), replacing the typeset `ANVIO`. Rendered monochrome and at a third of the container width, so it reads as a sign-off rather than a background slab — the mark's amber wave at band scale was louder than the CTA above it. Retires the now-unused `--text-wordmark` token.
+
+- Favicon is the brand mark instead of a typeset "A" — the wave and star, composed as a compact square form since the full lockup is 4.28:1 and illegible at 32px. Still generated as PNG rather than a static SVG, so browsers below Safari 14 don't fall back to the /favicon.ico 404 the route exists to prevent.
+
 ### Notes
 
 - Only the Home hero section is implemented; the remaining ~23 section types are typed and documented in [section-library.md](docs/system/section-library.md) but not yet built — this is the scaffold, not the finished site.

@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { Logo } from '@/components/layout/logo'
 
 /**
  * design-system.md §6.6 specifies Services / Company / Resources /
@@ -75,18 +76,26 @@ export function Footer() {
           ))}
         </div>
         {/* Decorative watermark, not content — the real wordmark is the nav
-            link on every page. aria-hidden rather than brightened: low
-            contrast is the design here (a faint background mark), not a
-            bug. WCAG 1.4.3 explicitly exempts "text that is part of a logo
-            or brand name" from the contrast minimum — axe-core's automated
-            check still flags it (it can't tell logotype from body text),
-            so this will keep showing as one Lighthouse contrast failure by
-            design. Don't brighten it to satisfy the tool. */}
-        <div
-          aria-hidden="true"
-          className="border-border font-display text-wordmark text-surface-2 border-t pt-8 text-center font-bold leading-none tracking-tight"
-        >
-          ANVIO
+            link on every page, so this one is `decorative`: no text
+            equivalent, and it stays out of the accessibility tree rather
+            than announcing "Anvio" a second time. Low contrast is the
+            design here (a faint background mark), not a bug; don't
+            brighten it.
+
+            `mono` is the whole reason this reads as a watermark. The mark
+            holds its wave at --accent everywhere else, but a
+            full-strength amber stroke at clamp(3.5rem, 14vw, 11rem)
+            stops being a faint band and becomes the loudest element on
+            the page — louder than the CTA above it.
+
+            Worth re-checking on the next axe run: this used to be the
+            one contrast failure we accepted by design, because axe-core
+            can't tell logotype from body text and WCAG 1.4.3's logo
+            exemption isn't machine-readable. The band is vector now, not
+            a text node, so the colour-contrast rule should no longer
+            evaluate it at all. */}
+        <div className="border-border flex justify-center border-t pt-8">
+          <Logo decorative mono className="text-surface-2 h-auto w-1/3" />
         </div>
       </div>
     </footer>
