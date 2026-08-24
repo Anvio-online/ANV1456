@@ -283,7 +283,7 @@ Nav must render server-side and be usable before hydration.
 
 ### 6.6 Footer
 
-Four link columns (Services / Company / Resources / Legal) + oversized `ANVIO` wordmark as a graphic band + contact block + socials. Dark, always. Include the Automate/Build/Grow leaf links here — it's real internal-linking equity, see [seo-strategy.md](seo-strategy.md) §5.
+Four link columns (Services / Company / Resources / Legal) + oversized `ANVIO` wordmark as a graphic band + contact block + socials. The band is the real mark (`<Logo decorative mono />`), not typeset text — `mono` holds the wave on `currentColor` so the band stays a faint watermark instead of putting a full-strength amber stroke at `11rem` into the footer. Dark, always. Include the Automate/Build/Grow leaf links here — it's real internal-linking equity, see [seo-strategy.md](seo-strategy.md) §5.
 
 ### 6.7 Form / input
 

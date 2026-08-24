@@ -23,6 +23,8 @@ All notable changes to this project. Format follows [Keep a Changelog](https://k
 
 - Nav wordmark is now the real Anvio mark, inlined as SVG instead of typeset text. Server-rendered with no extra request and no layout shift; letterforms stay on `currentColor` so the mark inverts over light sections. Ships flat — the amber bloom from the source artwork is opt-in (`<Logo glow />`) rather than spending the one-glow-per-viewport budget on every page.
 
+- Footer watermark band is the real mark too (`<Logo decorative mono />`), replacing the typeset `ANVIO`. Rendered monochrome and at a third of the container width, so it reads as a sign-off rather than a background slab — the mark's amber wave at band scale was louder than the CTA above it. Retires the now-unused `--text-wordmark` token.
+
 ### Notes
 
 - Only the Home hero section is implemented; the remaining ~23 section types are typed and documented in [section-library.md](docs/system/section-library.md) but not yet built — this is the scaffold, not the finished site.

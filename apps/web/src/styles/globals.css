@@ -48,9 +48,6 @@
   --text-label: var(--fs-label);
   --text-metric: var(--fs-metric);
   --text-code: var(--fs-code);
-  /* footer wordmark band only — not part of the core type scale in
-     design-system.md §3.2, but still a token rather than an arbitrary value */
-  --text-wordmark: clamp(3.5rem, 14vw, 11rem);
 
   --spacing-section-y: var(--section-y);
   --spacing-section-y-compact: var(--section-y-compact);

@@ -57,7 +57,6 @@ const FONT_SIZE_TOKENS = [
   'label',
   'metric',
   'code',
-  'wordmark',
 ]
 
 const twMerge = extendTailwindMerge({

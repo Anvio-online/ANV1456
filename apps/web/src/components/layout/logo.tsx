@@ -57,38 +57,71 @@ type LogoProps = {
    * frame and the bloom is the point.
    */
   glow?: boolean
+  /**
+   * Drops the text equivalent and hides the mark from assistive tech.
+   * For the footer watermark band, where the mark is a background
+   * graphic and the nav link already carries "Anvio" on every page —
+   * a second copy would just be a duplicate announcement.
+   */
+  decorative?: boolean
+  /**
+   * Renders the wave and the asterisk in `currentColor` too, instead of
+   * holding them at --accent. For the watermark band, where the whole
+   * point is a near-invisible mark: a full-strength accent stroke
+   * inside a --surface-2 band isn't a faint watermark any more, it's
+   * the loudest element in the footer.
+   */
+  mono?: boolean
 }
 
-export function Logo({ className, glow = false }: LogoProps): ReactElement {
-  return (
-    <span className="inline-flex items-center">
-      <svg
-        viewBox="40.79 27.84 184.68 43.12"
-        fill="currentColor"
-        aria-hidden="true"
-        focusable="false"
-        className={cn('h-5 w-auto', glow && 'logo-glow', className)}
-      >
-        {/* The wave is the N: a stroked path, not a glyph. Kept on
+export function Logo({
+  className,
+  glow = false,
+  decorative = false,
+  mono = false,
+}: LogoProps): ReactElement {
+  const accent = mono ? 'currentColor' : 'var(--accent)'
+
+  const svg = (
+    <svg
+      viewBox="40.79 27.84 184.68 43.12"
+      fill="currentColor"
+      aria-hidden="true"
+      focusable="false"
+      className={cn('h-5 w-auto', glow && 'logo-glow', className)}
+    >
+      {/* The wave is the N: a stroked path, not a glyph. Kept on
             --accent rather than --accent-text because a logo holds its
             brand colour on both canvases — WCAG 1.4.3 exempts logotype
             from the contrast minimum, and this is a 9-unit graphic
             stroke, not text. */}
-        <path
-          d="M79.25 63.27C83.09 50.89 92.57 27.72 99.81 34.09C108.85 42.04 96.38 66.27 109.61 66.27C122.83 66.27 127.99 46.8 124.12 34.09"
-          fill="none"
-          stroke="var(--accent)"
-          strokeWidth="9"
-        />
-        <path d="M52.74 70.48H40.77L57.03 28.48H69.31L85.57 70.48H73.6L70.84 62.98H55.5L52.74 70.48ZM58.26 55.18H68.08L63.17 41.08L58.26 55.18Z" />
-        <path d="M137.63 57.88L147.71 28.48H159.53L143.63 70.48H131.63L115.73 28.48H127.43L137.63 57.88Z" />
-        <path d="M173.14 62.09V70.5H162.34V28.42H173.14V62.09Z" />
-        <path d="M205.27 39.88C205.27 37.48 204.07 36.28 201.67 36.28H191.47C189.07 36.28 187.87 37.48 187.87 39.88V59.08C187.87 61.48 189.07 62.68 191.47 62.68H201.67C204.07 62.68 205.27 61.48 205.27 59.08V39.88ZM216.07 59.08C216.07 63.28 215.11 66.34 213.19 68.26C211.31 70.14 208.27 71.08 204.07 71.08H189.07C184.87 71.08 181.81 70.14 179.89 68.26C178.01 66.34 177.07 63.28 177.07 59.08V39.88C177.07 35.68 178.01 32.64 179.89 30.76C181.81 28.84 184.87 27.88 189.07 27.88H204.07C208.27 27.88 211.31 28.84 213.19 30.76C215.11 32.64 216.07 35.68 216.07 39.88V59.08Z" />
-        <path
-          d="M220.44 62.25C219.74 61.7 218.73 62.25 218.82 63.13L219 64.94C219.03 65.2 218.96 65.46 218.79 65.67L217.66 67.09C217.11 67.78 217.67 68.8 218.55 68.71L220.36 68.52C220.62 68.5 220.88 68.57 221.08 68.73L222.51 69.87C223.2 70.42 224.21 69.86 224.12 68.98L223.94 67.17C223.91 66.91 223.99 66.65 224.15 66.45L225.28 65.02C225.83 64.33 225.28 63.31 224.39 63.41L222.59 63.59C222.32 63.62 222.06 63.54 221.86 63.38L220.44 62.25ZM221.61 64.75C222.33 64.83 222.85 65.47 222.78 66.19C222.7 66.92 222.05 67.44 221.33 67.36C220.61 67.29 220.09 66.64 220.17 65.92C220.24 65.2 220.89 64.68 221.61 64.75Z"
-          fill="var(--accent)"
-        />
-      </svg>
+      <path
+        d="M79.25 63.27C83.09 50.89 92.57 27.72 99.81 34.09C108.85 42.04 96.38 66.27 109.61 66.27C122.83 66.27 127.99 46.8 124.12 34.09"
+        fill="none"
+        stroke={accent}
+        strokeWidth="9"
+      />
+      <path d="M52.74 70.48H40.77L57.03 28.48H69.31L85.57 70.48H73.6L70.84 62.98H55.5L52.74 70.48ZM58.26 55.18H68.08L63.17 41.08L58.26 55.18Z" />
+      <path d="M137.63 57.88L147.71 28.48H159.53L143.63 70.48H131.63L115.73 28.48H127.43L137.63 57.88Z" />
+      <path d="M173.14 62.09V70.5H162.34V28.42H173.14V62.09Z" />
+      <path d="M205.27 39.88C205.27 37.48 204.07 36.28 201.67 36.28H191.47C189.07 36.28 187.87 37.48 187.87 39.88V59.08C187.87 61.48 189.07 62.68 191.47 62.68H201.67C204.07 62.68 205.27 61.48 205.27 59.08V39.88ZM216.07 59.08C216.07 63.28 215.11 66.34 213.19 68.26C211.31 70.14 208.27 71.08 204.07 71.08H189.07C184.87 71.08 181.81 70.14 179.89 68.26C178.01 66.34 177.07 63.28 177.07 59.08V39.88C177.07 35.68 178.01 32.64 179.89 30.76C181.81 28.84 184.87 27.88 189.07 27.88H204.07C208.27 27.88 211.31 28.84 213.19 30.76C215.11 32.64 216.07 35.68 216.07 39.88V59.08Z" />
+      <path
+        d="M220.44 62.25C219.74 61.7 218.73 62.25 218.82 63.13L219 64.94C219.03 65.2 218.96 65.46 218.79 65.67L217.66 67.09C217.11 67.78 217.67 68.8 218.55 68.71L220.36 68.52C220.62 68.5 220.88 68.57 221.08 68.73L222.51 69.87C223.2 70.42 224.21 69.86 224.12 68.98L223.94 67.17C223.91 66.91 223.99 66.65 224.15 66.45L225.28 65.02C225.83 64.33 225.28 63.31 224.39 63.41L222.59 63.59C222.32 63.62 222.06 63.54 221.86 63.38L220.44 62.25ZM221.61 64.75C222.33 64.83 222.85 65.47 222.78 66.19C222.7 66.92 222.05 67.44 221.33 67.36C220.61 67.29 220.09 66.64 220.17 65.92C220.24 65.2 220.89 64.68 221.61 64.75Z"
+        fill={accent}
+      />
+    </svg>
+  )
+
+  // Decorative use (the footer watermark band) needs no text equivalent,
+  // and returning the bare svg is also what lets a consumer size it with
+  // `w-full` — a shrink-to-fit inline-flex wrapper would give that
+  // percentage nothing to resolve against. The svg is already
+  // aria-hidden, so it drops out of the accessibility tree on its own.
+  if (decorative) return svg
+
+  return (
+    <span className="inline-flex items-center">
+      {svg}
       {/* The mark's text equivalent. `aria-hidden` on the svg plus real
           text here is more robust across screen readers than <title>,
           and unlike an aria-label it is text a crawler reads as the
