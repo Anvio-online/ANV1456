@@ -5,6 +5,10 @@ import { AGENT_DEMO_SYSTEM_PROMPT_V1, AGENT_DEMO_PLAN_PROMPT_V1 } from '@/lib/ai
 import { agentRequestSchema, automationPlanSchema } from '@/lib/ai/schemas'
 import { checkChatRateLimit, checkPlanRateLimit } from '@/lib/rate-limit'
 import { sendAutomationPlanEmail } from '@/lib/email/agent-plan'
+import { db } from '@/lib/db/client'
+import { agentLeads } from '@/lib/db/schema'
+import { env } from '@/lib/env'
+import { ATTRIBUTION_COOKIE, readAttribution } from '@/lib/analytics/attribution'
 
 export const runtime = 'nodejs'
 
@@ -144,6 +148,32 @@ export async function POST(req: NextRequest) {
     emailSent = true
   } catch (err) {
     console.error('[agent] plan email failed to send', err)
+  }
+
+  // The durable lead record ADR-0005 assumes exists — the transcript,
+  // the plan, the captured email, and where the visitor came from. This
+  // is what the Metabase dashboard reads (ADR-0008); the notification
+  // email is a convenience on top, not the record.
+  //
+  // Best-effort: the visitor already has their plan and we already paid
+  // for it. A DB blip here should be a loud log, not a 500 on someone
+  // holding a finished plan — same call the email path above makes.
+  if (db) {
+    try {
+      const attribution = readAttribution(req.cookies.get(ATTRIBUTION_COOKIE)?.value)
+      await db.insert(agentLeads).values({
+        email,
+        transcript: turns,
+        plan: res.parsed_output,
+        sourceIp: ip === '127.0.0.1' ? null : ip,
+        emailSent,
+        ...attribution,
+      })
+    } catch (err) {
+      console.error('[agent] failed to persist lead row', err)
+    }
+  } else if (env.NODE_ENV === 'production') {
+    console.error('[agent] DATABASE_URL not configured — plan lead was not persisted')
   }
 
   return NextResponse.json({ plan: res.parsed_output, emailSent })

@@ -1,10 +1,12 @@
 'use server'
 
+import { cookies } from 'next/headers'
 import { db } from '@/lib/db/client'
 import { contactSubmissions } from '@/lib/db/schema'
 import { contactSchema, type ContactFormValues } from '@/lib/forms/contact-schema'
 import { env } from '@/lib/env'
 import { sendContactNotification } from '@/lib/email/lead-notification'
+import { ATTRIBUTION_COOKIE, readAttribution } from '@/lib/analytics/attribution'
 
 export type ContactActionResult = { success: true } | { success: false; error: string }
 
@@ -27,7 +29,8 @@ export async function submitContactForm(values: ContactFormValues): Promise<Cont
     return { success: true }
   }
 
-  await db.insert(contactSubmissions).values(parsed.data)
+  const attribution = readAttribution((await cookies()).get(ATTRIBUTION_COOKIE)?.value)
+  await db.insert(contactSubmissions).values({ ...parsed.data, ...attribution })
   await sendContactNotification(parsed.data)
   return { success: true }
 }

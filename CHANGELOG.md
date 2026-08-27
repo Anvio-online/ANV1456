@@ -18,6 +18,8 @@ All notable changes to this project. Format follows [Keep a Changelog](https://k
 - `docs/business/` — the living business layer (positioning, ICP, services and pricing, current situation, competitors, voice), superseding `Initial/Brand_strategy.md`
 - `.claude/` operating system: modular rules, nine specialist agents, twelve commands, three skills, and three enforcement hooks ([ADR-0007](docs/engineering/adr/0007-agent-operating-system.md))
 - `ops/` for dated agent deliverables, with lead/outreach/meeting/proposal output gitignored as personal and client-confidential data
+- First-touch attribution on every captured lead — landing page, referrer, and UTM params are snapshotted by `middleware.ts` (consent-gated) and stamped onto agent-demo, contact, and audit rows, so a lead can be traced to the link it came from ([ADR-0008](docs/engineering/adr/0008-analytics-attribution-and-lead-visibility.md))
+- Agent-demo plans are now persisted to `agent_leads` (email, transcript, plan, whether the email sent, attribution) — previously the row ADR-0005 assumed was never actually written
 
 ### Notes
 
