@@ -2,7 +2,7 @@
 
 import type { PostHog } from 'posthog-js'
 import type { AnalyticsEventName, AnalyticsEventProperties } from './events'
-import { CONSENT_COOKIE, hasAnalyticsConsent } from './consent'
+import { CONSENT_COOKIE, CONSENT_MAX_AGE_SECONDS, hasAnalyticsConsent } from './consent'
 
 /**
  * Client-side analytics. ADR-0008.
@@ -65,6 +65,28 @@ export async function loadAnalytics(): Promise<PostHog | null> {
 /** The already-loaded client, or null. Never triggers a load. */
 export function getAnalytics(): PostHog | null {
   return instance
+}
+
+function writeConsentCookie(value: 'granted' | 'denied'): void {
+  const secure = window.location.protocol === 'https:' ? '; secure' : ''
+  document.cookie = `${CONSENT_COOKIE}=${value}; path=/; max-age=${CONSENT_MAX_AGE_SECONDS}; samesite=lax${secure}`
+}
+
+/**
+ * Called by the consent banner on "Accept". Records the choice and
+ * starts analytics immediately. The caller also refreshes the route so
+ * the middleware — which now sees `anv_consent=granted` — captures
+ * first-touch attribution from the still-present URL.
+ */
+export function grantAnalyticsConsent(): void {
+  writeConsentCookie('granted')
+  void loadAnalytics()
+}
+
+/** Called by the consent banner on "Decline". Records the choice so the
+ * banner doesn't reappear; nothing loads. */
+export function denyAnalyticsConsent(): void {
+  writeConsentCookie('denied')
 }
 
 export function captureClient<E extends AnalyticsEventName>(

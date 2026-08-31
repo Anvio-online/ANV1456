@@ -20,7 +20,8 @@ All notable changes to this project. Format follows [Keep a Changelog](https://k
 - `ops/` for dated agent deliverables, with lead/outreach/meeting/proposal output gitignored as personal and client-confidential data
 - First-touch attribution on every captured lead — landing page, referrer, and UTM params are snapshotted by `middleware.ts` (consent-gated) and stamped onto agent-demo, contact, and audit rows, so a lead can be traced to the link it came from ([ADR-0008](docs/engineering/adr/0008-analytics-attribution-and-lead-visibility.md))
 - Agent-demo plans are now persisted to `agent_leads` (email, transcript, plan, whether the email sent, attribution) — previously the row ADR-0005 assumed was never actually written
-- PostHog product analytics wired for the lead funnel — `build_my_plan_clicked`, agent-demo turns, email submitted, plan generated, plan email sent, contact and audit submissions ([ADR-0008](docs/engineering/adr/0008-analytics-attribution-and-lead-visibility.md)). `posthog-js` is lazy-loaded only after consent, so it stays out of the shared bundle; dormant until the consent banner ships
+- PostHog product analytics wired for the lead funnel — `build_my_plan_clicked`, agent-demo turns, email submitted, plan generated, plan email sent, contact and audit submissions ([ADR-0008](docs/engineering/adr/0008-analytics-attribution-and-lead-visibility.md)). `posthog-js` is lazy-loaded only after consent, so it stays out of the shared bundle
+- Analytics consent banner — shown once, defaults to declined; analytics and the attribution cookie only run after "Accept". `/privacy` and `/cookies` updated to name PostHog, list every cookie, and describe how to withdraw consent (both pages still pending legal review)
 
 ### Notes
 

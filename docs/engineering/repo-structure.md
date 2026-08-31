@@ -74,7 +74,7 @@ anvio/
 │     │  │  ├─ ui/                  # Button, Card, Badge, Input, Accordion, Marquee, Chip
 │     │  │  ├─ motion/              # FadeUp, MaskReveal, CounterRoll, NodeCascade, PathPulse
 │     │  │  ├─ layout/              # Nav, Footer, Container, Section, Grid
-│     │  │  └─ analytics/           # PostHog bootstrap (client) — ADR-0008
+│     │  │  └─ analytics/           # PostHog bootstrap + consent banner (client) — ADR-0008
 │     │  │
 │     │  ├─ lib/
 │     │  │  ├─ sections/            # registry.ts · renderer.tsx · types.ts · heading-level.ts

@@ -1,7 +1,7 @@
 # ADR-0008: Product analytics, first-touch attribution, and lead visibility
 
-**Status:** Proposed
-**Date:** 2026-08-27
+**Status:** Accepted
+**Date:** 2026-08-31
 **Deciders:** Anshika
 
 ## Context

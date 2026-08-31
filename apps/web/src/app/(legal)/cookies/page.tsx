@@ -6,12 +6,18 @@ import { webPageSchema, breadcrumbSchema } from '@/lib/seo/schema'
 
 /**
  * legal-spec.md §4. Written from what the site actually sets — audited
- * against the code, not against an analytics vendor's own docs. As of
- * this page, no analytics tool is wired into the codebase at all
- * (lib/analytics/ is empty), so the honest answer is short: the site
- * sets no tracking cookies today. legal-spec.md's own recommendation,
- * if analytics is added later, is Plausible (cookieless) over GA4 —
- * update this page before any tracking script ships, not after.
+ * against the code, not against a vendor's docs. Re-verify against
+ * `lib/analytics/` and `middleware.ts` before republishing.
+ *
+ * State as of this version (ADR-0008): the site loads PostHog analytics
+ * and sets a first-touch attribution cookie, but **only after the
+ * visitor accepts** via the consent banner. With no acceptance, nothing
+ * here runs and the only cookie is the one recording that refusal.
+ * Vercel Web Analytics runs regardless — it is cookieless.
+ *
+ * NOTE: not yet legal-reviewed. `/privacy` and this page are the two
+ * surfaces where "approximately right" is not acceptable — see
+ * current-situation.md §3.
  */
 const sections: SectionInstance[] = [
   {
@@ -31,7 +37,7 @@ const sections: SectionInstance[] = [
     theme: 'dark',
     eyebrow: 'LEGAL',
     heading: 'Cookie Policy',
-    body: 'Last updated August 10, 2026.',
+    body: 'Last updated August 31, 2026.',
   },
   {
     type: 'richText',
@@ -40,28 +46,32 @@ const sections: SectionInstance[] = [
     theme: 'dark',
     heading: 'The short answer',
     paragraphs: [
-      "We don't currently set any tracking or advertising cookies on anvio.online. There is no analytics or marketing script running on the site as of this policy — nothing here to opt out of.",
-      "This page exists anyway because it's meant to stay true, not just be present. If that changes, we'll list exactly what's added below before it goes live, and we prefer tools that don't need cookies at all where a feature allows it.",
+      'Until you choose "Accept" on the banner, anvio.online sets no analytics or advertising cookies — the only thing stored is a single cookie remembering that you have not accepted, so we do not ask again on every page.',
+      'If you accept, we load a privacy-friendly analytics tool (PostHog, hosted in the EU) and record where you arrived from, so we can see which pages and links actually bring people here. We never sell this data and we do not use it to build an advertising profile of you.',
+      'We also measure page speed and aggregate visits with Vercel Web Analytics. That tool sets no cookies and does not identify you, so it runs whether or not you accept.',
     ],
   },
   {
     type: 'richText',
-    id: 'what-could-change',
+    id: 'cookies-we-set',
     variant: 'prose',
     theme: 'dark',
-    heading: 'What might be added later',
+    heading: 'Cookies we set',
     paragraphs: [
-      'If we add site analytics, our first choice is a cookieless tool that measures aggregate traffic without tracking you individually or needing consent. If we ever add a tool that does set a cookie, we will list its name, purpose, and duration in a table on this page, and add a consent option for visitors in the EU and UK that defaults to declined.',
+      'anv_consent — remembers whether you accepted or declined analytics, so the banner does not reappear. First-party. Lasts 12 months. Set always; this is the cookie that lets us honour a "decline".',
+      'anv_attr — records the page you first landed on and where you came from (the referring site and any campaign tags in the link). First-party. Lasts 6 months. Set only after you accept.',
+      'ph_* (PostHog) — a first-party analytics identifier and its supporting values, used to count unique visits and follow a journey through the site. Set by PostHog, our analytics processor, on our domain. Lasts up to 12 months. Set only after you accept.',
     ],
   },
   {
     type: 'richText',
-    id: 'browser-controls',
+    id: 'change-your-mind',
     variant: 'prose',
     theme: 'dark',
-    heading: 'Your browser controls',
+    heading: 'Changing your choice',
     paragraphs: [
-      'Even with nothing to opt out of here, your browser lets you block or delete cookies from any site at any time in its settings. Nothing on anvio.online currently depends on a cookie to function.',
+      'To withdraw consent after accepting, clear anvio.online cookies in your browser settings — the banner returns on your next visit and defaults, as always, to declined.',
+      'Your browser also lets you block or delete cookies from any site at any time. Nothing on anvio.online depends on a cookie to function.',
     ],
   },
   {
@@ -86,7 +96,7 @@ const sections: SectionInstance[] = [
 
 const COOKIES_TITLE = 'Cookie Policy'
 const COOKIES_DESCRIPTION =
-  "What anvio.online sets in your browser — as of this policy, no tracking or analytics cookies at all — and what would change if that ever isn't true."
+  'What anvio.online stores in your browser: nothing for analytics unless you accept, a cookieless speed measure that always runs, and exactly which cookies each choice sets.'
 
 export const metadata: Metadata = buildMetadata({
   title: COOKIES_TITLE,
