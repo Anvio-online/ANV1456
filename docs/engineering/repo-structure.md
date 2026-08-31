@@ -73,7 +73,8 @@ anvio/
 │     │  ├─ components/
 │     │  │  ├─ ui/                  # Button, Card, Badge, Input, Accordion, Marquee, Chip
 │     │  │  ├─ motion/              # FadeUp, MaskReveal, CounterRoll, NodeCascade, PathPulse
-│     │  │  └─ layout/              # Nav, Footer, Container, Section, Grid
+│     │  │  ├─ layout/              # Nav, Footer, Container, Section, Grid
+│     │  │  └─ analytics/           # PostHog bootstrap (client) — ADR-0008
 │     │  │
 │     │  ├─ lib/
 │     │  │  ├─ sections/            # registry.ts · renderer.tsx · types.ts · heading-level.ts
@@ -82,7 +83,7 @@ anvio/
 │     │  │  ├─ ai/                  # client.ts · plan.ts · prompts/ · schemas.ts
 │     │  │  ├─ db/                  # schema.ts · client.ts · queries/
 │     │  │  ├─ rate-limit/          # index.ts (Upstash)
-│     │  │  ├─ analytics/           # events.ts (typed event map) · attribution.ts (first-touch)
+│     │  │  ├─ analytics/           # events.ts · attribution.ts · consent.ts · capture.ts (client) · posthog-server.ts
 │     │  │  ├─ env.ts               # Zod-validated environment
 │     │  │  └─ utils/               # cn.ts · format.ts · slug.ts
 │     │  │

@@ -9,6 +9,9 @@ import { db } from '@/lib/db/client'
 import { agentLeads } from '@/lib/db/schema'
 import { env } from '@/lib/env'
 import { ATTRIBUTION_COOKIE, readAttribution } from '@/lib/analytics/attribution'
+import { CONSENT_COOKIE } from '@/lib/analytics/consent'
+import { captureServer } from '@/lib/analytics/posthog-server'
+import { AnalyticsEvent } from '@/lib/analytics/events'
 
 export const runtime = 'nodejs'
 
@@ -176,5 +179,28 @@ export async function POST(req: NextRequest) {
     console.error('[agent] DATABASE_URL not configured — plan lead was not persisted')
   }
 
-  return NextResponse.json({ plan: res.parsed_output, emailSent })
+  // Server-confirmed funnel events, keyed to the captured email so they
+  // land on the same PostHog person the client identified. Consent-gated
+  // and best-effort inside captureServer — a dropped event never touches
+  // the response.
+  const consentCookie = req.cookies.get(CONSENT_COOKIE)?.value
+  const plan = res.parsed_output
+  await captureServer({
+    distinctId: email,
+    consentCookie,
+    event: AnalyticsEvent.AgentPlanGenerated,
+    properties: {
+      complexity: plan.complexity,
+      hours_low: plan.estimatedHoursSavedPerMonth.low,
+      hours_high: plan.estimatedHoursSavedPerMonth.high,
+    },
+  })
+  await captureServer({
+    distinctId: email,
+    consentCookie,
+    event: AnalyticsEvent.AgentPlanEmailSent,
+    properties: { email_sent: emailSent },
+  })
+
+  return NextResponse.json({ plan, emailSent })
 }

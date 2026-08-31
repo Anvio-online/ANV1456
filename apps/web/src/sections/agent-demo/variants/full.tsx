@@ -8,6 +8,8 @@ import type { ChatTurn, AutomationPlan } from '@/lib/ai/schemas'
 import { AGENT_DEMO_READY_PHRASE } from '@/lib/ai/prompts/agent-demo'
 import { Button } from '@/components/ui/button'
 import type { CSSVarStyle } from '@/lib/utils/css-vars'
+import { captureClient, identifyLead } from '@/lib/analytics/capture'
+import { AnalyticsEvent } from '@/lib/analytics/events'
 import { Preview } from './preview'
 
 /** Safety net: force the gate even if the model never says the ready
@@ -67,6 +69,9 @@ export function Full({
   }, [turns, streamingText])
 
   async function sendTurn(nextTurns: ChatTurn[]) {
+    captureClient(AnalyticsEvent.AgentDemoTurnSent, {
+      turn_number: nextTurns.filter((t) => t.role === 'user').length,
+    })
     setPhase({ kind: 'chatting' })
     setStreamingText('')
     try {
@@ -109,6 +114,8 @@ export function Full({
     e.preventDefault()
     const text = input.trim()
     if (!text) return
+    // The demo's funnel top — fires once, on the first real submission.
+    captureClient(AnalyticsEvent.BuildMyPlanClicked)
     setInput('')
     // Eagerly reflect the user's own message before the round trip
     // starts — matches handleFollowupSubmit below. Without this, the
@@ -133,6 +140,10 @@ export function Full({
   async function handleEmailSubmit(e: FormEvent) {
     e.preventDefault()
     if (!email.trim()) return
+    // Identify before the request so the plan-stage server events land
+    // on the same person as this session's prior anonymous activity.
+    identifyLead(email.trim())
+    captureClient(AnalyticsEvent.AgentPlanEmailSubmitted)
     setPhase({ kind: 'gate-submitting' })
     try {
       const res = await fetch('/api/agent', {

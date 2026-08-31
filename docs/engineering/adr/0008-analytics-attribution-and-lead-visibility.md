@@ -49,9 +49,11 @@ One hosted tool covers visitors, click autocapture, per-person
 timelines, funnels, and source attribution, on a free tier
 (1M events/month). EU Cloud for data-residency posture.
 
-- `posthog-js` initialised in **cookieless (memory) persistence** until
-  the visitor grants analytics consent, then upgraded to full
-  persistence. `posthog-node` for server-side events from the agent
+- `posthog-js` (~85 KB gzip) is **never statically imported** — it would
+  land in the shared bundle the LCP budget is measured against. A
+  dynamic `import()` pulls it as its own chunk, and only after the
+  visitor grants consent; before that it is never fetched and capture
+  calls are no-ops. `posthog-node` for server-side events from the agent
   route and the Server Actions.
 - A typed `snake_case` event catalogue in `lib/analytics/events.ts`
   (naming per [code-style.md](../../../.claude/rules/code-style.md)):

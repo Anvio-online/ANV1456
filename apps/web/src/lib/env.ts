@@ -25,8 +25,16 @@ const serverSchema = z.object({
 
 const clientSchema = z.object({
   NEXT_PUBLIC_SITE_URL: z.string().url().default('http://localhost:3000'),
-  NEXT_PUBLIC_PLAUSIBLE_DOMAIN: z.string().optional(),
-  NEXT_PUBLIC_GA_ID: z.string().optional(),
+
+  /**
+   * PostHog project API key — write-only, safe in the client bundle by
+   * design, and used by `posthog-node` server-side too (it is the
+   * ingestion key, not a personal/admin key). ADR-0008. Absent in dev
+   * and on preview → analytics is a no-op, which is the intended
+   * default. Supersedes the Plausible/GA vars this replaced.
+   */
+  NEXT_PUBLIC_POSTHOG_KEY: z.string().optional(),
+  NEXT_PUBLIC_POSTHOG_HOST: z.string().url().default('https://eu.i.posthog.com'),
 })
 
 const parsedServer = serverSchema.safeParse(process.env)
@@ -40,8 +48,8 @@ if (!parsedServer.success) {
 
 const parsedClient = clientSchema.safeParse({
   NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
-  NEXT_PUBLIC_PLAUSIBLE_DOMAIN: process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN,
-  NEXT_PUBLIC_GA_ID: process.env.NEXT_PUBLIC_GA_ID,
+  NEXT_PUBLIC_POSTHOG_KEY: process.env.NEXT_PUBLIC_POSTHOG_KEY,
+  NEXT_PUBLIC_POSTHOG_HOST: process.env.NEXT_PUBLIC_POSTHOG_HOST,
 })
 if (!parsedClient.success) {
   console.error(

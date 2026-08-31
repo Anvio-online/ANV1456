@@ -4,6 +4,7 @@ import {
   ATTRIBUTION_MAX_AGE_SECONDS,
   attributionFromRequest,
 } from '@/lib/analytics/attribution'
+import { CONSENT_COOKIE, hasAnalyticsConsent } from '@/lib/analytics/consent'
 
 /**
  * First-touch attribution capture. ADR-0008.
@@ -22,7 +23,7 @@ import {
 export function middleware(req: NextRequest): NextResponse {
   const res = NextResponse.next()
 
-  const hasConsent = req.cookies.get('anv_consent')?.value === 'granted'
+  const hasConsent = hasAnalyticsConsent(req.cookies.get(CONSENT_COOKIE)?.value)
   const alreadyCaptured = req.cookies.has(ATTRIBUTION_COOKIE)
 
   if (hasConsent && !alreadyCaptured) {
