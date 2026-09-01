@@ -1,4 +1,10 @@
-import { SITE_NAME, SITE_URL } from './constants'
+import {
+  SITE_NAME,
+  SITE_URL,
+  SITE_DESCRIPTION,
+  SITE_CONTACT_EMAIL,
+  SITE_AREA_SERVED,
+} from './constants'
 
 /**
  * seo-strategy.md §6. Typed builders — never hand-written JSON-LD per
@@ -6,22 +12,59 @@ import { SITE_NAME, SITE_URL } from './constants'
  *   <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
  */
 
+/** The @id every other schema on the site points `provider` / `publisher`
+ * at, so an extractor resolves them to one entity rather than several
+ * loose Organization stubs. seo-strategy.md §6: this is GEO
+ * infrastructure — how a machine learns who Anvio is. */
+export const ORGANIZATION_ID = `${SITE_URL}#organization`
+
 export function organizationSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
+    '@id': ORGANIZATION_ID,
     name: SITE_NAME,
     url: SITE_URL,
+    description: SITE_DESCRIPTION,
+    // Wordmark is the only brand mark that exists as a file today; SVG
+    // is accepted by Google's logo guidelines since 2023.
+    logo: new URL('/images/logo-wordmark.svg', SITE_URL).toString(),
+    image: new URL('/images/og-image.png', SITE_URL).toString(),
+    areaServed: [...SITE_AREA_SERVED],
+    knowsAbout: [
+      'AI automation',
+      'Business process automation',
+      'AI agents',
+      'Chatbot development',
+      'Web development',
+      'Ecommerce development',
+      'Search engine optimization',
+      'Generative engine optimization',
+    ],
+    contactPoint: {
+      '@type': 'ContactPoint',
+      email: SITE_CONTACT_EMAIL,
+      contactType: 'customer support',
+      areaServed: [...SITE_AREA_SERVED],
+      availableLanguage: ['English'],
+    },
+    // Populate with real, verifiable Anvio profile URLs once any exist
+    // (LinkedIn, Instagram, GitHub). Left empty deliberately —
+    // evidence-and-claims.md: an invented handle is worse than a gap.
     sameAs: [] as string[],
   }
 }
+
+export const WEBSITE_ID = `${SITE_URL}#website`
 
 export function websiteSchema() {
   return {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
+    '@id': WEBSITE_ID,
     name: SITE_NAME,
     url: SITE_URL,
+    publisher: { '@id': ORGANIZATION_ID },
   }
 }
 
@@ -43,11 +86,10 @@ export function serviceSchema({
     description,
     serviceType,
     url: new URL(path, SITE_URL).toString(),
-    provider: {
-      '@type': 'Organization',
-      name: SITE_NAME,
-      url: SITE_URL,
-    },
+    // seo-strategy.md §6 — Service carries areaServed; provider resolves
+    // to the one Organization @id rather than repeating a stub.
+    areaServed: [...SITE_AREA_SERVED],
+    provider: { '@id': ORGANIZATION_ID },
   }
 }
 
@@ -60,6 +102,8 @@ export function webPageSchema({
   name,
   description,
   path,
+  primaryImage,
+  about = false,
 }: {
   /** 'WebPage' is legal-spec.md's fallback — schema.org has no
    * dedicated Privacy/Terms/Cookies type, and inventing one via
@@ -68,13 +112,22 @@ export function webPageSchema({
   name: string
   description: string
   path: string
+  primaryImage?: string
+  /** Set on pages that are substantively *about* Anvio the company —
+   * Home, About — so an extractor links the page to the Organization
+   * entity rather than treating it as a standalone document. */
+  about?: boolean
 }) {
+  const url = new URL(path, SITE_URL).toString()
   return {
     '@context': 'https://schema.org',
     '@type': type,
     name,
     description,
-    url: new URL(path, SITE_URL).toString(),
+    url,
+    isPartOf: { '@id': WEBSITE_ID },
+    ...(about ? { about: { '@id': ORGANIZATION_ID } } : {}),
+    ...(primaryImage ? { primaryImageOfPage: new URL(primaryImage, SITE_URL).toString() } : {}),
   }
 }
 
@@ -100,6 +153,7 @@ export function articleSchema({
   datePublished,
   dateModified,
   path,
+  image,
 }: {
   headline: string
   description: string
@@ -107,15 +161,54 @@ export function articleSchema({
   datePublished: Date
   dateModified: Date
   path: string
+  /** Absolute or root-relative. Falls back to the sitewide OG image —
+   * Google's Article guidance wants an image on every entry. */
+  image?: string
 }) {
+  const url = new URL(path, SITE_URL).toString()
   return {
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline,
     description,
     author: { '@type': 'Person', name: author },
+    // seo-strategy.md §6: publisher resolves to the one Organization
+    // @id, so provenance for the guide attaches to a known entity.
+    publisher: { '@id': ORGANIZATION_ID },
+    image: new URL(image ?? '/images/og-image.png', SITE_URL).toString(),
     datePublished: datePublished.toISOString(),
     dateModified: dateModified.toISOString(),
+    url,
+    mainEntityOfPage: url,
+  }
+}
+
+/** seo-strategy.md §7 / GEO: how-to guides that lay out real ordered
+ * steps get HowTo markup alongside Article. Steps come from an optional
+ * `howToSteps` frontmatter array on the guide (content-collections.ts),
+ * authored deliberately — never scraped from the body headings. */
+export function howToSchema({
+  name,
+  description,
+  steps,
+  path,
+}: {
+  name: string
+  description: string
+  steps: { name: string; text: string }[]
+  path: string
+}) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'HowTo',
+    name,
+    description,
+    step: steps.map((s, i) => ({
+      '@type': 'HowToStep',
+      position: i + 1,
+      name: s.name,
+      text: s.text,
+    })),
     url: new URL(path, SITE_URL).toString(),
   }
 }

@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import type { SectionInstance } from '@/lib/sections/types'
 import { SectionRenderer } from '@/lib/sections/renderer'
 import { buildMetadata } from '@/lib/seo/metadata'
-import { articleSchema, breadcrumbSchema } from '@/lib/seo/schema'
+import { articleSchema, breadcrumbSchema, faqSchema, howToSchema } from '@/lib/seo/schema'
 import { contentRepository } from '@/lib/content'
 import { extractHeadings } from '@/lib/content/toc'
 
@@ -135,6 +135,17 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
     { name: 'Guides', path: '/guides' },
     { name: entry.title, path: `/guides/${slug}` },
   ])
+  // Optional GEO markup — emitted only when the guide's frontmatter
+  // actually carries the data (seo-strategy.md §6).
+  const faq = entry.faq ? faqSchema(entry.faq) : null
+  const howTo = entry.howToSteps
+    ? howToSchema({
+        name: entry.title,
+        description: entry.description,
+        steps: entry.howToSteps,
+        path: `/guides/${slug}`,
+      })
+    : null
 
   return (
     <>
@@ -146,6 +157,18 @@ export default async function GuidePage({ params }: { params: Promise<{ slug: st
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
       />
+      {faq && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(faq) }}
+        />
+      )}
+      {howTo && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(howTo) }}
+        />
+      )}
       <SectionRenderer sections={sections} />
     </>
   )

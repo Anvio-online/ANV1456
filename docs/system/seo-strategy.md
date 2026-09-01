@@ -142,14 +142,18 @@ JSON-LD, built from typed helpers in `lib/seo/schema.ts`. This is also GEO infra
 
 | Schema | Where |
 |---|---|
-| `Organization` + `logo`, `sameAs`, `contactPoint` | Sitewide (root layout) |
-| `WebSite` + `SearchAction` | Root |
-| `Service` | Each service page — `serviceType`, `provider`, `areaServed` |
-| `FAQPage` | Every page with a `faq` section |
-| `Article` / `BlogPosting` | Blog + guides — `author`, `datePublished`, `dateModified` |
+| `Organization` (`@id` `#organization`) + `description`, `logo`, `image`, `areaServed`, `knowsAbout`, `contactPoint` | Sitewide (root layout). `sameAs` stays `[]` until real Anvio profile URLs exist — an invented handle is worse than a gap |
+| `WebSite` (`@id` `#website`) + `publisher` → Organization | Root. `SearchAction` deferred — no site search yet |
+| `WebPage` + `isPartOf` → WebSite, `about` → Organization (on Home/About) | Home (built); About/Contact use `AboutPage`/`ContactPage` |
+| `Service` | Each service page — `serviceType`, `provider` (→ `@id`), `areaServed` |
+| `FAQPage` | Every page with a `faq` section — service/industry/tools pages, **and guides carrying `faq` frontmatter**. The Q&A must be visibly on the page |
+| `Article` | Guides — `author`, `datePublished`, `dateModified`, `publisher` (→ `@id`), `image`, `mainEntityOfPage` |
+| `HowTo` | Guides carrying `howToSteps` frontmatter — emitted alongside `Article` |
 | `BreadcrumbList` | All pages ≥ 2 levels deep |
-| `SoftwareApplication` | `/products/*` and `/tools/*` |
+| `SoftwareApplication` | `/tools/*` (built: ROI calculator) · `/products/*` (pending) |
 | `LocalBusiness` | Only once there's a verifiable address. Do not fake this. |
+
+Every builder that names Anvio references the one `Organization`/`WebSite` `@id` rather than repeating a stub, so an extractor resolves them to a single entity.
 
 Validate every template in Google's Rich Results Test before launch.
 
@@ -169,7 +173,7 @@ We sell this. The site must be the proof.
 4. **Comparison and definition content.** LLMs cite these heavily. `n8n vs Zapier`, `AI agent vs chatbot`, `what is RAG` — and we can write them credibly.
 5. **Stable, dated facts.** Visible `dateModified`, named author, and a real bio. Provenance raises citation likelihood.
 6. **Clean HTML semantics.** Real `<table>`, `<ol>`, `<dl>` — not divs styled to look like them. Extractors parse structure.
-7. **`/llms.txt`** at the root: a plain-text map of the site's key pages and what we do, in the [llms.txt convention](https://llmstxt.org). Cheap, and a signal we're paying attention.
+7. **`/llms.txt`** at the root: a plain-text map of the site's key pages and what we do, in the [llms.txt convention](https://llmstxt.org). Cheap, and a signal we're paying attention. **Built**, generated from `contentRepository`. A companion **`/llms-full.txt`** ships the full body text of every guide concatenated into one document, for ingestion in a single request — also generated, so a new guide appears in both with no code change.
 8. **`robots.txt` allows reputable AI crawlers** (GPTBot, ClaudeBot, PerplexityBot, Google-Extended). Blocking them removes us from the channel we're trying to win.
 9. **Track it:** monthly, prompt the major assistants with your target queries and record whether Anvio appears. There's no Search Console for this yet — manual tracking is the state of the art, and doing it makes a genuinely good blog post.
 

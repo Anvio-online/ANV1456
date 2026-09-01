@@ -18,6 +18,13 @@ All notable changes to this project. Format follows [Keep a Changelog](https://k
 - `docs/business/` — the living business layer (positioning, ICP, services and pricing, current situation, competitors, voice), superseding `Initial/Brand_strategy.md`
 - `.claude/` operating system: modular rules, nine specialist agents, twelve commands, three skills, and three enforcement hooks ([ADR-0007](docs/engineering/adr/0007-agent-operating-system.md))
 - `ops/` for dated agent deliverables, with lead/outreach/meeting/proposal output gitignored as personal and client-confidential data
+- **GEO infrastructure pass** ([seo-strategy.md](docs/system/seo-strategy.md) §6–§7): `/llms-full.txt` — the full text of every guide in one machine-readable document; `HowTo` and guide-level `FAQPage` structured data via optional `faq` / `howToSteps` guide frontmatter; a `WebPage` node on Home linking it to the Organization; a GEO citation-tracking log at `ops/seo/`
+- Visible **Common questions** sections on the invoice-automation and WhatsApp-API guides
+
+### Changed
+
+- `Organization` structured data now carries `description`, `logo`, `image`, `areaServed` (India, UAE), `knowsAbout`, and `contactPoint`; `Organization`/`WebSite` gained stable `@id`s that every other schema builder now references instead of repeating a stub. `Article` gained `publisher`, `image`, `mainEntityOfPage`; `Service` gained `areaServed`
+- **WhatsApp Business API guide** updated for Meta's per-message pricing model (effective 2026-07-01) — free-form service replies inside the 24-hour window are no longer charged; only template messages are
 
 ### Notes
 

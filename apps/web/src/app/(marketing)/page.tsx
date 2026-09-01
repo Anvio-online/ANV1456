@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import type { SectionInstance } from '@/lib/sections/types'
 import { SectionRenderer } from '@/lib/sections/renderer'
 import { buildMetadata } from '@/lib/seo/metadata'
+import { webPageSchema } from '@/lib/seo/schema'
 import { INDUSTRY_TILES } from '@/lib/content/industry-tiles'
 
 /**
@@ -303,6 +304,29 @@ export const metadata: Metadata = buildMetadata({
   path: '/',
 })
 
+/** Home carries no page-level schema of its own beyond the sitewide
+ * Organization + WebSite in the root layout. This WebPage node ties the
+ * landing page to both entities so an AI extractor answering "what is
+ * Anvio" resolves the page to the company rather than reading it as a
+ * loose document. seo-strategy.md §6. */
+const webPage = webPageSchema({
+  type: 'WebPage',
+  name: 'Anvio — AI Automation, Web Development & Growth',
+  description:
+    'We help growing businesses automate manual work, build software that scales, and get found online.',
+  path: '/',
+  primaryImage: '/images/og-image.png',
+  about: true,
+})
+
 export default function HomePage() {
-  return <SectionRenderer sections={sections} />
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(webPage) }}
+      />
+      <SectionRenderer sections={sections} />
+    </>
+  )
 }

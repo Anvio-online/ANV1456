@@ -3,13 +3,37 @@ title: 'How to Automate Invoice Data Entry'
 description: 'A practical walkthrough of automating invoice data entry — what the process looks like, what accuracy to actually expect, and what still needs a person.'
 slug: 'how-to-automate-invoice-data-entry'
 publishedAt: 2026-08-10
-updatedAt: 2026-08-10
+updatedAt: 2026-09-02
 draft: false
 category: 'Automation'
 author: "Anvio's founding engineer"
 commercialLink:
   label: 'AI automation services'
   href: '/services/automate'
+howToSteps:
+  - name: 'Consolidate invoice intake to one channel'
+    text: 'Route every incoming invoice through a single forwarding address or shared inbox first. If invoices currently arrive by email, WhatsApp, and post with no consistent intake point, fixing that is often cheaper and more valuable than building extraction against three inconsistent sources.'
+  - name: 'Extract the fields'
+    text: 'OCR reads the text off the document and a language model identifies which text is the vendor, amount, date, and line items — generalising across vendor formats it has never specifically seen, unlike the rules-based template matching of a decade ago.'
+  - name: 'Match against what you expect'
+    text: 'Check the extracted data against your existing vendor list and chart of accounts: does this vendor exist, is the amount reasonable, is this a duplicate. New vendors and amounts outside the expected range get flagged.'
+  - name: 'Review and confirm'
+    text: 'A person sees the extracted record beside the original document and confirms in seconds rather than typing from scratch. Anything the system flagged as uncertain routes here rather than posting a best guess silently.'
+  - name: 'Post to your accounting system'
+    text: 'The confirmed entry is written into Tally, Zoho Books, or QuickBooks in the format that system expects. The final posting decision stays with a person on every invoice, not just the uncertain ones.'
+  - name: 'Run in parallel before cutover'
+    text: 'Run the system alongside the existing manual process for two to four weeks, comparing extracted output against what the person would have typed, before anything posts automatically. This surfaces which vendors and document types it handles well with real data instead of a guess.'
+faq:
+  - question: 'What accuracy can you expect from invoice data extraction?'
+    answer: 'On clean, digitally-generated PDFs, extraction accuracy on vendor, total, and date is typically well above 95%. On scanned paper, handwritten additions, or poor photos it drops meaningfully. Line-item extraction is less reliable than header fields across all document types.'
+  - question: 'Can invoice automation post straight to my books without a person?'
+    answer: 'We do not build that for financial records. The human review step turns a five-minute typing task into a fifteen-second confirmation — a large, real time saving — without pretending the extraction is infallible on every document type. The final posting decision stays with a person.'
+  - question: 'Does it work with Tally, Zoho Books, or QuickBooks?'
+    answer: 'Yes, but the integration is specific to which one you run. A system built against Tally does not automatically work against Zoho Books without real integration work. Confirm which system the automation targets before scoping the project.'
+  - question: 'Does it handle GST and India-specific invoice fields?'
+    answer: 'It needs to be built and tested for them. Extraction must reliably pull GSTIN, HSN/SAC codes, and the CGST/SGST/IGST breakdown — fields a global off-the-shelf tool often misses because they were not in its training and test data. Check accuracy against your own real vendor invoices.'
+  - question: 'What does it cost and how long does it take?'
+    answer: 'For a business processing a moderate monthly invoice volume, a build in the ₹30,000–₹90,000 range is typical, with 2–4 weeks to a first working version. The real cost driver is the variety of vendor formats and document quality, not the invoice count.'
 relatedLinks:
   - label: 'Which processes are actually worth automating'
     href: '/guides/which-processes-are-worth-automating'
@@ -86,6 +110,18 @@ This staged approach costs a few extra weeks compared to switching over immediat
 **Automating before the document flow is consistent.** If invoices currently arrive by email, WhatsApp, and physical mail with no consistent intake point, fixing the intake process first is often cheaper and more valuable than building extraction against three inconsistent sources — a single forwarding address or shared inbox that all invoices route through first is a small process change that makes everything downstream simpler.
 
 **Assuming one build works for every vendor forever.** A new vendor with an unusual format may need a manual first pass before the system reliably reads their invoices — budget for occasional light maintenance, not a one-time build that never needs attention again.
+
+## Common questions
+
+**What accuracy can you expect from invoice data extraction?** On clean, digitally-generated PDFs, extraction accuracy on vendor, total, and date is typically well above 95%. On scanned paper, handwritten additions, or poor photos it drops meaningfully. Line-item extraction is less reliable than header fields across all document types.
+
+**Can invoice automation post straight to my books without a person?** We don't build that for financial records. The human review step turns a five-minute typing task into a fifteen-second confirmation — a large, real time saving — without pretending the extraction is infallible on every document type. The final posting decision stays with a person.
+
+**Does it work with Tally, Zoho Books, or QuickBooks?** Yes, but the integration is specific to which one you run. A system built against Tally does not automatically work against Zoho Books without real integration work. Confirm which system the automation targets before scoping the project.
+
+**Does it handle GST and India-specific invoice fields?** It needs to be built and tested for them. Extraction must reliably pull GSTIN, HSN/SAC codes, and the CGST/SGST/IGST breakdown — fields a global off-the-shelf tool often misses because they weren't in its training and test data. Check accuracy against your own real vendor invoices.
+
+**What does it cost and how long does it take?** For a business processing a moderate monthly invoice volume, a build in the ₹30,000–₹90,000 range is typical, with 2–4 weeks to a first working version. The real cost driver is the variety of vendor formats and document quality, not the invoice count.
 
 ## The honest bottom line
 
