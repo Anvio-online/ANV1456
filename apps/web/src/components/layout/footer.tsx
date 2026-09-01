@@ -8,6 +8,12 @@ import Link from 'next/link'
  * the Stratseek agreement — no "Case Studies" link until they do).
  * Services carries the two shipped leaves (service-leaf-spec.md §5)
  * and the free tool; the rest wait until they exist too.
+ *
+ * A link whose href starts with `http` is external — rendered as a
+ * plain <a> with target/rel rather than next/link. Only Instagram
+ * qualifies today; it's the one verified Anvio profile (also in
+ * Organization.sameAs, schema.ts). Add LinkedIn/GitHub here when they
+ * exist.
  */
 const columns = [
   {
@@ -27,6 +33,7 @@ const columns = [
       ['About', '/about'],
       ['Projects', '/projects'],
       ['Contact', '/contact'],
+      ['Instagram', 'https://www.instagram.com/anvio.online/'],
     ],
   },
   {
@@ -65,9 +72,20 @@ export function Footer() {
               <ul className="flex flex-col gap-2">
                 {col.links.map(([label, href]) => (
                   <li key={href}>
-                    <Link href={href} className="text-body-s text-text-2 hover:text-accent-text">
-                      {label}
-                    </Link>
+                    {href.startsWith('http') ? (
+                      <a
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-body-s text-text-2 hover:text-accent-text"
+                      >
+                        {label}
+                      </a>
+                    ) : (
+                      <Link href={href} className="text-body-s text-text-2 hover:text-accent-text">
+                        {label}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>
