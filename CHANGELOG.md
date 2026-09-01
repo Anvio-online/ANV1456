@@ -25,6 +25,7 @@ All notable changes to this project. Format follows [Keep a Changelog](https://k
 
 ### Changed
 
+- **Automate pricing is now published as a single "Starting from ₹30,000" floor** ([ADR-0009](docs/engineering/adr/0009-automate-pricing-starting-floor.md)), replacing the inconsistent ranges and retainer figures previously shown on `/services/automate`, the chatbot leaf, Home's engagement model, and two content pages. Grow pricing stays unpublished.
 - `Organization` structured data now carries `description`, `logo`, `image`, `areaServed` (India, UAE), `knowsAbout`, and `contactPoint`; `Organization`/`WebSite` gained stable `@id`s that every other schema builder now references instead of repeating a stub. `Article` gained `publisher`, `image`, `mainEntityOfPage`; `Service` gained `areaServed`
 - **WhatsApp Business API guide** updated for Meta's per-message pricing model (effective 2026-07-01) — free-form service replies inside the 24-hour window are no longer charged; only template messages are
 

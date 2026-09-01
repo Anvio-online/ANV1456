@@ -377,7 +377,7 @@ const sections: SectionInstance[] = [
       {
         question: 'How much does AI automation cost for a small business?',
         answer:
-          'Most single-process automations run ₹75,000–₹2,50,000 depending on complexity and how many systems it touches. Ongoing retainers for larger builds start around ₹35,000/month. We quote after an audit, not before — a number without a scope is a guess.',
+          'A single, well-defined automation — one focused chatbot, one workflow, one integration — starts from ₹30,000. The full number depends on how many systems it touches and how much judgement the logic involves, which is what a discovery call is for. We quote the complete scope after that call, not before — a number without a scope is a guess.',
       },
       {
         question: 'How long does it take to build an automation?',

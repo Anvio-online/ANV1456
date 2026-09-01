@@ -213,7 +213,7 @@ const sections: SectionInstance[] = [
         name: 'Automation Sprint',
         audienceFit: 'One process, automated end to end',
         timeline: '2–4 weeks',
-        range: 'Starting from ₹75,000',
+        range: 'Starting from ₹30,000',
         includes: [
           'Discovery, build, and integration',
           'Handover and documentation',

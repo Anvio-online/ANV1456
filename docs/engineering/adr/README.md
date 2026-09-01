@@ -17,6 +17,7 @@ A short document per significant technical decision: what we chose, what we reje
 | [0005](0005-agent-demo-model-and-email-gate.md) | Agent demo runs on Sonnet 5, behind an email gate | Accepted | 2026-08-07 |
 | [0006](0006-content-page-authoring-model.md) | Content pages are a section frame around one MDX body | Accepted | 2026-08-08 |
 | [0007](0007-agent-operating-system.md) | Team operating knowledge lives in the repo, split across `.claude/`, `docs/business/`, and `ops/` | Accepted | 2026-08-11 |
+| [0009](0009-automate-pricing-starting-floor.md) | Automate work publishes a single "starting from ₹30,000" floor; Grow stays unpublished | Accepted | 2026-09-02 |
 
 ## Template
 
