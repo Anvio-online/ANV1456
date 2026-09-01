@@ -48,10 +48,9 @@ export function organizationSchema() {
       areaServed: [...SITE_AREA_SERVED],
       availableLanguage: ['English'],
     },
-    // Populate with real, verifiable Anvio profile URLs once any exist
-    // (LinkedIn, Instagram, GitHub). Left empty deliberately —
-    // evidence-and-claims.md: an invented handle is worse than a gap.
-    sameAs: [] as string[],
+    // Verified Anvio profiles only. Add LinkedIn / GitHub here when they
+    // exist — never a guessed handle (evidence-and-claims.md).
+    sameAs: ['https://www.instagram.com/anvio.online/'],
   }
 }
 

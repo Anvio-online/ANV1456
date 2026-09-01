@@ -33,14 +33,14 @@ pages we have or are building — tracking a query we have no page for is noise.
 | --- | ------------------------------------------------------- | ----------------- | ----------------------------------------------- |
 | 1   | how to automate invoice data entry for a small business | problem-aware     | `/guides/how-to-automate-invoice-data-entry`    |
 | 2   | which business processes are worth automating           | problem-aware     | `/guides/which-processes-are-worth-automating`  |
-| 3   | how to automate lead follow-ups                         | problem-aware     | (Round 2 guide)                                 |
+| 3   | how to automate lead follow-ups                         | problem-aware     | `/guides/how-to-automate-lead-follow-ups`       |
 | 4   | what does the WhatsApp Business API cost                | problem-aware     | `/guides/whatsapp-business-api-cost-and-limits` |
-| 5   | how much does an AI chatbot cost for a business         | problem-aware     | (Round 2 guide)                                 |
+| 5   | how much does an AI chatbot cost for a business         | problem-aware     | `/services/automate/ai-chatbot-development`     |
 | 6   | what a business website should cost in India            | problem-aware     | `/guides/what-a-business-website-should-cost`   |
 | 7   | difference between an AI agent and a chatbot            | solution-aware    | `/guides/ai-agent-vs-chatbot`                   |
 | 8   | what is RAG in AI                                       | solution-aware    | `/guides/what-is-rag`                           |
 | 9   | how to get cited by AI search engines / GEO vs SEO      | solution-aware    | `/guides/geo-vs-seo-getting-cited-by-ai`        |
-| 10  | can AI agents handle customer support                   | solution-aware    | (Round 2 guide)                                 |
+| 10  | can AI agents handle customer support                   | solution-aware    | `/guides/ai-agents-for-customer-support`        |
 | 11  | n8n vs Zapier vs Make for a small business              | vendor comparison | `/guides/n8n-vs-zapier-vs-make`                 |
 | 12  | best way to automate WhatsApp order confirmations       | local + service   | `/services/automate/whatsapp-automation`        |
 | 13  | AI automation services for small business India         | local + service   | `/services/automate`                            |

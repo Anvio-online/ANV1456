@@ -135,6 +135,15 @@ Chosen to cover all four query shapes in [seo-strategy.md](../system/seo-strateg
 
 **Priority if only six ship:** 1, 3, 5, 8, 2, 7. #1 and #3 unblock service leaves; #5 and #8 are the two nobody else can write the way we can.
 
+### Added after Wave 5 (2026-09, GEO content pass)
+
+| # | Slug | Shape | Why us | Commercial link |
+|---|---|---|---|---|
+| 9 | `how-to-automate-lead-follow-ups` | Problem-aware / how-to | Universal SMB pain, long-tail, low competition; a worked example of the §5 (`which-processes`) framework. Carries `HowTo` + `FAQPage` markup | `/services/automate` |
+| 10 | `ai-agents-for-customer-support` | Solution-aware | Applies the agent/chatbot boundary (#1) to the most-asked support use case, with the limits spelled out. Supports the chatbot leaf | `/services/automate` |
+
+Slugs chosen by reasoning, not Ahrefs (not authorized in-session). Guide URLs are low redirect cost — validate opportunistically. **Not shipped:** a `how-much-does-an-ai-chatbot-cost` guide — held pending a decision on whether Automate/chatbot prices should appear in content at all (the chatbot leaf currently publishes `₹30,000–₹90,000`, which may conflict with [services-and-pricing.md](../business/services-and-pricing.md) §3).
+
 **Guides also seed Home's insights section**, which is currently blocked on the open item *"Three insight posts, or cut the Home insights section."* Three guides retire it. Note that `insights` and `guides` are separate content kinds ([content-layer.md](../engineering/content-layer.md) §3) — Home's section either reads from `guides` or the two kinds merge. Decide before building §3 of the index.
 
 ---

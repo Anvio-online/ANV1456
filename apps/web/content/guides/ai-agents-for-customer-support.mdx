@@ -1,0 +1,135 @@
+---
+title: "AI Agents for Customer Support: What They Can and Can't Do"
+description: 'What an AI agent can genuinely handle in customer support, what it must never do unsupervised, how escalation should work, and what it means for your team.'
+slug: 'ai-agents-for-customer-support'
+publishedAt: 2026-09-02
+updatedAt: 2026-09-02
+draft: false
+category: 'Automation'
+author: "Anvio's founding engineer"
+commercialLink:
+  label: 'AI automation services'
+  href: '/services/automate'
+faq:
+  - question: 'What can an AI agent do in customer support?'
+    answer: 'Answer questions from your documentation, look up a specific order or account and report its real status, triage and route tickets, take low-risk actions like sending a tracking link or resending an invoice, and hand off to a person with the full context attached.'
+  - question: 'What should an AI support agent not do on its own?'
+    answer: "Anything hard to reverse or high-consequence: issuing refunds above a small threshold, cancelling orders, changing account or billing details, making promises about compensation, or handling a complaint that has become emotional or legal. Those need a person, or at least a person's approval."
+  - question: 'Is an AI support agent the same as a chatbot?'
+    answer: 'No. A chatbot answers questions. An agent also takes action across your systems — checking an order, updating a ticket, sending a document. Most support automations are a chatbot for the answers plus a small agent for the two or three actions that follow.'
+  - question: 'Will an AI agent replace our support team?'
+    answer: 'For most small teams it removes the repetitive tier-one volume — order status, policy questions, simple account requests — so the same people handle the harder cases with more time each. It changes what the team does more than how many people you need.'
+  - question: 'What happens when the AI agent gets it wrong?'
+    answer: 'A wrong answer is recoverable in the next message. A wrong action is not, which is why actions need guardrails: a confidence threshold, a value limit, and a clear list of what always goes to a person. The design assumes it will sometimes be wrong and contains the cost.'
+relatedLinks:
+  - label: 'AI agent vs. chatbot'
+    href: '/guides/ai-agent-vs-chatbot'
+    note: 'The definitional guide behind the boundary this one applies to support.'
+  - label: 'AI chatbot development'
+    href: '/services/automate/ai-chatbot-development'
+    note: 'If what you need is mostly answers from your documentation, start here.'
+  - label: 'What is RAG?'
+    href: '/guides/what-is-rag'
+    note: 'How the answering half of a support agent avoids inventing facts.'
+  - label: 'Which processes are actually worth automating'
+    href: '/guides/which-processes-are-worth-automating'
+    note: 'Whether support is your highest-value automation target at all.'
+---
+
+An AI agent in customer support can answer routine questions from your documentation, look up a customer's actual order or account and report its real status, route tickets to the right person, and take small low-risk actions like resending an invoice. What it cannot safely do is anything hard to undo — refunds, cancellations, account changes, promises — without a person in the loop. The useful version handles the repetitive tier-one volume and hands everything else off cleanly. This guide draws that line in detail.
+
+## What can an AI agent actually do in customer support?
+
+Four things, reliably, when built well:
+
+**Answer from your documentation.** Return policy, delivery areas, opening hours, pricing tiers, common troubleshooting. This is the chatbot half — it searches your real documents and answers from them, so it quotes your actual policy rather than a plausible-sounding guess.
+
+**Look things up and report status.** Given an order number or a registered phone number, it checks your order system and tells the customer where their order actually is, rather than reciting general shipping timelines. This is the step that makes it an agent rather than a chatbot: it reaches into a real system and reads live data.
+
+**Triage and route.** Read an incoming message, work out what it is about and how urgent it is, tag it, and put it in front of the right person or team. For a support inbox that currently gets sorted by hand every morning, this alone is a large time saving.
+
+**Take low-risk, reversible actions.** Send a tracking link, resend a receipt or invoice, update a delivery address before dispatch, add a note to a ticket. The common thread is that if it does one of these wrong, the fix is cheap and nothing irreversible has happened.
+
+## What can't it do, or shouldn't?
+
+**Anything hard to reverse.** Issuing a refund above a small pre-agreed amount, cancelling an order, changing billing details, closing an account. These can be _proposed_ by the agent and _approved_ by a person in one click, but they should not fire automatically.
+
+**Anything that commits the business.** "Yes, we'll waive that fee", "we'll have it there by Friday", "you'll get a full refund" — a promise made by an agent is still a promise the business has to keep. Compensation and exceptions are a person's call.
+
+**A complaint that has turned emotional or legal.** The moment a message reads as genuinely angry, or mentions a lawyer, a chargeback, or a regulator, it goes straight to a person. An agent handling that badly makes a recoverable situation worse.
+
+**Judgement about an unusual case.** If the documentation does not cover it, the honest behaviour is "I don't have a confident answer to this, let me get someone who does" — not a confident-sounding guess. This is a design choice: the agent is tuned to escalate below a confidence threshold rather than to always produce an answer.
+
+## Agent or chatbot for support: which does your team need?
+
+Start from where your team's time actually goes. If it goes on **answering the same questions**, you mostly need a chatbot — the work is in structuring your documentation. If it goes on **looking something up and then doing something about it** — checking an order, then updating a ticket, then replying — you need an agent, and the work is in the integrations and guardrails.
+
+Most support automations are both: a chatbot for the answers, plus a small agent for the two or three actions that follow. The [agent-versus-chatbot guide](/guides/ai-agent-vs-chatbot) covers that boundary in full — the short version is that naming which parts are which, before scoping, is what keeps the project from quietly doubling in size.
+
+## What the build actually involves
+
+Less of the effort is the AI than people expect. The parts that take real time:
+
+**The knowledge base.** Your policies and procedures have to exist as documents the retrieval step can search. If your return policy lives in one person's head, writing it down is step one, and it is genuinely useful work regardless of the automation.
+
+**The integrations.** Read access to your order or ticketing system, a reliable way to match a customer to their record, and defined behaviour for when a lookup fails or the system is down. Each integration is its own small project.
+
+**The guardrails.** A written list of what the agent may do alone, what it may do with approval, and what always goes to a person. A confidence threshold below which it escalates instead of answering. A value limit on any action involving money.
+
+**The escalation path.** Covered next, because it is the part most often underbuilt.
+
+**The running cost.** The language model is called per conversation, and at most small-business support volumes that cost is small — usually well below what the equivalent staff time would be. It is still worth knowing the number before launch rather than discovering it on the first invoice, and it scales with volume, so a seasonal spike in tickets is also a spike in model cost. The [automation ROI calculator](/tools/automation-roi-calculator) is a reasonable way to sanity-check the trade against the hours saved.
+
+## How escalation should work
+
+Escalation is not the agent failing. It is the agent working correctly. A support agent that never escalates is one that is guessing on the hard cases.
+
+Done well, an escalation carries context: the full conversation so far, what the customer is asking for, what the agent already checked, and why it is handing off. The person picking it up should not have to ask the customer to repeat anything. Done badly, escalation dumps the customer into a generic queue with no history, which is worse than if the agent had not been there at all — the customer has now explained their problem twice.
+
+Set the escalation triggers with your team before launch: specific topics that always route to a person, the confidence threshold, keywords that signal a complaint. Do not leave "when to hand off" to the agent's own judgement in production.
+
+## A worked example: a team handling order and delivery queries
+
+An online retailer's support inbox gets a few hundred messages a week. Most are "where is my order", "can I change my delivery address", "how do I return this", and "I was charged twice". Two people spend most of their day on it.
+
+The agent handles the first three categories end to end: it identifies the customer, checks the live order status, and either answers directly ("shipped yesterday, here's the tracking") or takes the reversible action ("address updated, it hasn't dispatched yet"). Return requests get the policy answer plus a prepaid label if the order qualifies. The "charged twice" messages — money, possibly a real error, possibly a misunderstanding — are triaged, tagged urgent, and routed to a person with the order history attached.
+
+The result: the two people now spend their day on the billing questions, the genuine complaints, and the odd cases, with more time for each, instead of typing tracking numbers. Headcount does not change. What the job is changes.
+
+What to watch in the first two months: how often the agent escalates, and whether those escalations are the right ones. Too many, and the confidence threshold is set too cautiously or the knowledge base has gaps. Too few, and it is answering things it should be handing over — spot-check a sample of resolved conversations weekly until the numbers settle. Also watch the "charged twice" category specifically: if the agent is ever tempted to reassure the customer before a person has looked, tighten the guardrail so it only acknowledges receipt and routes, nothing more.
+
+## What it means for your support staff
+
+The honest version: for a small team, an AI support agent does not usually mean fewer people. It means the people you have stop doing the repetitive tier-one work and spend their time on the cases that actually need a human — the upset customer, the complicated refund, the account problem with no clean answer in the documentation.
+
+That is a real improvement in the work, and it is worth being straight with the team about what is changing and why, rather than letting "we're adding an AI" land as "we're being replaced." The teams where this goes well are the ones brought into designing the escalation rules, because they know better than anyone which cases the agent should never touch.
+
+## Common mistakes
+
+**Letting it take irreversible actions to seem impressive.** A demo where the agent issues a refund on its own looks slick and is a liability. Reversible actions alone, plus one-click approval for the rest.
+
+**Underbuilding escalation.** If the handoff loses context, the automation has made the customer's experience worse on exactly the hard cases where it matters most.
+
+**No confidence threshold.** An agent tuned to always answer will confidently answer things it should not. It needs permission to say "I don't know, getting a person."
+
+**Skipping the knowledge base work.** An agent grounded in thin or outdated documentation gives thin or outdated answers. The documents are the product as much as the automation is.
+
+**Treating it as a headcount cut on day one.** Plan for the team's role to shift, measure what actually happens to volume and resolution time for a couple of months, then make staffing decisions from real data rather than a projection.
+
+## Common questions
+
+**What can an AI agent do in customer support?** Answer questions from your documentation, look up a specific order or account and report its real status, triage and route tickets, take low-risk actions like sending a tracking link or resending an invoice, and hand off to a person with full context attached.
+
+**What should an AI support agent not do on its own?** Anything hard to reverse or high-consequence: refunds above a small threshold, cancelling orders, changing account or billing details, making promises about compensation, or handling a complaint that has become emotional or legal.
+
+**Is an AI support agent the same as a chatbot?** No. A chatbot answers questions. An agent also takes action across your systems. Most support automations are a chatbot for the answers plus a small agent for the two or three actions that follow.
+
+**Will an AI agent replace our support team?** For most small teams it removes the repetitive tier-one volume so the same people handle the harder cases with more time each. It changes what the team does more than how many people you need.
+
+**What happens when the AI agent gets it wrong?** A wrong answer is recoverable in the next message. A wrong action is not, which is why actions need guardrails: a confidence threshold, a value limit, and a clear list of what always goes to a person.
+
+## When an AI support agent is the wrong call
+
+If your support volume is low enough that one person handles it comfortably, the build is not worth it yet. If your documentation does not exist in a usable form and there is no appetite to write it, the answering half has nothing to work from. And if the real problem is that the product generates a lot of genuine complaints, an agent will route those faster but not reduce them — that is a product fix, not an automation one.
+
+Support automation earns its place when a real volume of routine, answerable queries is consuming a team that should be spending its time on the hard cases. If that is your situation, [tell us what your support inbox looks like](/services/automate) and we will map out which parts an agent should handle, which stay with your team, and where the line between them sits.

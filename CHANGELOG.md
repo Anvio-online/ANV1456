@@ -20,6 +20,8 @@ All notable changes to this project. Format follows [Keep a Changelog](https://k
 - `ops/` for dated agent deliverables, with lead/outreach/meeting/proposal output gitignored as personal and client-confidential data
 - **GEO infrastructure pass** ([seo-strategy.md](docs/system/seo-strategy.md) §6–§7): `/llms-full.txt` — the full text of every guide in one machine-readable document; `HowTo` and guide-level `FAQPage` structured data via optional `faq` / `howToSteps` guide frontmatter; a `WebPage` node on Home linking it to the Organization; a GEO citation-tracking log at `ops/seo/`
 - Visible **Common questions** sections on the invoice-automation and WhatsApp-API guides
+- Two guides: **How to Automate Lead Follow-Ups** (with `HowTo` markup) and **AI Agents for Customer Support: What They Can and Can't Do** — both cross-linked from the related existing guides and listed on `/guides`
+- Anvio Instagram (`instagram.com/anvio.online`) added to `Organization.sameAs`
 
 ### Changed
 

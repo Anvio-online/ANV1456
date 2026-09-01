@@ -12,10 +12,11 @@ import { contentRepository } from '@/lib/content'
  * to say "don't automate this yet"), per guides-spec.md §3's own
  * description of it as "the most on-brand guide on the list." Fetched
  * by explicit slug rather than contentRepository.list()'s default
- * publishedAt sort, since all eight currently share a publish date.
+ * publishedAt sort — editorial order is deliberate, not chronological.
  * Grouped roughly by pillar after the featured pick: definitional
  * (agent vs. chatbot, RAG), Automate-commercial (WhatsApp, invoices,
- * tool comparison), then Build and Grow's one guide each.
+ * follow-ups, support agents, tool comparison), then Build and Grow's
+ * one guide each.
  */
 const FEATURED_ORDER = [
   'which-processes-are-worth-automating',
@@ -23,6 +24,8 @@ const FEATURED_ORDER = [
   'what-is-rag',
   'whatsapp-business-api-cost-and-limits',
   'how-to-automate-invoice-data-entry',
+  'how-to-automate-lead-follow-ups',
+  'ai-agents-for-customer-support',
   'n8n-vs-zapier-vs-make',
   'what-a-business-website-should-cost',
   'geo-vs-seo-getting-cited-by-ai',
