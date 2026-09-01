@@ -1,0 +1,133 @@
+---
+title: 'How Much Does an AI Chatbot Cost for a Small Business?'
+description: 'What an AI chatbot costs three ways — SaaS, custom-built, and DIY — what drives the number, the monthly running cost, and what a bad quote leaves out of it.'
+slug: 'how-much-does-an-ai-chatbot-cost'
+publishedAt: 2026-09-02
+updatedAt: 2026-09-02
+draft: false
+category: 'Automation'
+author: "Anvio's founding engineer"
+commercialLink:
+  label: 'AI chatbot development'
+  href: '/services/automate/ai-chatbot-development'
+faq:
+  - question: 'How much does an AI chatbot cost to build?'
+    answer: 'A custom chatbot grounded in your own documentation starts from around ₹30,000 and rises with how much content it has to structure and how many distinct topics it must handle. Off-the-shelf SaaS chatbots have little or no build cost but charge a monthly subscription plus, often, a fee per resolved conversation.'
+  - question: 'What does an AI chatbot cost to run each month?'
+    answer: 'For a custom build, the running cost is the language-model API usage, which is small at most small-business volumes — often a few hundred to a few thousand rupees a month. SaaS platforms charge a subscription plus, commonly, roughly a dollar per automated resolution, which scales directly with how many conversations it handles.'
+  - question: 'Is a custom chatbot or an off-the-shelf one cheaper?'
+    answer: 'SaaS is cheaper to start and can be more expensive to run at volume, because per-resolution pricing means you pay more the better it works. A custom build costs more up front and has a low, predictable running cost. The crossover depends on your conversation volume and how long you will run it.'
+  - question: 'Why do custom AI chatbot quotes vary so much?'
+    answer: 'The build cost tracks how much documentation there is to structure and how many separate topics the chatbot must answer, not how many conversations it will have. A chatbot answering five well-documented questions is a small project; one covering forty topics across messy, inconsistent documents is a large one.'
+  - question: 'What costs are usually missing from an AI chatbot quote?'
+    answer: 'The work to get your policies into a usable written form, the integration with your live systems if it needs to look things up, ongoing tuning of the escalation threshold, and the monthly running cost. A quote that is only a build number and no running cost is incomplete.'
+relatedLinks:
+  - label: 'AI chatbot development'
+    href: '/services/automate/ai-chatbot-development'
+    note: 'The commercial service, with the starting floor and what a build includes.'
+  - label: 'What is RAG?'
+    href: '/guides/what-is-rag'
+    note: 'The technique a custom chatbot uses to answer from your documents instead of guessing.'
+  - label: 'AI agent vs. chatbot'
+    href: '/guides/ai-agent-vs-chatbot'
+    note: 'If you need it to take actions and not just answer, the cost picture changes.'
+  - label: 'What a business website should cost'
+    href: '/guides/what-a-business-website-should-cost'
+    note: 'The same cost-breakdown treatment, for the site itself.'
+---
+
+A custom AI chatbot grounded in your own documentation starts from around ₹30,000 to build, and rises with how much content it has to structure and how many topics it needs to cover. An off-the-shelf SaaS chatbot has little upfront cost but charges a monthly subscription, often plus a fee per resolved conversation. A DIY no-code build costs the least and does the least. This guide breaks down all three, what actually moves the number, and what a quote leaves out.
+
+## What are you actually paying for with an AI chatbot?
+
+Three things, in every case:
+
+**The build** — getting your policies and documentation into a form the chatbot can answer from reliably, and connecting it to wherever it lives (your website, WhatsApp, your help desk). For a SaaS product this is mostly configuration; for a custom build it is the bulk of the work.
+
+**The running cost** — either a platform subscription, or the language-model API usage a custom build consumes, or both. This scales with how many conversations the chatbot handles.
+
+**The maintenance** — keeping the documentation current, adjusting the escalation threshold, adding topics as they come up. Small, ongoing, and real. A chatbot is not a one-time purchase that never needs attention.
+
+The mix of these three is what differs between the options below.
+
+## Option 1: an off-the-shelf SaaS chatbot
+
+Platforms like Intercom's Fin, Zendesk's AI, Tidio's Lyro, and similar tools let you point a hosted chatbot at your help centre and go live quickly. The cost shape is a **monthly subscription** — often per support seat — **plus, increasingly, a fee per automated resolution**, roughly in the region of a US dollar each on the larger platforms, with smaller tools bundling a set number of AI conversations into tiered monthly plans starting around forty dollars.
+
+**Where it fits:** you already use that platform's help desk, your volume is moderate, and you want something live this week with minimal setup.
+
+**The tradeoff:** per-resolution pricing means your cost goes up the better the chatbot performs, which is a strange incentive to sit under. At high volume, the monthly bill can exceed what a custom build would have cost outright within a year. You are also renting: the chatbot's behaviour, data handling, and pricing are the vendor's to change.
+
+## Option 2: a custom-built RAG chatbot
+
+A chatbot built specifically for your business, grounded in your documents using [retrieval-augmented generation](/guides/what-is-rag), hosted wherever you want it. The cost shape is a **one-time build starting from around ₹30,000**, plus a **low, predictable monthly running cost** — the language-model API usage, which at most small-business conversation volumes is a few hundred to a few thousand rupees a month.
+
+**Where it fits:** you want it on WhatsApp or a channel the SaaS tools handle poorly, your documentation is specific enough that a generic tool would answer badly, your volume is high enough that per-resolution fees would add up, or you simply want to own the thing.
+
+**The tradeoff:** more upfront cost and a few weeks to build, versus going live the same day with a SaaS trial. It is worth more when you will run it for years than when you are testing whether a chatbot helps at all.
+
+## Option 3: DIY on a no-code builder
+
+Tools like the free tiers of various chatbot builders let you assemble a decision-tree bot, or a light AI one, yourself for little or no money. For a genuinely simple need — five FAQ answers, a contact-capture flow — this is a legitimate choice, and pretending otherwise would be dishonest.
+
+**The tradeoff:** it does what its templates do and no more. It will not reliably answer from a large or nuanced policy set, it usually will not do a real lookup into your order system, and when it answers something wrong there is no escalation logic you did not build yourself. The cost saved is real; so is the ceiling.
+
+## What drives the build cost of a custom chatbot up or down?
+
+**How much documentation there is, and what state it is in.** A tidy, consistent set of policy documents is fast to structure. Policies that live half in someone's head and half in contradictory PDFs need to be written and reconciled first — useful work, but real scope.
+
+**How many distinct topics it needs to handle.** A chatbot answering "returns, delivery, sizing" is a smaller build than one covering forty separate subjects, because each topic needs its content structured and its edge cases considered.
+
+**Whether it needs to look things up.** A chatbot that only answers from documents is one project. One that checks a customer's actual order status is also a small [agent](/guides/ai-agent-vs-chatbot), which means an integration, authentication, and a plan for when the lookup fails — more scope.
+
+**How costly a wrong answer is.** A chatbot for a clinic or a financial service needs a more cautious escalation threshold and more testing than one for a clothing shop, because the downside of a confident wrong answer is larger.
+
+## What does it cost to run, month to month?
+
+For a **custom build**, the running cost is the model API usage. Each conversation costs a fraction of a rupee to a few rupees depending on length and the model used; at hundreds or low thousands of conversations a month, the monthly bill is small and predictable. It does not jump when you have a busy month in the way a per-resolution SaaS bill does.
+
+For a **SaaS chatbot**, the running cost is the subscription plus any per-resolution fees, and it scales directly with volume. Model your cost at your real conversation numbers, not the trial-tier numbers, before committing — this is the single most common budgeting mistake with these tools.
+
+If the chatbot runs on WhatsApp, there is a third running cost: the WhatsApp Business API's own fees. Free-form replies inside a customer's 24-hour window are not charged, but any message sent outside that window goes as a paid template. For a chatbot that mostly answers people who just messaged, this is close to zero; for one that also sends proactive notifications, it is a real line item. The [WhatsApp Business API cost guide](/guides/whatsapp-business-api-cost-and-limits) covers this in full.
+
+Either way, budget a little maintenance time: updating documents when policies change, and revisiting the escalation threshold once you have seen how it behaves on real questions. This is usually an hour here and there rather than a standing retainer, but a chatbot that is never revisited slowly drifts out of step with how the business actually operates.
+
+## A worked example: a retailer choosing between SaaS and custom
+
+An online retailer gets around 1,500 support conversations a month, most of them repetitive: order status, returns, sizing. They are deciding between a SaaS chatbot on their existing help desk and a custom build on WhatsApp, where most of their customers actually message.
+
+**SaaS:** live in a few days, subscription plus a per-resolution fee on the conversations it handles. If it resolves 1,000 a month at roughly a dollar each, that alone is around ₹85,000 a month, before the seat subscription — and it goes up if it gets better.
+
+**Custom:** a build starting from ₹30,000, live in a few weeks, on WhatsApp where the customers are, with a running cost of a few thousand rupees a month regardless of volume.
+
+For this retailer, the custom build pays for itself within the first month or two purely on the running-cost difference, and it is on the right channel. For a lower-volume business — say 100 conversations a month — the SaaS per-resolution cost is trivial and the faster setup wins. Volume and channel decide it, not a general rule.
+
+## Hidden costs and what to ask about
+
+**"Is the running cost in this number?"** A quote that is only a build figure, with no monthly API or subscription cost stated, is incomplete. Ask for both.
+
+**"What happens when our policies change?"** Confirm whether updating the chatbot's knowledge is something your team can do (update the source document) or a billable change every time.
+
+**"Does this include the integration, or just the answering?"** If you need order lookups, that is separate scope from a document-only chatbot. Get it itemised.
+
+**"What's the escalation path, and is tuning it included?"** The threshold for handing off to a person needs adjusting after launch based on real behaviour. Confirm that first round of tuning is part of the engagement.
+
+**"Do we own it?"** For a custom build, the knowledge base structure, retrieval setup, and integration should be yours and documented. For SaaS, accept that you do not own it and price the switching cost accordingly.
+
+## Common questions
+
+**How much does an AI chatbot cost to build?** A custom chatbot grounded in your own documentation starts from around ₹30,000 and rises with how much content it has to structure and how many topics it must handle. Off-the-shelf SaaS chatbots have little build cost but charge a subscription plus, often, a fee per resolved conversation.
+
+**What does an AI chatbot cost to run each month?** For a custom build, the running cost is the model API usage — small at most small-business volumes. SaaS platforms charge a subscription plus, commonly, around a dollar per automated resolution, which scales with volume.
+
+**Is a custom chatbot or an off-the-shelf one cheaper?** SaaS is cheaper to start and can be more expensive to run at volume. A custom build costs more up front with a low, predictable running cost. The crossover depends on your conversation volume and how long you will run it.
+
+**Why do custom AI chatbot quotes vary so much?** The build cost tracks how much documentation there is to structure and how many separate topics the chatbot must answer, not how many conversations it will have.
+
+**What costs are usually missing from a quote?** The work to get your policies into usable written form, the integration if it needs to look things up, ongoing tuning of the escalation threshold, and the monthly running cost.
+
+## When a chatbot isn't worth paying for at all
+
+If you get a handful of support messages a day and one person handles them comfortably, no version of this is worth the money or the setup time yet. If your documentation genuinely does not exist and nobody has time to write it, the answering half has nothing to work from, and building the chatbot first will not fix that. And if the questions your customers ask are mostly unique — genuine problem-solving rather than the same twenty things — a chatbot has little to automate, and your money is better spent elsewhere.
+
+A chatbot earns its cost when a real volume of repetitive, answerable questions is taking real time from people who should be doing something else. If that is your situation and you want a number for your specific documentation and channel, [talk to us about a chatbot build](/services/automate/ai-chatbot-development) — we will scope it against your actual content and tell you honestly whether custom or off-the-shelf is the better spend for you.

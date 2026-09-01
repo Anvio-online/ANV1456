@@ -26,6 +26,7 @@ const FEATURED_ORDER = [
   'how-to-automate-invoice-data-entry',
   'how-to-automate-lead-follow-ups',
   'ai-agents-for-customer-support',
+  'how-much-does-an-ai-chatbot-cost',
   'n8n-vs-zapier-vs-make',
   'what-a-business-website-should-cost',
   'geo-vs-seo-getting-cited-by-ai',

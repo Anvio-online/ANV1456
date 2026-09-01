@@ -141,8 +141,9 @@ Chosen to cover all four query shapes in [seo-strategy.md](../system/seo-strateg
 |---|---|---|---|---|
 | 9 | `how-to-automate-lead-follow-ups` | Problem-aware / how-to | Universal SMB pain, long-tail, low competition; a worked example of the §5 (`which-processes`) framework. Carries `HowTo` + `FAQPage` markup | `/services/automate` |
 | 10 | `ai-agents-for-customer-support` | Solution-aware | Applies the agent/chatbot boundary (#1) to the most-asked support use case, with the limits spelled out. Supports the chatbot leaf | `/services/automate` |
+| 11 | `how-much-does-an-ai-chatbot-cost` | Problem-aware / pricing | Pricing transparency, same treatment as #7 for Build. Custom vs SaaS vs DIY. Uses the ADR-0009 `from ₹30,000` floor, no invented range. `FAQPage` markup | `/services/automate/ai-chatbot-development` |
 
-Slugs chosen by reasoning, not Ahrefs (not authorized in-session). Guide URLs are low redirect cost — validate opportunistically. **Not shipped:** a `how-much-does-an-ai-chatbot-cost` guide — held pending a decision on whether Automate/chatbot prices should appear in content at all (the chatbot leaf currently publishes `₹30,000–₹90,000`, which may conflict with [services-and-pricing.md](../business/services-and-pricing.md) §3).
+Slugs chosen by reasoning, not Ahrefs (not authorized in-session). Guide URLs are low redirect cost — validate opportunistically. #11 was unblocked by [ADR-0009](../engineering/adr/0009-automate-pricing-starting-floor.md), which resolved the "may Automate prices appear in content" question (yes — one `Starting from ₹30,000` floor).
 
 **Guides also seed Home's insights section**, which is currently blocked on the open item *"Three insight posts, or cut the Home insights section."* Three guides retire it. Note that `insights` and `guides` are separate content kinds ([content-layer.md](../engineering/content-layer.md) §3) — Home's section either reads from `guides` or the two kinds merge. Decide before building §3 of the index.
 

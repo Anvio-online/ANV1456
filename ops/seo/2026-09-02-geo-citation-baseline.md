@@ -35,7 +35,7 @@ pages we have or are building — tracking a query we have no page for is noise.
 | 2   | which business processes are worth automating           | problem-aware     | `/guides/which-processes-are-worth-automating`  |
 | 3   | how to automate lead follow-ups                         | problem-aware     | `/guides/how-to-automate-lead-follow-ups`       |
 | 4   | what does the WhatsApp Business API cost                | problem-aware     | `/guides/whatsapp-business-api-cost-and-limits` |
-| 5   | how much does an AI chatbot cost for a business         | problem-aware     | `/services/automate/ai-chatbot-development`     |
+| 5   | how much does an AI chatbot cost for a business         | problem-aware     | `/guides/how-much-does-an-ai-chatbot-cost`      |
 | 6   | what a business website should cost in India            | problem-aware     | `/guides/what-a-business-website-should-cost`   |
 | 7   | difference between an AI agent and a chatbot            | solution-aware    | `/guides/ai-agent-vs-chatbot`                   |
 | 8   | what is RAG in AI                                       | solution-aware    | `/guides/what-is-rag`                           |
