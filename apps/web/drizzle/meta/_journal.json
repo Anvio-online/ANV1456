@@ -15,6 +15,13 @@
       "when": 1786112715125,
       "tag": "0001_careful_thunderbolt_ross",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1788332441854,
+      "tag": "0002_unusual_mauler",
+      "breakpoints": true
     }
   ]
 }
