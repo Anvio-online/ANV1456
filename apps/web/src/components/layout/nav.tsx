@@ -20,6 +20,7 @@ const SERVICES = [
     href: '/services/automate',
     body: 'AI agents, chatbots, workflow automation.',
     items: [
+      { label: 'AI appointment setter', href: '/services/automate/ai-appointment-setter' },
       { label: 'WhatsApp automation', href: '/services/automate/whatsapp-automation' },
       { label: 'AI chatbots', href: '/services/automate/ai-chatbot-development' },
       { label: 'Workflow automation' },
@@ -43,9 +44,10 @@ const SERVICES = [
  * services-hub-spec.md §9 — the three-column mega-menu design-system.md
  * §6.5 specified, now that /services exists to head it. Sub-items are
  * plain text unless `href` is set — automate-spec.md §4's "never link
- * to an unbuilt page" still holds, so only the two shipped Automate
- * leaves link out; the rest stay text until their own leaf exists
- * (Wave 3). `Products` · `Case Studies` · `Blog` stay dropped — still
+ * to an unbuilt page" still holds, so only the three shipped Automate
+ * leaves link out (appointment setter, WhatsApp, chatbots); the rest
+ * stay text until their own leaf exists (Wave 3). `Products` · `Case
+ * Studies` · `Blog` stay dropped — still
  * no pages to point them at (docs/README.md "Known gaps").
  *
  * Fully server-rendered and usable before hydration — NavChrome only
