@@ -5,15 +5,24 @@ import { buildMetadata } from '@/lib/seo/metadata'
 import { INDUSTRY_TILES } from '@/lib/content/industry-tiles'
 
 /**
- * home-spec.md. Ten of twelve sections are built. Insights (§10) is
- * the only one still withheld — it needs three real posts before it
- * ships, per its own "cut rather than placeholder" rule.
+ * home-spec.md. Eleven of thirteen sections are built — the ten from
+ * the original spec plus the voice appointment demo (§11, added by
+ * ADR-0010). Insights (§10) is the only one still withheld — it needs
+ * three real posts before it ships, per its own "cut rather than
+ * placeholder" rule.
  *
  * Agent demo (§4, id 'agent-demo' — matches the hero's primary CTA
  * anchor) is the differentiator: a live two-stage conversation against
  * POST /api/agent, gated on a captured email before the expensive plan
  * call runs (ADR-0005). Falls back to a scripted, non-interactive
  * preview on any hard failure rather than showing a broken panel.
+ *
+ * Appointment demo (§11, id 'appointment-demo' — matches the hero's
+ * secondary CTA anchor) is the second Automate-proof asset (ADR-0010):
+ * a live browser voice call with an AI appointment setter that books a
+ * real 15-minute call with the founder. Same graceful-degradation
+ * contract — falls back to agentDemo:preview when unconfigured or on
+ * any failure.
  *
  * Featured work uses real client names (Baladi Food Stuff, Epicerma —
  * UAE web development delivered via Stratseek) with NO fabricated
@@ -42,7 +51,7 @@ const sections: SectionInstance[] = [
     heading: 'Your business runs\non work a machine\nshould be doing.',
     body: 'Anvio builds the AI automations, software, and websites that take manual work off your team — and bring the right customers in. Built for businesses with 10 to 200 people, not enterprise timelines.',
     cta: { label: 'See what we’d automate →', href: '#agent-demo', style: 'primary' },
-    ctaSecondary: { label: 'Book a free consultation', href: '/contact', style: 'secondary' },
+    ctaSecondary: { label: 'Talk to our AI now →', href: '#appointment-demo', style: 'secondary' },
     trustLine: 'Typical first automation ships in 2–4 weeks',
   },
   {
@@ -283,6 +292,17 @@ const sections: SectionInstance[] = [
     eyebrow: 'Who we work with',
     heading: 'Is this for a business like mine?',
     items: INDUSTRY_TILES,
+  },
+  {
+    type: 'agentDemo',
+    id: 'appointment-demo',
+    variant: 'voice',
+    theme: 'dark',
+    eyebrow: 'Talk to it now',
+    heading: 'Hear the AI that books your calls.',
+    body: 'A short live call with the same kind of AI appointment setter we build. It asks what you need — and if it makes sense, books you fifteen minutes with our founder, then and there.',
+    consentLabel: 'I agree Anvio may call me now and follow up about this enquiry.',
+    privacyNote: 'We record and transcribe the call so we can follow up. Privacy policy.',
   },
   {
     type: 'ctaClosing',
