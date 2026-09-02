@@ -6,6 +6,8 @@ All notable changes to this project. Format follows [Keep a Changelog](https://k
 
 ### Added
 
+- **Live AI voice appointment-setter demo** ([ADR-0010](docs/engineering/adr/0010-ai-appointment-setter-voice-demo.md)) — a browser voice call with an AI that briefs Anvio, gauges interest, and books a real 15-minute call with the founder via Cal.com. On the home page (§11, new hero secondary CTA) and the new `ai-appointment-setter` service page. Runs on Vapi + `claude-haiku-4-5`; server-side consent gate, 3-minute call cap, per-IP + global rate limits, graceful fallback to the scripted preview when unconfigured. New `agentDemo:voice` section variant.
+- **`/services/automate/ai-appointment-setter`** service page — the third Automate service leaf, linked from the Automate nav menu.
 - Repository scaffold: pnpm workspace, Next.js App Router app, TypeScript strict mode ([ADR-0001](docs/engineering/adr/0001-pnpm-workspace-single-app.md))
 - Design tokens wired end-to-end — `tokens.css` → Tailwind v4 `@theme`, verified contrast pairs, self-hosted fonts (Cabinet Grotesk, Satoshi, JetBrains Mono)
 - Section registry and renderer — the composition system from [ADR-0003](docs/engineering/adr/0003-section-registry-composition.md)

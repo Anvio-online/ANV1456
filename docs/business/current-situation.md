@@ -12,12 +12,13 @@ Its job is to stop plans that assume assets Anvio does not have. Read it before 
 
 Anvio has **no past clients as Anvio**. What exists:
 
-| Asset                                                                 | Real? | Usable how                                                                                                                                     |
-| --------------------------------------------------------------------- | ----- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| Founder's freelance delivery (ecommerce builds, via a partner agency) | Yes   | Only once the **Stratseek agreement** is read for naming/attribution clauses — currently blocking `/case-studies` entirely                     |
-| Employer production work (AI in financial operations)                 | Yes   | **Never as Anvio's work.** Team-experience framing on `/about` only, and only with written permission — see `docs/private/employer-context.md` |
-| Internal builds, including anvio.online itself                        | Yes   | Freely, on `/projects`, **clearly labelled internal**                                                                                          |
-| The live agent demo                                                   | Yes   | Freely — it is the Automate proof substitute                                                                                                   |
+| Asset                                                                                                       | Real? | Usable how                                                                                                                                     |
+| ----------------------------------------------------------------------------------------------------------- | ----- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| Founder's freelance delivery (ecommerce builds, via a partner agency)                                       | Yes   | Only once the **Stratseek agreement** is read for naming/attribution clauses — currently blocking `/case-studies` entirely                     |
+| Employer production work (AI in financial operations)                                                       | Yes   | **Never as Anvio's work.** Team-experience framing on `/about` only, and only with written permission — see `docs/private/employer-context.md` |
+| Internal builds, including anvio.online itself                                                              | Yes   | Freely, on `/projects`, **clearly labelled internal**                                                                                          |
+| The live agent demo (text)                                                                                  | Yes   | Freely — it is the Automate proof substitute                                                                                                   |
+| The live voice appointment setter ([ADR-0010](../engineering/adr/0010-ai-appointment-setter-voice-demo.md)) | Yes   | Freely — a working demo of the exact service, books a real call with the founder. Same "internal build" honesty as the text demo.              |
 
 ### The proof asymmetry
 

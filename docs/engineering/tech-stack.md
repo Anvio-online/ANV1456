@@ -135,6 +135,43 @@ const plan = res.parsed_output   // may be null — guard it
 
 ---
 
+## 5a. AI — the voice appointment-setter demo
+
+The second Automate-proof asset ([ADR-0010](adr/0010-ai-appointment-setter-voice-demo.md)). A
+live browser voice call: the visitor fills a short form and talks to an AI
+appointment setter that books a real 15-minute call with the founder.
+
+**Provider:** [Vapi](https://vapi.ai) (`@vapi-ai/web` for the browser call).
+**Model:** **`claude-haiku-4-5`** — the conversation is scripted branching plus one
+Cal.com tool call; voice latency matters more than depth, and Haiku is the cheapest
+Claude model. Decided in [ADR-0010](adr/0010-ai-appointment-setter-voice-demo.md).
+**Booking:** Cal.com, wired to the Vapi assistant as a tool; it sends the calendar
+invite itself.
+
+**Shape.** `POST /api/appointment-demo` is the gate — validate → re-check consent →
+rate limit → record a lead row → return the assistant config (the **public** Vapi
+key plus `assistantOverrides` carrying the versioned prompt). The browser SDK runs
+the call. At call end, Vapi posts `end-of-call-report` to
+`/api/appointment-demo/webhook`, which verifies it, updates the row, and emails the
+founder the transcript + outcome.
+
+**Guardrails (non-negotiable):**
+
+| Control | Implementation |
+|---|---|
+| Key custody | The **public** Vapi key is client-side by design (it can only start a call against the fixed assistant). `VAPI_WEBHOOK_SECRET` is server-only. |
+| Consent gate | `consent: z.literal(true)`, re-checked in the start route. No config returned without it. |
+| Call duration | `maxDurationSeconds: 180` — the biggest single cost lever. |
+| Rate limiting | Upstash sliding window per IP: **2 calls/hour, 6/day**, plus a **40/day global kill-switch**. No API-side spend cap. |
+| Spend alert | Vapi monthly budget alert **and** the Anthropic account alert. |
+| AI disclosure | The first spoken line says it is an AI. Enforced in the prompt. |
+| Prompt versioning | `src/lib/ai/prompts/appointment-demo.ts`, reviewed like code. Never quotes a firm price. |
+| Webhook | Verified (shared secret or HMAC), Zod-parsed, never executed. |
+| Failure | Any error → `agentDemo:preview`. Never a broken control. |
+| Phone number | Stored for founder follow-up, **not dialled** in v1. A real outbound call is a separate decision (ADR-0010). |
+
+---
+
 ## 6. Quality gates
 
 | Concern | Tool | Runs |
@@ -166,11 +203,15 @@ UPSTASH_REDIS_REST_URL=
 UPSTASH_REDIS_REST_TOKEN=
 RESEND_API_KEY=
 SENTRY_AUTH_TOKEN=
+VAPI_ASSISTANT_ID=          # voice demo (ADR-0010) — absent → static fallback
+VAPI_WEBHOOK_SECRET=
+VAPI_CALCOM_TOOL_ID=        # optional — the Cal.com booking tool on the assistant
 
 # public — safe in the client bundle
 NEXT_PUBLIC_SITE_URL=
 NEXT_PUBLIC_PLAUSIBLE_DOMAIN=
 NEXT_PUBLIC_GA_ID=
+NEXT_PUBLIC_VAPI_PUBLIC_KEY=  # Vapi public key — client-side by design
 ```
 
 `.env.example` is committed and kept in sync. `.env*` (except `.example`) is gitignored. Secrets live in Vercel's env settings, never in the repo, never in a Slack message.
