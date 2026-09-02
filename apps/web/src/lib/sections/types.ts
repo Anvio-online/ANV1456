@@ -208,10 +208,21 @@ export interface ProcessProps extends SectionBase {
 }
 
 export interface AgentDemoProps extends SectionBase {
-  variant: 'full' | 'preview'
-  /** Rotating examples in the idle input — content, not implementation detail,
-   * so it lives here with the rest of the page composition data. */
-  placeholders: string[]
+  /** 'full' / 'preview' — the text plan demo (ADR-0005). 'voice' — the
+   * live voice appointment-setter demo (ADR-0010): a form, then a
+   * browser voice call that books a real meeting. Falls back to
+   * 'preview' on any failure, same as 'full'. */
+  variant: 'full' | 'preview' | 'voice'
+  /** 'full' / 'preview' only. Rotating examples in the idle input —
+   * content, not implementation detail, so it lives here with the rest
+   * of the page composition data. */
+  placeholders?: string[]
+  /** 'voice' only — the consent checkbox label. The call and the
+   * follow-up both depend on this being ticked (enforced server-side). */
+  consentLabel?: string
+  /** 'voice' only — the line under the form. "… Privacy policy" is
+   * linked to /privacy by the component; write the sentence, not the tag. */
+  privacyNote?: string
 }
 
 export interface ProblemRow {

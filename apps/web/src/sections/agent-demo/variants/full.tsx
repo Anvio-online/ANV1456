@@ -39,7 +39,7 @@ export function Full({
   eyebrow,
   heading,
   body,
-  placeholders,
+  placeholders = [],
   headingTag,
   ...rest
 }: AgentDemoProps & { headingTag: HeadingTag }) {
@@ -54,7 +54,7 @@ export function Full({
 
   // Rotating idle placeholder — paused once the visitor starts typing.
   useEffect(() => {
-    if (phase.kind !== 'idle' || input) return
+    if (phase.kind !== 'idle' || input || placeholders.length === 0) return
     const id = setInterval(() => {
       setPlaceholderIndex((i) => (i + 1) % placeholders.length)
     }, ROTATE_MS)
@@ -219,7 +219,7 @@ export function Full({
               <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder={placeholders[placeholderIndex]}
+                placeholder={placeholders[placeholderIndex] ?? 'Describe a manual process…'}
                 aria-label="Describe a manual process at your business"
                 className="h-13 border-border bg-bg font-body text-body text-text focus:border-accent-line focus:ring-3 focus:ring-accent-wash w-full truncate rounded-md border px-4 focus:outline-none"
               />
