@@ -21,12 +21,26 @@ const serverSchema = z.object({
   RESEND_API_KEY: z.string().min(1).optional(),
 
   SENTRY_DSN: z.string().url().optional(),
+
+  // Voice appointment-setter demo (ADR-0010). All optional — absent means
+  // the agentDemo:voice section renders its static fallback instead of a
+  // broken control, exactly like ANTHROPIC_API_KEY gating the text demo.
+  VAPI_ASSISTANT_ID: z.string().min(1).optional(),
+  VAPI_WEBHOOK_SECRET: z.string().min(1).optional(),
+  /** The Vapi tool id for the founder's Cal.com "Anvio intro call" event —
+   * attached to the assistant so the agent can offer real slots and book. */
+  VAPI_CALCOM_TOOL_ID: z.string().min(1).optional(),
 })
 
 const clientSchema = z.object({
   NEXT_PUBLIC_SITE_URL: z.string().url().default('http://localhost:3000'),
   NEXT_PUBLIC_PLAUSIBLE_DOMAIN: z.string().optional(),
   NEXT_PUBLIC_GA_ID: z.string().optional(),
+  /** Vapi's *public* key — designed for client use (ADR-0010). It only
+   * starts a call against the pre-configured assistant; it cannot read
+   * data or change assistant config. The webhook secret is what protects
+   * the inbound side, and that stays server-only. */
+  NEXT_PUBLIC_VAPI_PUBLIC_KEY: z.string().optional(),
 })
 
 const parsedServer = serverSchema.safeParse(process.env)
@@ -42,6 +56,7 @@ const parsedClient = clientSchema.safeParse({
   NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
   NEXT_PUBLIC_PLAUSIBLE_DOMAIN: process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN,
   NEXT_PUBLIC_GA_ID: process.env.NEXT_PUBLIC_GA_ID,
+  NEXT_PUBLIC_VAPI_PUBLIC_KEY: process.env.NEXT_PUBLIC_VAPI_PUBLIC_KEY,
 })
 if (!parsedClient.success) {
   console.error(
