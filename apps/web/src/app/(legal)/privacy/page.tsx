@@ -67,6 +67,18 @@ const sections: SectionInstance[] = [
   },
   {
     type: 'richText',
+    id: 'submission-security',
+    variant: 'prose',
+    theme: 'dark',
+    heading: 'Keeping enquiries safe',
+    paragraphs: [
+      'The audit form uses Cloudflare Turnstile to check submissions for automated abuse. When enabled, Cloudflare processes technical information about your browser and connection, including your IP address, to perform this check. This security check is separate from optional product analytics.',
+      'Enquiries, generated plans, review notes and follow-up dates are visible only to the approved administrator. Google handles administrator sign-in; we use its verified email address to restrict access. Admin pages do not load our public analytics tools.',
+      'For plan emails, we store whether our email provider accepted the message and any delivery or failure events it reports. A delivered event means the recipient mail server accepted the email; it does not tell us whether you read it or whether it appeared in your inbox or spam folder.',
+    ],
+  },
+  {
+    type: 'richText',
     id: 'ai-agent',
     variant: 'prose',
     theme: 'dark',

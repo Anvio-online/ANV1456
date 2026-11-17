@@ -21,6 +21,8 @@ A short document per significant technical decision: what we chose, what we reje
 | [0009](0009-automate-pricing-starting-floor.md) | Automate work publishes a single "starting from ₹30,000" floor; Grow stays unpublished | Accepted | 2026-09-02 |
 | [0010](0010-ai-appointment-setter-voice-demo.md) | AI appointment-setter demo is a web voice call on Vapi + Haiku, PSTN deferred | Accepted | 2026-09-02 |
 
+| [0011](0011-admin-lead-operations.md) | Protected internal lead workspace | Accepted | 2026-11-17 |
+
 ## Template
 
 ```markdown

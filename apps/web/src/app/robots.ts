@@ -8,11 +8,11 @@ import { SITE_URL } from '@/lib/seo/constants'
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
-      { userAgent: '*', allow: '/' },
-      { userAgent: 'GPTBot', allow: '/' },
-      { userAgent: 'ClaudeBot', allow: '/' },
-      { userAgent: 'PerplexityBot', allow: '/' },
-      { userAgent: 'Google-Extended', allow: '/' },
+      { userAgent: '*', allow: '/', disallow: ['/admin', '/api/'] },
+      { userAgent: 'GPTBot', allow: '/', disallow: ['/admin', '/api/'] },
+      { userAgent: 'ClaudeBot', allow: '/', disallow: ['/admin', '/api/'] },
+      { userAgent: 'PerplexityBot', allow: '/', disallow: ['/admin', '/api/'] },
+      { userAgent: 'Google-Extended', allow: '/', disallow: ['/admin', '/api/'] },
     ],
     sitemap: new URL('/sitemap.xml', SITE_URL).toString(),
   }

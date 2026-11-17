@@ -251,3 +251,7 @@ Deliberately re-offers the audit rather than a call — the page's primary conve
 - [ ] The dashboard scene's six-month numbers — confirm the visible "illustrative, not a case study" caption ships with it
 - [ ] FAQ answers written — #2, #3, #10 are worth real effort, they're the GEO citation bait
 - [ ] anvio.online's own Lighthouse/CWV scores must clear 90+ before this page goes live
+
+## Audit submission protection (2026-11-17)
+
+Server-side Turnstile validation (hostname and action checked), honeypot, 3 submissions/hour and 10/day per IP, and 2/day per email. Fail closed with a retry message on infrastructure errors. Duplicate URL/email submissions within a day do not send duplicate notifications. Do not reject Gmail or unusual domains solely on heuristics; the admin inbox flags them for human review.

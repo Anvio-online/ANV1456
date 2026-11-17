@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, uuid, jsonb, boolean } from 'drizzle-orm/pg-core'
+import { pgTable, text, timestamp, uuid, jsonb, boolean, primaryKey } from 'drizzle-orm/pg-core'
 
 /**
  * First-touch attribution, captured once per visitor by `middleware.ts`
@@ -39,6 +39,9 @@ export const agentLeads = pgTable('agent_leads', {
   /** Whether the plan email actually reached Resend without rejection —
    * the same boolean the /api/agent response returns to the client, kept
    * so the dashboard can show a delivery-success rate. */
+  emailProviderId: text('email_provider_id').unique(),
+  emailDeliveryStatus: text('email_delivery_status').notNull().default('unknown'),
+  emailDeliveryUpdatedAt: timestamp('email_delivery_updated_at', { withTimezone: true }),
   emailSent: boolean('email_sent').notNull().default(false),
   ...attributionColumns,
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
@@ -92,4 +95,28 @@ export const auditRequests = pgTable('audit_requests', {
   email: text('email').notNull(),
   ...attributionColumns,
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+})
+
+/** Review metadata never replaces or deletes the original enquiry. */
+export const leadReviews = pgTable(
+  'lead_reviews',
+  {
+    source: text('source').notNull(),
+    leadId: uuid('lead_id').notNull(),
+    status: text('status').notNull().default('new'),
+    notes: text('notes').notNull().default(''),
+    followUpAt: timestamp('follow_up_at', { withTimezone: true }),
+    updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+    updatedBy: text('updated_by').notNull(),
+  },
+  (table) => ({ pk: primaryKey({ columns: [table.source, table.leadId] }) }),
+)
+
+/** Retain verified delivery events even if a callback beats the send response. */
+export const emailDeliveryEvents = pgTable('email_delivery_events', {
+  id: text('id').primaryKey(),
+  providerId: text('provider_id').notNull(),
+  status: text('status').notNull(),
+  occurredAt: timestamp('occurred_at', { withTimezone: true }).notNull(),
+  receivedAt: timestamp('received_at', { withTimezone: true }).notNull().defaultNow(),
 })

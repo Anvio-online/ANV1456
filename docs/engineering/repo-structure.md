@@ -217,6 +217,10 @@ updatedAt: 2026-02-14
 | A repeatable workflow | `.claude/commands/` (short) or `.claude/skills/` (needs its own reference material) | Add it to `.claude/README.md` |
 | An agent deliverable | `ops/<area>/YYYY-MM-DD-slug.md` | Provenance frontmatter. If it names individuals, it goes in a gitignored subdirectory |
 | An analytics event or attribution helper | `lib/analytics/` | Events are `snake_case` in `events.ts`; keep `attribution.ts` in step with `attributionColumns` in `lib/db/schema.ts`. See [ADR-0008](adr/0008-analytics-attribution-and-lead-visibility.md) |
+| An internal admin page | `app/admin/`, `components/admin/`, `lib/admin/`, `lib/db/queries/` | Require an approved Google identity for every read and mutation; exclude from sitemap and indexing. See `docs/specs/admin-spec.md` |
+| A provider callback | `app/api/` and `lib/email/` | Verify signatures before database writes |
+| A submission protection helper | `lib/forms/` | Server validation and distributed limits before storage |
+| An operational setup guide | `docs/engineering/` | Keep provider callbacks and environment requirements aligned with the code |
 | Anything else | **Stop.** Decide the home, add it to §3 in this file, then write the file | |
 
 ---

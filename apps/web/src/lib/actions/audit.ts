@@ -1,6 +1,9 @@
 'use server'
 
-import { cookies } from 'next/headers'
+import { and, eq, gte } from 'drizzle-orm'
+import { checkAuditRateLimit } from '@/lib/rate-limit'
+import { verifyAuditChallenge } from '@/lib/forms/bot-protection'
+import { cookies, headers } from 'next/headers'
 import { db } from '@/lib/db/client'
 import { auditRequests } from '@/lib/db/schema'
 import { auditRequestSchema, type AuditRequestValues } from '@/lib/forms/audit-schema'
@@ -24,6 +27,26 @@ export async function submitAuditRequest(values: AuditRequestValues): Promise<Au
     return { success: false, error: 'Please check the form and try again.' }
   }
 
+  // A filled trap gets a harmless response without creating a lead or email.
+  if (parsed.data.companyWebsite) return { success: true }
+  const requestHeaders = await headers()
+  const ip =
+    requestHeaders.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+    requestHeaders.get('x-real-ip') ||
+    'unknown'
+  try {
+    if (!(await checkAuditRateLimit(ip, parsed.data.email)).success)
+      return { success: false, error: 'Too many requests. Please try again later.' }
+    if (!(await verifyAuditChallenge(parsed.data.challengeToken, ip)))
+      return { success: false, error: 'Please complete the verification and try again.' }
+  } catch (error) {
+    console.error('[audit] submission protection unavailable', error)
+    return {
+      success: false,
+      error: 'Submissions are temporarily unavailable. Please try again later.',
+    }
+  }
+
   if (!db) {
     if (env.NODE_ENV === 'production') {
       throw new Error('DATABASE_URL is not configured — cannot store the submission.')
@@ -34,7 +57,20 @@ export async function submitAuditRequest(values: AuditRequestValues): Promise<Au
 
   const cookieStore = await cookies()
   const attribution = readAttribution(cookieStore.get(ATTRIBUTION_COOKIE)?.value)
-  await db.insert(auditRequests).values({ ...parsed.data, ...attribution })
+  const { url, email } = parsed.data
+  const existing = await db
+    .select({ id: auditRequests.id })
+    .from(auditRequests)
+    .where(
+      and(
+        eq(auditRequests.email, email),
+        eq(auditRequests.url, url),
+        gte(auditRequests.createdAt, new Date(Date.now() - 86400000)),
+      ),
+    )
+    .limit(1)
+  if (existing.length) return { success: true }
+  await db.insert(auditRequests).values({ url, email, ...attribution })
   await sendAuditRequestNotification(parsed.data)
 
   await captureServer({

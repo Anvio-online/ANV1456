@@ -38,6 +38,12 @@ function readCookie(name: string): string | undefined {
  * call on every route change; the import resolves once.
  */
 export async function loadAnalytics(): Promise<PostHog | null> {
+  if (
+    typeof window === 'undefined' ||
+    window.location.pathname.startsWith('/admin') ||
+    !hasAnalyticsConsent(readCookie(CONSENT_COOKIE))
+  )
+    return null
   if (instance) return instance
   if (!POSTHOG_KEY) return null
   if (!hasAnalyticsConsent(readCookie(CONSENT_COOKIE))) return null
@@ -52,6 +58,8 @@ export async function loadAnalytics(): Promise<PostHog | null> {
         // navigations don't trigger PostHog's own listener.
         capture_pageview: false,
         capture_pageleave: true,
+        disable_session_recording: true,
+        before_send: (event) => (window.location.pathname.startsWith('/admin') ? null : event),
         persistence: 'localStorage+cookie',
         respect_dnt: true,
       })

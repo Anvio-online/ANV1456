@@ -4,6 +4,13 @@ All notable changes to this project. Format follows [Keep a Changelog](https://k
 
 ## [Unreleased]
 
+### Admin and enquiry operations
+
+- Protected Google-only admin inbox for submissions, source and status filters, readable plans and conversations, reversible spam review, private notes and follow-up reminders.
+- Audit challenge verification, honeypot and distributed rate limits; friendly unavailable responses when protection fails.
+- Plan records are saved before sending. Resend acceptance and signed delivery events are tracked separately.
+
+
 ### Security
 
 - Upgrade Next.js and its ESLint configuration to 15.5.29 to address critical runtime vulnerabilities reported by GitHub during the production release.

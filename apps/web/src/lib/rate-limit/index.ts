@@ -11,7 +11,9 @@ import { env } from '@/lib/env'
 const redis =
   env.UPSTASH_REDIS_REST_URL && env.UPSTASH_REDIS_REST_TOKEN
     ? new Redis({ url: env.UPSTASH_REDIS_REST_URL, token: env.UPSTASH_REDIS_REST_TOKEN })
-    : null
+    : env.KV_REST_API_URL && env.KV_REST_API_TOKEN
+      ? new Redis({ url: env.KV_REST_API_URL, token: env.KV_REST_API_TOKEN })
+      : null
 
 export const planRateLimitHourly = redis
   ? new Ratelimit({ redis, limiter: Ratelimit.slidingWindow(3, '1 h'), prefix: 'agent:plan:1h' })
@@ -114,4 +116,29 @@ export async function checkVoiceCallRateLimit(ip: string) {
     voiceRateLimitGlobal.limit('all'),
   ])
   return { success: hourly.success && daily.success && global.success } as const
+}
+
+const auditHourly = redis
+  ? new Ratelimit({ redis, limiter: Ratelimit.slidingWindow(3, '1 h'), prefix: 'audit:1h' })
+  : null
+const auditDaily = redis
+  ? new Ratelimit({ redis, limiter: Ratelimit.slidingWindow(10, '1 d'), prefix: 'audit:1d' })
+  : null
+const auditEmail = redis
+  ? new Ratelimit({ redis, limiter: Ratelimit.slidingWindow(2, '1 d'), prefix: 'audit:email:1d' })
+  : null
+export async function checkAuditRateLimit(
+  ip: string,
+  email: string,
+): Promise<{ success: boolean }> {
+  if (!auditHourly || !auditDaily || !auditEmail) {
+    if (env.NODE_ENV === 'production') throw new Error('Audit protection is not configured.')
+    return { success: true }
+  }
+  const limits = await Promise.all([
+    auditHourly.limit(ip),
+    auditDaily.limit(ip),
+    auditEmail.limit(email.toLowerCase()),
+  ])
+  return { success: limits.every((limit) => limit.success) }
 }

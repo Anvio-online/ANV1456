@@ -20,6 +20,15 @@ const serverSchema = z.object({
 
   RESEND_API_KEY: z.string().min(1).optional(),
 
+  NEXTAUTH_SECRET: z.string().min(32).optional(),
+  NEXTAUTH_URL: z.string().url().optional(),
+  GOOGLE_CLIENT_ID: z.string().optional(),
+  GOOGLE_CLIENT_SECRET: z.string().optional(),
+  ADMIN_EMAILS: z.string().optional(),
+  TURNSTILE_SECRET_KEY: z.string().optional(),
+  RESEND_WEBHOOK_SECRET: z.string().optional(),
+  KV_REST_API_URL: z.string().url().optional(),
+  KV_REST_API_TOKEN: z.string().optional(),
   SENTRY_DSN: z.string().url().optional(),
   VAPI_ASSISTANT_ID: z.string().min(1).optional(),
   VAPI_WEBHOOK_SECRET: z.string().min(1).optional(),
@@ -27,6 +36,7 @@ const serverSchema = z.object({
 })
 
 const clientSchema = z.object({
+  NEXT_PUBLIC_TURNSTILE_SITE_KEY: z.string().optional(),
   NEXT_PUBLIC_SITE_URL: z.string().url().default('http://localhost:3000'),
 
   /**
@@ -51,6 +61,7 @@ if (!parsedServer.success) {
 }
 
 const parsedClient = clientSchema.safeParse({
+  NEXT_PUBLIC_TURNSTILE_SITE_KEY: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
   NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
   NEXT_PUBLIC_VAPI_PUBLIC_KEY: process.env.NEXT_PUBLIC_VAPI_PUBLIC_KEY,
   NEXT_PUBLIC_POSTHOG_KEY: process.env.NEXT_PUBLIC_POSTHOG_KEY,

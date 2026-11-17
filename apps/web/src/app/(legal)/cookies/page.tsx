@@ -76,6 +76,17 @@ const sections: SectionInstance[] = [
   },
   {
     type: 'richText',
+    id: 'administrator-cookies',
+    variant: 'prose',
+    theme: 'dark',
+    heading: 'Administrator sign-in',
+    paragraphs: [
+      'The private admin workspace uses essential first-party NextAuth cookies for its session, sign-in callback and protection against forged requests. They are used when an administrator signs in, not for visitor advertising or analytics. The administrator session lasts up to 8 hours. Temporary OAuth state and code-verification cookies expire after 15 minutes; callback and request-protection cookies last for the browser session.',
+      'The audit form also loads Cloudflare Turnstile when bot verification is configured. This security check operates independently of optional analytics consent. We do not enable Turnstile pre-clearance cookies.',
+    ],
+  },
+  {
+    type: 'richText',
     id: 'related',
     variant: 'prose',
     theme: 'dark',

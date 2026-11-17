@@ -1,10 +1,11 @@
 'use client'
 
-import { useId, useState, type ReactNode } from 'react'
+import { useCallback, useId, useState, type ReactNode } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { auditRequestSchema, type AuditRequestValues } from '@/lib/forms/audit-schema'
 import { submitAuditRequest } from '@/lib/actions/audit'
+import { AuditChallenge } from '@/components/ui/audit-challenge'
 import { Button } from '@/components/ui/button'
 import { MagneticCta } from '@/components/motion/magnetic-cta'
 
@@ -16,6 +17,9 @@ import { MagneticCta } from '@/components/motion/magnetic-cta'
  * overlap at all.
  */
 export function AuditForm() {
+  const [errorMessage, setErrorMessage] = useState('')
+  const [challengeToken, setChallengeToken] = useState('')
+  const handleToken = useCallback((token: string) => setChallengeToken(token), [])
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
   const {
     register,
@@ -27,8 +31,14 @@ export function AuditForm() {
 
   async function onSubmit(values: AuditRequestValues) {
     setStatus('submitting')
-    const result = await submitAuditRequest(values)
-    setStatus(result.success ? 'success' : 'error')
+    try {
+      const result = await submitAuditRequest({ ...values, challengeToken })
+      setErrorMessage(result.success ? '' : result.error)
+      setStatus(result.success ? 'success' : 'error')
+    } catch {
+      setErrorMessage('Something went wrong. Please try again.')
+      setStatus('error')
+    }
   }
 
   if (status === 'success') {
@@ -65,6 +75,16 @@ export function AuditForm() {
         />
       </Field>
 
+      <div hidden aria-hidden="true">
+        <label htmlFor={fieldId('companyWebsite')}>Leave this field empty</label>
+        <input
+          {...register('companyWebsite')}
+          id={fieldId('companyWebsite')}
+          autoComplete="off"
+          tabIndex={-1}
+        />
+      </div>
+      <AuditChallenge onToken={handleToken} />
       <MagneticCta>
         <Button type="submit" size="lg" className="mt-2 w-full" disabled={status === 'submitting'}>
           {status === 'submitting' ? 'Sending…' : 'Get the audit'}
@@ -73,7 +93,7 @@ export function AuditForm() {
 
       {status === 'error' ? (
         <p role="alert" className="text-body-s text-error">
-          Something went wrong — try again, or email us directly.
+          {errorMessage}
         </p>
       ) : null}
     </form>

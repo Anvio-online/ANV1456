@@ -21,15 +21,24 @@ const nextConfig: NextConfig = {
   async headers() {
     // Preview deploys must never be indexed — see docs/engineering/workflow.md §6.
     // Vercel sets VERCEL_ENV=preview automatically on non-production deploys.
+    const privateRoutes = ['/admin/:path*', '/api/admin/:path*'].map((source) => ({
+      source,
+      headers: [
+        { key: 'Cache-Control', value: 'private, no-store, max-age=0' },
+        { key: 'X-Robots-Tag', value: 'noindex, nofollow' },
+        { key: 'Referrer-Policy', value: 'no-referrer' },
+      ],
+    }))
     if (process.env.VERCEL_ENV !== 'production' && process.env.VERCEL_ENV) {
       return [
+        ...privateRoutes,
         {
           source: '/:path*',
           headers: [{ key: 'X-Robots-Tag', value: 'noindex' }],
         },
       ]
     }
-    return []
+    return privateRoutes
   },
 }
 

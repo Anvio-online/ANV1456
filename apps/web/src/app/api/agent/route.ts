@@ -1,3 +1,4 @@
+import { eq } from 'drizzle-orm'
 import { NextResponse, type NextRequest } from 'next/server'
 import { zodOutputFormat } from '@anthropic-ai/sdk/helpers/zod'
 import { anthropic, AGENT_MODEL } from '@/lib/ai/client'
@@ -7,7 +8,6 @@ import { checkChatRateLimit, checkPlanRateLimit } from '@/lib/rate-limit'
 import { sendAutomationPlanEmail } from '@/lib/email/agent-plan'
 import { db } from '@/lib/db/client'
 import { agentLeads } from '@/lib/db/schema'
-import { env } from '@/lib/env'
 import { ATTRIBUTION_COOKIE, readAttribution } from '@/lib/analytics/attribution'
 import { CONSENT_COOKIE } from '@/lib/analytics/consent'
 import { captureServer } from '@/lib/analytics/posthog-server'
@@ -49,7 +49,15 @@ export async function POST(req: NextRequest) {
   const { turns, email, stage } = parsed.data
 
   if (stage === 'chat') {
-    const rl = await checkChatRateLimit(ip)
+    const rl = await checkChatRateLimit(ip).catch((error: unknown) => {
+      console.error('[agent] chat protection unavailable', error)
+      return null
+    })
+    if (!rl)
+      return NextResponse.json(
+        { error: 'The demo is temporarily unavailable. Please try again later.' },
+        { status: 503 },
+      )
     if (!rl.success) {
       return NextResponse.json({ error: 'Too many requests. Try again shortly.' }, { status: 429 })
     }
@@ -89,7 +97,15 @@ export async function POST(req: NextRequest) {
     )
   }
 
-  const rl = await checkPlanRateLimit(ip)
+  const rl = await checkPlanRateLimit(ip).catch((error: unknown) => {
+    console.error('[agent] plan protection unavailable', error)
+    return null
+  })
+  if (!rl)
+    return NextResponse.json(
+      { error: 'The demo is temporarily unavailable. Please try again later.' },
+      { status: 503 },
+    )
   if (!rl.success) {
     return NextResponse.json(
       { error: 'Too many plans requested. Try again later.' },
@@ -134,49 +150,52 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Plan generation failed validation.' }, { status: 502 })
   }
 
-  // The model call already succeeded and cost real money — a Resend
-  // failure here must not crash to a bare, uncaught 500 (Next swallows
-  // the message entirely). Log the real reason server-side and still
-  // hand the visitor their plan; losing the emailed copy is better than
-  // losing a plan we already paid to generate.
-  // emailSent is reported back so a delivery failure is visible from the
-  // response itself rather than only in a runtime log. Swallowing the
-  // throw keeps the demo alive, but it also makes a broken mailer look
-  // identical to a working one from outside — this is the one bit that
-  // tells them apart. It carries no detail beyond the boolean; the
-  // reason stays server-side.
-  let emailSent = false
+  // Persist before sending so an accepted email cannot lose its lead record.
+  if (!db) return NextResponse.json({ error: 'Plan storage is unavailable.' }, { status: 503 })
+  let leadId: string
   try {
-    await sendAutomationPlanEmail(email, res.parsed_output)
-    emailSent = true
-  } catch (err) {
-    console.error('[agent] plan email failed to send', err)
-  }
-
-  // The durable lead record ADR-0005 assumes exists — the transcript,
-  // the plan, the captured email, and where the visitor came from. This
-  // is what the Metabase dashboard reads (ADR-0008); the notification
-  // email is a convenience on top, not the record.
-  //
-  // Best-effort: the visitor already has their plan and we already paid
-  // for it. A DB blip here should be a loud log, not a 500 on someone
-  // holding a finished plan — same call the email path above makes.
-  if (db) {
-    try {
-      const attribution = readAttribution(req.cookies.get(ATTRIBUTION_COOKIE)?.value)
-      await db.insert(agentLeads).values({
+    const [lead] = await db
+      .insert(agentLeads)
+      .values({
         email,
         transcript: turns,
         plan: res.parsed_output,
         sourceIp: ip === '127.0.0.1' ? null : ip,
-        emailSent,
-        ...attribution,
+        ...readAttribution(req.cookies.get(ATTRIBUTION_COOKIE)?.value),
+        emailDeliveryStatus: 'pending',
       })
-    } catch (err) {
-      console.error('[agent] failed to persist lead row', err)
-    }
-  } else if (env.NODE_ENV === 'production') {
-    console.error('[agent] DATABASE_URL not configured — plan lead was not persisted')
+      .returning({ id: agentLeads.id })
+    if (!lead) throw new Error('No lead id returned.')
+    leadId = lead.id
+  } catch (error) {
+    console.error('[agent] plan storage failed', error)
+    return NextResponse.json(
+      { error: 'Could not save your plan. Please try again later.' },
+      { status: 503 },
+    )
+  }
+  let emailSent = false
+  try {
+    const providerId = await sendAutomationPlanEmail(email, res.parsed_output, leadId)
+    emailSent = Boolean(providerId)
+    await db
+      .update(agentLeads)
+      .set({
+        emailSent,
+        emailProviderId: providerId,
+        emailDeliveryStatus: providerId ? 'accepted' : 'not_configured',
+        emailDeliveryUpdatedAt: new Date(),
+      })
+      .where(eq(agentLeads.id, leadId))
+  } catch (error) {
+    console.error('[agent] plan email send or status persistence failed', error)
+    // A successful send followed by a database failure must not be labelled failed.
+    if (!emailSent)
+      await db
+        .update(agentLeads)
+        .set({ emailDeliveryStatus: 'send_failed', emailDeliveryUpdatedAt: new Date() })
+        .where(eq(agentLeads.id, leadId))
+        .catch((error: unknown) => console.error('[agent] failed to record email failure', error))
   }
 
   // Server-confirmed funnel events, keyed to the captured email so they
