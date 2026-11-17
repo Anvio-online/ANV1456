@@ -3,8 +3,8 @@
 **URL:** `/`
 **Primary intent:** Brand + category orientation. "Who are these people, are they for me, can they actually do it?"
 **Secondary intent:** Route to the right pillar (Build / Automate / Grow).
-**Primary conversion:** Agent demo completion → email captured.
-**Secondary conversion:** Book a call.
+**Primary conversion:** Agent demo completion → email captured (§4), or voice appointment demo → call booked with the founder (§11, [ADR-0010](../engineering/adr/0010-ai-appointment-setter-voice-demo.md)).
+**Secondary conversion:** Book a call via the closing form or nav.
 
 **Title:** `Anvio — AI Automation, Web Development & Growth` (52 chars)
 **Description:** `We help growing businesses automate manual work, build software that scales, and get found online. See what we'd automate for you — free, in 60 seconds.` (151 chars)
@@ -21,8 +21,8 @@
 **Copy**
 > **H1:** Your business runs on work a machine should be doing.
 > **Sub:** Anvio builds the AI automations, software, and websites that take manual work off your team — and bring the right customers in. Built for businesses with 10 to 200 people, not enterprise timelines.
-> **CTA primary:** See what we'd automate → (scrolls to agent demo)
-> **CTA secondary:** Book a free consultation
+> **CTA primary:** See what we'd automate → (scrolls to the agent demo, §4)
+> **CTA secondary:** Talk to our AI now → (scrolls to the voice appointment demo, §11 — changed by [ADR-0010](../engineering/adr/0010-ai-appointment-setter-voice-demo.md); was "Book a free consultation", which now lives in §12 and the nav)
 > **Trust line (mono, small):** Typical first automation ships in 2–4 weeks
 
 *Alternates:* "Stop paying people to do what software does better." / "AI, software, and websites — built around how your business actually works."
@@ -216,7 +216,40 @@ Close with the founder note (`team:founder-note`): real photo, real name, two ho
 
 ---
 
-## Section 11 — Closing CTA
+## Section 11 — Voice appointment demo
+`agentDemo:voice` · dark · Tier 2 · **added by [ADR-0010](../engineering/adr/0010-ai-appointment-setter-voice-demo.md)**
+
+**Purpose:** The second Automate-proof asset. Where §4 proves the capability with a
+written plan, this proves it with a live voice call that books a real meeting — the
+exact "AI appointment setter" service, demonstrated by running it.
+
+**Copy**
+> **Eyebrow:** TALK TO IT NOW
+> **H2:** Hear the AI that books your calls.
+> **Body:** A short live call with the same kind of AI appointment setter we build. It asks what you need — and if it makes sense, books you fifteen minutes with our founder, then and there.
+
+**Layout:** Same wide panel as §4. Idle state is a three-field form (name, email,
+phone) + a consent checkbox. On start, it becomes a live transcript column with
+"AI is speaking" / "Listening…" status and mute / end-call controls. On end, an
+outcome line + "book a call to scope it".
+
+**The consent checkbox is the gate, not friction.** Per ADR-0010: the call and the
+follow-up both depend on it, and it is re-checked server-side. The phone number is
+collected for founder follow-up — it is **not dialled** in v1.
+
+**Motion:** Transcript lines fade up as they arrive; the speaking indicator pulses
+(reduced-motion: static dot). Streamed — the conversation builds as it happens.
+
+**Engineering:** See [section-library.md](../system/section-library.md) §5a and
+[tech-stack.md](../engineering/tech-stack.md) §5a. Vapi + `claude-haiku-4-5`,
+server-side gate, public key client-side by design, 3-minute call cap, per-IP +
+global rate limits, graceful fallback to `agentDemo:preview`.
+
+**Analytics:** deferred — no custom events system exists on the site yet (§ Open items).
+
+---
+
+## Section 12 — Closing CTA
 `ctaClosing:split-with-form` · dark · Tier 3
 
 **Copy**
@@ -231,7 +264,7 @@ The qualifying textarea does double duty: it filters tyre-kickers and gives you 
 
 ---
 
-## Section 12 — Footer
+## Section 13 — Footer
 
 Four columns (Services with all pillar + leaf links / Company / Resources / Legal) · oversized `ANVIO` wordmark band · contact · socials. Dark. Carries real internal-linking equity — see [seo-strategy.md](../system/seo-strategy.md) §5.
 
@@ -244,7 +277,8 @@ Four columns (Services with all pillar + leaf links / Company / Resources / Lega
 3. Featured work, Why us, Engagement model, Industries
 4. **Process scene** (Tier 1 — budget a full sprint)
 5. **Agent demo** (backend + guardrails — budget a full sprint)
-6. Insights, polish, CWV pass, schema, analytics
+6. **Voice appointment demo** (§11 — Vapi + Cal.com wiring, ADR-0010)
+7. Insights, polish, CWV pass, schema, analytics
 
 Steps 1–3 give you a launchable homepage. Steps 4–5 are what make it *Anvio's* homepage.
 
@@ -256,5 +290,7 @@ Steps 1–3 give you a launchable homepage. Steps 4–5 are what make it *Anvio'
 - [ ] Written permission before naming the employer from `docs/private/employer-context.md` anywhere, and check the relevant employment agreement's IP/moonlighting clauses
 - [ ] Founder photo + note copy
 - [ ] Three insight posts, or cut §10
+- [ ] **§11 voice demo — founder setup:** Vapi project (public key, webhook secret), Cal.com "Anvio intro call (15 min)" event with Google Calendar connected, Cal.com tool on the Vapi assistant, Vapi spend alert
+- [ ] Custom analytics events — none exist yet; §4 and §11 both need them before conversion can be measured
 - [ ] Confirm 6 industries
 - [ ] Responsive QA on a real mid-range Android — see [design-system.md](../system/design-system.md) §8

@@ -21,6 +21,9 @@ const serverSchema = z.object({
   RESEND_API_KEY: z.string().min(1).optional(),
 
   SENTRY_DSN: z.string().url().optional(),
+  VAPI_ASSISTANT_ID: z.string().min(1).optional(),
+  VAPI_WEBHOOK_SECRET: z.string().min(1).optional(),
+  VAPI_CALCOM_TOOL_ID: z.string().min(1).optional(),
 })
 
 const clientSchema = z.object({
@@ -33,6 +36,7 @@ const clientSchema = z.object({
    * and on preview → analytics is a no-op, which is the intended
    * default. Supersedes the Plausible/GA vars this replaced.
    */
+  NEXT_PUBLIC_VAPI_PUBLIC_KEY: z.string().optional(),
   NEXT_PUBLIC_POSTHOG_KEY: z.string().optional(),
   NEXT_PUBLIC_POSTHOG_HOST: z.string().url().default('https://eu.i.posthog.com'),
 })
@@ -48,6 +52,7 @@ if (!parsedServer.success) {
 
 const parsedClient = clientSchema.safeParse({
   NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
+  NEXT_PUBLIC_VAPI_PUBLIC_KEY: process.env.NEXT_PUBLIC_VAPI_PUBLIC_KEY,
   NEXT_PUBLIC_POSTHOG_KEY: process.env.NEXT_PUBLIC_POSTHOG_KEY,
   NEXT_PUBLIC_POSTHOG_HOST: process.env.NEXT_PUBLIC_POSTHOG_HOST,
 })

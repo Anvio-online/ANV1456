@@ -4,6 +4,13 @@
 **Class:** Hybrid ([ADR-0006](../engineering/adr/0006-content-page-authoring-model.md))
 **Wave:** 3 — **gated on keyword validation** ([phase-2-plan.md](phase-2-plan.md) §6)
 
+> **Added out of wave by [ADR-0010](../engineering/adr/0010-ai-appointment-setter-voice-demo.md):**
+> `/services/automate/ai-appointment-setter`. It ships alongside the voice demo
+> (`agentDemo:voice`), where the demo *is* the service, so it isn't front-running
+> an unbuilt page. Slug validated 2026-09-02 as an established term with intent
+> distinct from "AI appointment scheduling". It follows this spec's frame exactly,
+> except Section 7 is `agentDemo:voice` rather than `agentDemo:full`.
+
 One document for four pages, because they share a frame and differ only in frontmatter, body, and the visual in Section 5. Writing four near-identical specs would produce four near-identical pages, which is the exact outcome this spec exists to prevent.
 
 ---

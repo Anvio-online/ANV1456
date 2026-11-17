@@ -79,3 +79,39 @@ export async function checkChatRateLimit(ip: string) {
   ])
   return { success: hourly.success && daily.success } as const
 }
+
+/**
+ * ADR-0010: the voice appointment-setter demo. A voice call costs more
+ * per interaction than a plan call and has no API-side spend cap, so it
+ * gets the tightest limits on the site: a low per-IP cap bounds one
+ * abuser, and a global daily cap is the kill-switch for everything else
+ * (a botnet, a link that goes around). Same split ADR-0005 uses for the
+ * text demo, dialled down.
+ */
+const voiceRateLimitHourly = redis
+  ? new Ratelimit({ redis, limiter: Ratelimit.slidingWindow(2, '1 h'), prefix: 'appt:call:1h' })
+  : null
+
+const voiceRateLimitDaily = redis
+  ? new Ratelimit({ redis, limiter: Ratelimit.slidingWindow(6, '1 d'), prefix: 'appt:call:1d' })
+  : null
+
+const voiceRateLimitGlobal = redis
+  ? new Ratelimit({ redis, limiter: Ratelimit.slidingWindow(40, '1 d'), prefix: 'appt:global:1d' })
+  : null
+
+export async function checkVoiceCallRateLimit(ip: string) {
+  if (!voiceRateLimitHourly || !voiceRateLimitDaily || !voiceRateLimitGlobal) {
+    if (env.NODE_ENV === 'production') {
+      throw new Error('Rate limiting is not configured — refusing to serve the voice demo.')
+    }
+    return { success: true } as const
+  }
+  const [hourly, daily, global] = await Promise.all([
+    voiceRateLimitHourly.limit(ip),
+    voiceRateLimitDaily.limit(ip),
+    // One fixed key: this window is the whole demo's budget, not per-IP.
+    voiceRateLimitGlobal.limit('all'),
+  ])
+  return { success: hourly.success && daily.success && global.success } as const
+}

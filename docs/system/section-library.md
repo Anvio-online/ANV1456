@@ -112,9 +112,11 @@ Each is dynamically imported and IntersectionObserver-gated. See [motion-system.
 | Variant | Behaviour |
 |---|---|
 | `full` | Live conversational agent. Asks 3–4 questions about the visitor's manual processes, returns a mini automation plan + captures email for the full version |
-| `preview` | Non-interactive scripted transcript with a CTA into `full` |
+| `preview` | Non-interactive scripted transcript with a CTA into `full` — also the runtime fallback for `full` and `voice` |
+| `voice` | Live browser voice call ([ADR-0010](../engineering/adr/0010-ai-appointment-setter-voice-demo.md)). A short form (name, email, phone, consent), then a WebRTC call with an AI appointment setter that briefs Anvio, gauges interest, and books a real 15-min call with the founder via Cal.com — or captures what the visitor would want automated. Falls back to `preview` on any failure. |
 
-Phase 1 uses `full` on Home and Automate. See §5.
+Phase 1 uses `full` on Home and Automate leaves. `voice` is on Home (§11) and the
+`ai-appointment-setter` leaf, where the demo *is* the service. See §5.
 
 ### Work / proof
 
@@ -170,6 +172,7 @@ engagementModel:phase-timeline (light)
 whyUs:contrast-table (dark)
 industries:compact-grid (dark)
 insights:three-latest (dark)
+agentDemo:voice (dark)                   ← §11, ADR-0010
 ctaClosing:split-with-form (dark)
 ```
 
@@ -292,7 +295,7 @@ breadcrumb:inline (dark) · hero:page-lead (dark) · featuredWork:grid (dark)
 `CaseStudyCard` gains a required `kind: 'client' | 'internal' | 'partner-agency'` — the label
 renders from the field, so honest attribution is structural rather than editorial.
 
-### Service leaf — hybrid · [spec](../specs/service-leaf-spec.md) · **2 of 4 built** (`whatsapp-automation`, `ai-chatbot-development`)
+### Service leaf — hybrid · [spec](../specs/service-leaf-spec.md) · **3 of 4 built** (`ai-appointment-setter`, `whatsapp-automation`, `ai-chatbot-development`)
 ```
 breadcrumb:inline (dark)
 hero:page-lead (dark)               ← deliberately not split-visual, which is the pillars'
@@ -300,7 +303,7 @@ problem:pain-grid (dark)
 richText:mdx (light)                ← the substance — this is what ranks
 workflowGraph:compact (light)       ← Tier 2 · buildAssembly:component-grid on the Build leaf
 faq:accordion (light)               ← in the light band; the theme rule leaves nowhere else
-agentDemo:full (dark)               ← Tier 2 · Automate leaves only
+agentDemo:full (dark)               ← Tier 2 · Automate leaves only — ai-appointment-setter uses agentDemo:voice (ADR-0010)
 relatedLinks:card-grid (dark)
 ctaClosing:centered-bold (dark)
 ```
@@ -376,6 +379,32 @@ This is the differentiator, so it gets specified rather than left to implementat
 - Never state a definitive price — ranges and "we'll confirm on a call" only.
 - Never promise a specific integration exists without hedging.
 - Log transcripts (with consent notice) — this is the best product research the site can generate.
+
+---
+
+## 5a. `agentDemo:voice` — build notes
+
+The second Automate-proof asset ([ADR-0010](../engineering/adr/0010-ai-appointment-setter-voice-demo.md)).
+
+**Flow**
+1. Idle state: a three-field form — name, email, phone — plus a consent checkbox.
+2. On submit → `POST /api/appointment-demo`: validate → **re-check consent** → rate limit → insert a lead row → return the Vapi assistant config (public key + overrides carrying the versioned prompt).
+3. Client loads `@vapi-ai/web` (dynamic import — heavy Daily.co chunk, off the initial bundle) and starts the call. Live transcript renders; mute and end-call controls.
+4. The agent discloses it is an AI in the first sentence, briefs Anvio in two sentences, asks the interest question, then either books a Cal.com slot with the founder or captures what the visitor would want automated.
+5. On call end, Vapi posts `end-of-call-report` to `/api/appointment-demo/webhook` → the lead row is updated and the founder is emailed the transcript + outcome. Cal.com sends the calendar invite itself.
+
+**Engineering** — full detail in [tech-stack.md](../engineering/tech-stack.md) §5a.
+- Provider **Vapi**, model **`claude-haiku-4-5`** ([ADR-0010](../engineering/adr/0010-ai-appointment-setter-voice-demo.md)) — scripted branching + one tool call, latency over depth.
+- The **public** Vapi key is client-side by design; the webhook secret is server-only.
+- `maxDurationSeconds: 180`. Per-IP rate limit **2/hour, 6/day**, plus a **40/day global kill-switch**. No API-side spend cap — the caps and the Vapi/Anthropic budget alerts are it.
+- System prompt versioned in `src/lib/ai/prompts/appointment-demo.ts`, reviewed like code. Discloses the AI first, never quotes a firm price, declines off-topic.
+- Webhook input is verified (shared secret or HMAC), parsed against a Zod schema, never executed.
+- Graceful degradation: unconfigured, mic denied, or any error → renders `agentDemo:preview`. The section must never look broken.
+
+**Guardrails** — the §5 list applies. Additionally: the consent checkbox is the
+gate (enforced server-side), and the phone number is stored for founder follow-up
+but **not dialled** in v1 — a real outbound call is a separate decision (ADR-0010,
+"Revisit when").
 
 ---
 

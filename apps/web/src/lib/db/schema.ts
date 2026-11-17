@@ -59,6 +59,28 @@ export const contactSubmissions = pgTable('contact_submissions', {
 })
 
 /**
+ * ADR-0010: the voice appointment-setter demo. One row per started
+ * call. The row is inserted before the call connects (status
+ * 'started'), then filled in from Vapi's end-of-call-report webhook.
+ * `phone` is stored for founder follow-up — it is NOT dialled in v1.
+ */
+export const appointmentDemoLeads = pgTable('appointment_demo_leads', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  name: text('name').notNull(),
+  email: text('email').notNull(),
+  phone: text('phone').notNull(),
+  /** started | booked | interested_no_booking | not_interested | incomplete */
+  status: text('status').notNull().default('started'),
+  vapiCallId: text('vapi_call_id'),
+  transcript: text('transcript'),
+  summary: text('summary'),
+  structuredData: jsonb('structured_data'),
+  sourceIp: text('source_ip'),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  completedAt: timestamp('completed_at', { withTimezone: true }),
+})
+
+/**
  * grow-spec.md §7 — the page's primary conversion. URL + email only:
  * every extra field costs completions, and those two are all the audit
  * work itself needs. Name/company can come in the reply, same

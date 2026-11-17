@@ -115,6 +115,12 @@ const sections: SectionInstance[] = [
             description:
               'Answers the repeat questions from your knowledge base in your tone, and escalates to a human with full context when it should.',
           },
+          {
+            name: 'AI appointment setter',
+            description:
+              'A voice agent that answers the call, qualifies the caller, and books the meeting into your calendar — with the number and a summary left for you.',
+            href: '/services/automate/ai-appointment-setter',
+          },
         ],
       },
       {
