@@ -4,6 +4,10 @@ All notable changes to this project. Format follows [Keep a Changelog](https://k
 
 ## [Unreleased]
 
+### Security
+
+- Upgrade Next.js and its ESLint configuration to 15.5.29 to address critical runtime vulnerabilities reported by GitHub during the production release.
+
 ### Added
 
 - Repository scaffold: pnpm workspace, Next.js App Router app, TypeScript strict mode ([ADR-0001](docs/engineering/adr/0001-pnpm-workspace-single-app.md))
