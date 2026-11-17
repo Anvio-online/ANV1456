@@ -37,7 +37,7 @@ const sections: SectionInstance[] = [
     theme: 'dark',
     eyebrow: 'LEGAL',
     heading: 'Privacy Policy',
-    body: 'Last updated August 10, 2026. This describes what anvio.online collects when you use this site, why, where it goes, and what you can do about it.',
+    body: 'Last updated August 31, 2026. This describes what anvio.online collects when you use this site, why, where it goes, and what you can do about it.',
   },
   {
     type: 'richText',
@@ -61,7 +61,8 @@ const sections: SectionInstance[] = [
       'Free audit request: the URL you submit and your email. Stored in our database and forwarded to Resend the same way.',
       'AI agent demo: the questions you answer, your email once you provide it to receive a plan, the plan we generate, and the IP address the request came from. The conversation and the email are stored in our database. Separately, and only after you submit your email, the conversation is sent to our AI model provider, Anthropic, to generate your plan — see "Your conversation with our AI agent" below.',
       'Every request to the AI agent demo, whether or not you go on to submit an email, has its IP address processed for rate limiting, using Upstash. This exists to stop abuse of a feature that costs us money to run, not to identify you.',
-      'Basic analytics on page views may be collected sitewide. As of this policy, we have not enabled a third-party analytics tool on the live site; if we add one, we will update this section before it goes live and prefer privacy-respecting, cookieless tools where the feature allows it — see our Cookie Policy.',
+      'Page speed and aggregate visit counts are measured sitewide with Vercel Web Analytics, which sets no cookies and does not identify you. This runs for everyone.',
+      'Product analytics — which pages you view, what you click, and the page and referring link you arrived from — is collected by PostHog, hosted in the EU, but only if you accept analytics on the cookie banner. If you accept and later submit your email through the AI agent demo, we ask PostHog to associate your earlier activity in that session with your submission, so we can see the path that led to it. You can decline, and nothing about this runs. See our Cookie Policy for the exact cookies involved.',
     ],
   },
   {
@@ -87,6 +88,7 @@ const sections: SectionInstance[] = [
       'Contact form and free audit submissions: up to 24 months from your last contact with us, or until you ask us to delete them, whichever is sooner.',
       'AI agent demo conversations, plans, and the email tied to them: up to 12 months from submission, or until you ask us to delete them, whichever is sooner.',
       'IP addresses processed for rate limiting: kept only as long as the rate-limit window itself requires — on the order of hours to a day — then automatically expired, not retained separately.',
+      'Analytics events, if you accepted analytics: retained by PostHog for up to 12 months, then deleted.',
     ],
   },
   {
@@ -97,7 +99,7 @@ const sections: SectionInstance[] = [
     heading: 'Who we share it with',
     paragraphs: [
       "We don't sell personal data, to anyone, ever.",
-      'We share what a feature needs with the provider that runs it: Resend for sending and receiving form notification emails, Anthropic for generating an AI agent plan from a conversation you chose to have, and Upstash for the rate-limiting described above. Our database is hosted on Neon (Postgres). None of these providers is authorized to use your data for their own marketing.',
+      'We share what a feature needs with the provider that runs it: Resend for sending and receiving form notification emails, Anthropic for generating an AI agent plan from a conversation you chose to have, Upstash for the rate-limiting described above, and — only if you accept analytics — PostHog for the product analytics described under "What we collect". Our database is hosted on Neon (Postgres). None of these providers is authorized to use your data for their own marketing.',
       'We disclose information if required by law, or to protect the rights, property, or safety of Anvio, our users, or others.',
     ],
   },
@@ -108,8 +110,8 @@ const sections: SectionInstance[] = [
     theme: 'dark',
     heading: 'Your rights, and how to use them',
     paragraphs: [
-      "If you are in India, this processing is carried out under India's Digital Personal Data Protection Act, on the basis of your consent when you submit a form or start the AI agent demo, and our legitimate interest in operating the site securely (for example, rate limiting).",
-      'If you are in the EU or UK, the same activities are carried out under the GDPR on the equivalent legal bases — consent for the forms and the demo, legitimate interest for security and abuse prevention.',
+      "If you are in India, this processing is carried out under India's Digital Personal Data Protection Act, on the basis of your consent when you submit a form, start the AI agent demo, or accept analytics, and our legitimate interest in operating the site securely (for example, rate limiting).",
+      'If you are in the EU or UK, the same activities are carried out under the GDPR on the equivalent legal bases — consent for the forms, the demo, and analytics; legitimate interest for security and abuse prevention. You can withdraw analytics consent at any time as described in the Cookie Policy.',
       'Either way, you can ask us to access, correct, or delete the personal data we hold about you, or ask what we hold. Email hello@anvio.online with your request and we will respond within a reasonable time. We are a small team — if that email goes unanswered for more than a few business days, that is a failure on our part, not a sign to give up.',
     ],
   },

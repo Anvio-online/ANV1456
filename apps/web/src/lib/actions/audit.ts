@@ -1,10 +1,15 @@
 'use server'
 
+import { cookies } from 'next/headers'
 import { db } from '@/lib/db/client'
 import { auditRequests } from '@/lib/db/schema'
 import { auditRequestSchema, type AuditRequestValues } from '@/lib/forms/audit-schema'
 import { env } from '@/lib/env'
 import { sendAuditRequestNotification } from '@/lib/email/lead-notification'
+import { ATTRIBUTION_COOKIE, readAttribution } from '@/lib/analytics/attribution'
+import { CONSENT_COOKIE } from '@/lib/analytics/consent'
+import { captureServer } from '@/lib/analytics/posthog-server'
+import { AnalyticsEvent } from '@/lib/analytics/events'
 
 export type AuditRequestResult = { success: true } | { success: false; error: string }
 
@@ -27,7 +32,15 @@ export async function submitAuditRequest(values: AuditRequestValues): Promise<Au
     return { success: true }
   }
 
-  await db.insert(auditRequests).values(parsed.data)
+  const cookieStore = await cookies()
+  const attribution = readAttribution(cookieStore.get(ATTRIBUTION_COOKIE)?.value)
+  await db.insert(auditRequests).values({ ...parsed.data, ...attribution })
   await sendAuditRequestNotification(parsed.data)
+
+  await captureServer({
+    distinctId: parsed.data.email,
+    consentCookie: cookieStore.get(CONSENT_COOKIE)?.value,
+    event: AnalyticsEvent.AuditRequested,
+  })
   return { success: true }
 }

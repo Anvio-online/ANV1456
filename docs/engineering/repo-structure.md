@@ -73,7 +73,8 @@ anvio/
 │     │  ├─ components/
 │     │  │  ├─ ui/                  # Button, Card, Badge, Input, Accordion, Marquee, Chip
 │     │  │  ├─ motion/              # FadeUp, MaskReveal, CounterRoll, NodeCascade, PathPulse
-│     │  │  └─ layout/              # Nav, Footer, Container, Section, Grid
+│     │  │  ├─ layout/              # Nav, Footer, Container, Section, Grid
+│     │  │  └─ analytics/           # PostHog bootstrap + consent banner (client) — ADR-0008
 │     │  │
 │     │  ├─ lib/
 │     │  │  ├─ sections/            # registry.ts · renderer.tsx · types.ts · heading-level.ts
@@ -82,10 +83,11 @@ anvio/
 │     │  │  ├─ ai/                  # client.ts · plan.ts · prompts/ · schemas.ts
 │     │  │  ├─ db/                  # schema.ts · client.ts · queries/
 │     │  │  ├─ rate-limit/          # index.ts (Upstash)
-│     │  │  ├─ analytics/           # events.ts — the typed event map
+│     │  │  ├─ analytics/           # events.ts · attribution.ts · consent.ts · capture.ts (client) · posthog-server.ts
 │     │  │  ├─ env.ts               # Zod-validated environment
 │     │  │  └─ utils/               # cn.ts · format.ts · slug.ts
 │     │  │
+│     │  ├─ middleware.ts           # first-touch attribution capture — ADR-0008
 │     │  ├─ styles/
 │     │  │  ├─ tokens.css           # the single source of truth for design tokens
 │     │  │  └─ globals.css
@@ -214,6 +216,7 @@ updatedAt: 2026-02-14
 | A specialist role | `.claude/agents/` | Have it *read* `docs/business/` — never restate facts inside the agent file |
 | A repeatable workflow | `.claude/commands/` (short) or `.claude/skills/` (needs its own reference material) | Add it to `.claude/README.md` |
 | An agent deliverable | `ops/<area>/YYYY-MM-DD-slug.md` | Provenance frontmatter. If it names individuals, it goes in a gitignored subdirectory |
+| An analytics event or attribution helper | `lib/analytics/` | Events are `snake_case` in `events.ts`; keep `attribution.ts` in step with `attributionColumns` in `lib/db/schema.ts`. See [ADR-0008](adr/0008-analytics-attribution-and-lead-visibility.md) |
 | Anything else | **Stop.** Decide the home, add it to §3 in this file, then write the file | |
 
 ---

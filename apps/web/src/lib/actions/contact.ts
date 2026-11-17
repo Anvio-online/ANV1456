@@ -1,10 +1,15 @@
 'use server'
 
+import { cookies } from 'next/headers'
 import { db } from '@/lib/db/client'
 import { contactSubmissions } from '@/lib/db/schema'
 import { contactSchema, type ContactFormValues } from '@/lib/forms/contact-schema'
 import { env } from '@/lib/env'
 import { sendContactNotification } from '@/lib/email/lead-notification'
+import { ATTRIBUTION_COOKIE, readAttribution } from '@/lib/analytics/attribution'
+import { CONSENT_COOKIE } from '@/lib/analytics/consent'
+import { captureServer } from '@/lib/analytics/posthog-server'
+import { AnalyticsEvent } from '@/lib/analytics/events'
 
 export type ContactActionResult = { success: true } | { success: false; error: string }
 
@@ -27,7 +32,19 @@ export async function submitContactForm(values: ContactFormValues): Promise<Cont
     return { success: true }
   }
 
-  await db.insert(contactSubmissions).values(parsed.data)
+  const cookieStore = await cookies()
+  const attribution = readAttribution(cookieStore.get(ATTRIBUTION_COOKIE)?.value)
+  await db.insert(contactSubmissions).values({ ...parsed.data, ...attribution })
   await sendContactNotification(parsed.data)
+
+  await captureServer({
+    distinctId: parsed.data.email,
+    consentCookie: cookieStore.get(CONSENT_COOKIE)?.value,
+    event: AnalyticsEvent.ContactFormSubmitted,
+    properties: {
+      team_size: parsed.data.teamSize ?? null,
+      has_company: Boolean(parsed.data.company),
+    },
+  })
   return { success: true }
 }
