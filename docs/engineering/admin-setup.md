@@ -22,7 +22,7 @@ The owner approved `anshika1307goel@gmail.com` as both the admin identity and th
 
 ## Verified status (2026-11-17)
 
-- Google admin: OAuth web client created, callback configured, owner added as the sole test user; production credentials configured. Live sign-in verification follows deployment.
+- Google admin: OAuth web client created, callback configured, owner added as the sole test user; production credentials configured. Live Google sign-in with the approved owner succeeded.
 - Rate limiting: replacement database is healthy and the repaired settings are live.
 - Approved live test: chat HTTP 200, plan HTTP 200, one plan saved; email acceptance false. Resend reported that `anvio.online` is not verified. That first attempt was correctly recorded as not sent; see the successful follow-up below.
 - Admin migration: applied to production with approval. All four original lead tables remain; review and delivery-event tables and email-tracking columns were verified. Unified inbox queries also passed synthetic PostgreSQL validation.
@@ -35,4 +35,18 @@ The owner approved adding the missing `resend._domainkey` TXT record in Hostinge
 
 The approved live retry returned chat 200 and plan 200, saved the generated plan, and returned `emailSent: true`. Resend email `01a1e9df-9e30-7a11-a41b-52bee4109166` showed Sent and Delivered to the approved owner inbox. The database held two clearly labelled internal test plans: the first failed sending and the retry was accepted. Delivery was confirmed independently in Resend, not inferred from the database boolean. The owner confirmed receipt in their mailbox.
 
-Production rollout and live verification of admin sign-in, audit protection, signed delivery callbacks and consented analytics are in progress. Metabase remains deferred; the operational inbox serves current lead management needs.
+The rollout is live at https://anvio.online/admin. Metabase remains deferred; the operational inbox serves current lead management needs.
+
+
+## Production rollout verification (2026-11-17)
+
+Application release `d8675c6` was pushed to main, passed GitHub CI, and deployed as `dpl_77CG3LPCK8DUVAugY4NRk1Zo5DzW`, aliased to anvio.online. A final local `pnpm verify` also passed.
+
+- Google sign-in succeeded with the approved owner. The inbox loaded all existing sources. Anonymous inbox/detail requests returned 307 to login; anonymous calendar access returned 401. Private pages returned no-store and noindex headers.
+- Private notes persisted after a reload. An authenticated calendar action downloaded a valid ICS reminder with no customer attendee or automatic invitation. Mail actions remain drafts.
+- A genuine audit submission passed the production Turnstile widget and saved one test row. The deployed server action rejected an invalid token, then rejected further attempts with its rate-limit response. A database check confirmed the rejected attempts added no rows.
+- Live chat and plan generation returned 200. The generated plan was persisted with a Resend message id and accepted status. A genuine signed delivered callback was stored, and admin displayed delivered. An unsigned callback returned 401. New internal audit and plan test rows were labelled and archived.
+- PostHog EU received the consented server events `agent_plan_generated` and `agent_plan_email_sent`. A fresh visitor on the protected production alias accepted analytics; PostHog received a browser pageview and an About link click. The primary-domain decline choice survived reload. The deployed public bundle was checked against the intended ingestion key and EU host. Admin is excluded from analytics initialization and sending; session replay remains disabled.
+- PostHog uses its capped Free plan with one-year retention. No paid analytics plan was selected.
+
+Historical plan rows retain unknown delivery unless independently verified. Old spam-like submissions remain available for manual review; no prospect was contacted during verification. The voice-calling demo is a separate provider setup and is not enabled by this release.
