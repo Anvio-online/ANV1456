@@ -162,6 +162,8 @@ Already sketched in [repo-structure.md](repo-structure.md) §5. Formalized:
 | `readingTime` | number | Computed at build from the body, not hand-entered |
 | `commercialLink` | `{ label, href }` | **Required.** §5 of the SEO strategy says every guide links to one commercial page with a contextual anchor; making it a required field is how that stops being a thing we forget |
 | `relatedLinks` | as above | |
+| `faq` | `{ question, answer }[]` (min 2) · **optional** | GEO structured data — [seo-strategy.md](../system/seo-strategy.md) §6. When present, `/guides/[slug]` emits `FAQPage` JSON-LD. Each entry's substance **must** also appear visibly in the body (a `## Common questions` block) — Google's FAQ policy requires the marked-up content to be on the page. |
+| `howToSteps` | `{ name, text }[]` (min 2) · **optional** | GEO structured data. When present, `/guides/[slug]` emits `HowTo` JSON-LD alongside `Article`. Authored deliberately for genuine ordered how-to guides — never scraped from body headings. |
 
 ### `insights`
 
@@ -204,11 +206,14 @@ That takes the registry to 28 types (27 registered plus `testimonial` documented
 
 | Builder | Used by | Status |
 |---|---|---|
-| `articleSchema` | `/guides/[slug]` (built) · `/case-studies/[slug]` (pending) | **Built.** `headline`, `description`, `author`, `datePublished`, `dateModified`, `url` |
+| `articleSchema` | `/guides/[slug]` (built) · `/case-studies/[slug]` (pending) | **Built.** `headline`, `description`, `author`, `datePublished`, `dateModified`, `url`, plus `publisher` (→ Organization `@id`), `image` (defaults to the OG image), `mainEntityOfPage` |
+| `howToSchema` | `/guides/[slug]` when `howToSteps` frontmatter present | **Built** (GEO infrastructure pass, 2026-09). `name`, `description`, ordered `step[]`, `url` |
 | `collectionPageSchema` | `/guides` (built) · `/case-studies` (pending) | **Built.** `name`, `description`, `url` |
-| `softwareApplicationSchema` | `/tools/[slug]` | **Not built** — `/tools` is above the floor |
+| `softwareApplicationSchema` | `/tools/[slug]` | **Built** — used by `/tools/automation-roi-calculator` |
 
-`serviceSchema` still doesn't have `areaServed` — no industry leaf exists yet to need it.
+**The `@id` graph.** `organizationSchema` (`{SITE_URL}#organization`) and `websiteSchema` (`{SITE_URL}#website`) now carry stable `@id`s, and every other builder references them (`provider`/`publisher`/`about`: `{ '@id': … }`) rather than repeating a stub. This is deliberate GEO infrastructure — an extractor resolves the page, the site, and the company to one entity each. `organizationSchema` also carries `description`, `logo`, `image`, `areaServed`, `knowsAbout`, `contactPoint`; `sameAs` is `[]` until real Anvio profile URLs exist. `serviceSchema` now includes `areaServed` (India, UAE — from `SITE_AREA_SERVED` in `constants.ts`).
+
+`faqSchema` is also emitted from `/guides/[slug]` when a guide carries `faq` frontmatter (previously service/industry/tools pages only).
 
 ---
 

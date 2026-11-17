@@ -35,14 +35,20 @@ Stated as **"Starting from ₹X"**, deliberately. These are floors, not quotes.
 
 ## 3. Automate and Grow pricing
 
-**Not published, and that is a decision, not an oversight.** Automation scope varies too much for a floor to mean anything, and there is no delivered-automation baseline to price against yet.
+### Automate — one published floor
 
-Until there is, price automation work from:
+**`Starting from ₹30,000`** for a single, well-defined automation — a focused chatbot, one workflow, one integration. Stated as a floor, never a range, never a retainer figure, always paired with _"we quote the full scope after a discovery call."_ Same model as Build §2. Full reasoning and the rules on how it may be phrased: [ADR-0009](../engineering/adr/0009-automate-pricing-starting-floor.md).
+
+Where it appears: `/services/automate`, the Automate leaves, and guides that discuss automation cost. Keep the number in sync with those pages — same rule as §2 (fix both in the same PR).
+
+Larger multi-system builds and ongoing retainers are scoped and quoted after discovery, from:
 
 - Hours currently spent on the process × a defensible hourly cost, compared against build cost — the logic the `/tools/automation-roi-calculator` already implements
 - A discovery/audit engagement first, priced small, that de-risks both sides
 
-Anything an agent produces that names an Automate or Grow price is inventing it. Say the range is set after discovery instead.
+### Grow — not published
+
+SEO/GEO/performance retainers vary more than automation builds and have no delivered baseline under the Anvio name. Anything an agent produces that names a Grow price is inventing it — say the scope is set after discovery instead.
 
 ---
 

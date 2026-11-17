@@ -370,9 +370,14 @@ const sections: SectionInstance[] = [
     heading: 'Questions worth asking before you commit to anything.',
     items: [
       {
+        question: 'What is business process automation?',
+        answer:
+          'Business process automation is using software to run a repeatable operational task end to end — capturing an order, entering an invoice, sending a follow-up, building a report — instead of a person doing it by hand between systems. With AI in the mix, it also covers tasks that need judgement on unstructured input, like reading a document or answering a question from your own knowledge base. The point is not headcount; it is removing the mechanical work so people spend their time on the parts that actually need them.',
+      },
+      {
         question: 'How much does AI automation cost for a small business?',
         answer:
-          'Most single-process automations run ₹75,000–₹2,50,000 depending on complexity and how many systems it touches. Ongoing retainers for larger builds start around ₹35,000/month. We quote after an audit, not before — a number without a scope is a guess.',
+          'A single, well-defined automation — one focused chatbot, one workflow, one integration — starts from ₹30,000. The full number depends on how many systems it touches and how much judgement the logic involves, which is what a discovery call is for. We quote the complete scope after that call, not before — a number without a scope is a guess.',
       },
       {
         question: 'How long does it take to build an automation?',

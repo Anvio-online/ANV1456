@@ -135,6 +135,16 @@ Chosen to cover all four query shapes in [seo-strategy.md](../system/seo-strateg
 
 **Priority if only six ship:** 1, 3, 5, 8, 2, 7. #1 and #3 unblock service leaves; #5 and #8 are the two nobody else can write the way we can.
 
+### Added after Wave 5 (2026-09, GEO content pass)
+
+| # | Slug | Shape | Why us | Commercial link |
+|---|---|---|---|---|
+| 9 | `how-to-automate-lead-follow-ups` | Problem-aware / how-to | Universal SMB pain, long-tail, low competition; a worked example of the §5 (`which-processes`) framework. Carries `HowTo` + `FAQPage` markup | `/services/automate` |
+| 10 | `ai-agents-for-customer-support` | Solution-aware | Applies the agent/chatbot boundary (#1) to the most-asked support use case, with the limits spelled out. Supports the chatbot leaf | `/services/automate` |
+| 11 | `how-much-does-an-ai-chatbot-cost` | Problem-aware / pricing | Pricing transparency, same treatment as #7 for Build. Custom vs SaaS vs DIY. Uses the ADR-0009 `from ₹30,000` floor, no invented range. `FAQPage` markup | `/services/automate/ai-chatbot-development` |
+
+Slugs chosen by reasoning, not Ahrefs (not authorized in-session). Guide URLs are low redirect cost — validate opportunistically. #11 was unblocked by [ADR-0009](../engineering/adr/0009-automate-pricing-starting-floor.md), which resolved the "may Automate prices appear in content" question (yes — one `Starting from ₹30,000` floor).
+
 **Guides also seed Home's insights section**, which is currently blocked on the open item *"Three insight posts, or cut the Home insights section."* Three guides retire it. Note that `insights` and `guides` are separate content kinds ([content-layer.md](../engineering/content-layer.md) §3) — Home's section either reads from `guides` or the two kinds merge. Decide before building §3 of the index.
 
 ---
@@ -174,5 +184,6 @@ Chosen to cover all four query shapes in [seo-strategy.md](../system/seo-strateg
 - [ ] Resolve the ToC architecture (Section 3): ship `inline`, or move the ToC into `richText:mdx` as a prop
 - [ ] Decide whether `insights` and `guides` are one content kind or two, before the index is built
 - [ ] Eight guides × 1,800 words is the largest writing commitment in Phase 2. Confirm the realistic number before committing the index's shape — six is a fine answer
-- [ ] Verify WhatsApp API pricing (#3) and n8n/Zapier/Make pricing tiers (#2) at time of writing, and set a review reminder — both change, and a stale comparison guide is worse than none
-- [ ] `/llms.txt` ([seo-strategy.md](../system/seo-strategy.md) §7.7) should list the guides once they exist. Cheap, and it belongs in this wave
+- [x] ~~Verify WhatsApp API pricing (#3) and n8n/Zapier/Make pricing tiers (#2)~~ — reviewed 2026-09-02. **#3 was stale and is fixed**: Meta moved from per-conversation to **per-delivered-template-message** pricing on 2026-07-01 (marketing/utility/auth categories), and free-form service replies inside the 24-hour window are now free (+1,000 free service conversations/month). The guide, its worked example, and its summary were corrected and `updatedAt` bumped. **#2 needed no change** — it deliberately quotes no figures or tier names. **Re-review both by ~2027-03.**
+- [x] ~~`/llms.txt` should list the guides~~ — built, generated from `contentRepository`. `/llms-full.txt` (full guide text) added alongside in the 2026-09 GEO pass
+- [ ] `faq` / `howToSteps` frontmatter (added 2026-09, [content-layer.md](../engineering/content-layer.md) §3) is populated on 2 guides so far (`how-to-automate-invoice-data-entry`, `whatsapp-business-api-cost-and-limits`). Backfill the other 6 where a genuine `## Common questions` block exists or is worth adding — each unlocks `FAQPage` markup

@@ -30,11 +30,13 @@ export function buildMetadata({
       url,
       siteName: SITE_NAME,
       type: 'website',
+      images: ['/images/og-image.png'],
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
+      images: ['/images/og-image.png'],
     },
   }
 }

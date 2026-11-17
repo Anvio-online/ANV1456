@@ -20,16 +20,16 @@ Not a guess that reads like a fact. A labelled gap is useful. An invented fact i
 
 Grounded in [current-situation.md](../../docs/business/current-situation.md). These are not stylistic preferences — several are legal or contractual exposure.
 
-| Never                                                        | Why                                                                      |
-| ------------------------------------------------------------ | ------------------------------------------------------------------------ |
-| Any **client name** as Anvio's client                        | The Stratseek agreement has not been read for naming/attribution clauses |
-| Any **case study, testimonial, or logo**                     | None exist that are cleared for use                                      |
-| The **employer's name or work**, in any framing              | No written permission; possible IP/moonlighting clauses                  |
-| Any **metric of client results** ("we cut costs 40%")        | No delivered automation engagement exists to measure                     |
-| **Traffic, ranking, or conversion numbers** for anvio.online | No analytics is wired into the site at all                               |
-| A **Lighthouse/CWV score** for anvio.online                  | Never published. Ship without a number rather than with an invented one  |
-| A **price for Automate or Grow** work                        | Deliberately unpublished — say the range is set after discovery          |
-| **Team size or plurality** implying more than one person     | "We" as a company voice is fine; "our team of engineers" is not          |
+| Never                                                                             | Why                                                                                                                                                                                                                                                                      |
+| --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Any **client name** as Anvio's client                                             | The Stratseek agreement has not been read for naming/attribution clauses                                                                                                                                                                                                 |
+| Any **case study, testimonial, or logo**                                          | None exist that are cleared for use                                                                                                                                                                                                                                      |
+| The **employer's name or work**, in any framing                                   | No written permission; possible IP/moonlighting clauses                                                                                                                                                                                                                  |
+| Any **metric of client results** ("we cut costs 40%")                             | No delivered automation engagement exists to measure                                                                                                                                                                                                                     |
+| **Traffic, ranking, or conversion numbers** for anvio.online                      | No analytics is wired into the site at all                                                                                                                                                                                                                               |
+| A **Lighthouse/CWV score** for anvio.online                                       | Never published. Ship without a number rather than with an invented one                                                                                                                                                                                                  |
+| A **range or retainer figure** for Automate work; **any** price for **Grow** work | Automate publishes one `Starting from ₹30,000` floor and nothing else ([ADR-0009](../../docs/engineering/adr/0009-automate-pricing-starting-floor.md)) — never a range, never a monthly figure, always "full scope quoted after discovery." Grow stays fully unpublished |
+| **Team size or plurality** implying more than one person                          | "We" as a company voice is fine; "our team of engineers" is not                                                                                                                                                                                                          |
 
 Internal builds — including anvio.online and the live agent demo — **may** be used freely, clearly labelled as internal.
 

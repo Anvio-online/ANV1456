@@ -23,6 +23,7 @@ import { z } from 'zod'
 const relatedLink = z.object({ label: z.string(), href: z.string(), note: z.string() })
 const faqItem = z.object({ question: z.string(), answer: z.string() })
 const painItem = z.object({ pain: z.string(), line: z.string() })
+const howToStep = z.object({ name: z.string(), text: z.string() })
 
 const baseFields = {
   title: z.string().max(70),
@@ -62,6 +63,14 @@ const guides = defineCollection({
     author: z.string(),
     commercialLink: z.object({ label: z.string(), href: z.string() }),
     relatedLinks: z.array(relatedLink).min(3).max(5),
+    // Optional GEO structured-data inputs (seo-strategy.md §6–§7),
+    // emitted by guides/[slug]/page.tsx only when present.
+    // `faq`: each question/answer MUST also appear, in substance, as a
+    //   question-shaped heading + answer in the body — Google's FAQ
+    //   policy requires the marked-up content to be visible on the page.
+    // `howToSteps`: authored for genuine ordered how-to guides only.
+    faq: z.array(faqItem).min(2).optional(),
+    howToSteps: z.array(howToStep).min(2).optional(),
   }),
   transform: (document) => ({
     ...document,

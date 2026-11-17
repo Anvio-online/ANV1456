@@ -56,6 +56,7 @@ export async function GET() {
     '## Notes',
     '- Pricing ranges published on the relevant service pages are real starting points, not lead-capture placeholders.',
     '- The AI agent demo produces an estimate, never a quote. See /terms.',
+    `- Full text of every guide, concatenated for machine reading: ${abs('/llms-full.txt')}`,
     '',
   ]
 

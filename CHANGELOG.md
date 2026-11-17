@@ -18,19 +18,13 @@ All notable changes to this project. Format follows [Keep a Changelog](https://k
 - `docs/business/` — the living business layer (positioning, ICP, services and pricing, current situation, competitors, voice), superseding `Initial/Brand_strategy.md`
 - `.claude/` operating system: modular rules, nine specialist agents, twelve commands, three skills, and three enforcement hooks ([ADR-0007](docs/engineering/adr/0007-agent-operating-system.md))
 - `ops/` for dated agent deliverables, with lead/outreach/meeting/proposal output gitignored as personal and client-confidential data
-- First-touch attribution on every captured lead — landing page, referrer, and UTM params are snapshotted by `middleware.ts` (consent-gated) and stamped onto agent-demo, contact, and audit rows, so a lead can be traced to the link it came from ([ADR-0008](docs/engineering/adr/0008-analytics-attribution-and-lead-visibility.md))
-- Agent-demo plans are now persisted to `agent_leads` (email, transcript, plan, whether the email sent, attribution) — previously the row ADR-0005 assumed was never actually written
-- PostHog product analytics wired for the lead funnel — `build_my_plan_clicked`, agent-demo turns, email submitted, plan generated, plan email sent, contact and audit submissions ([ADR-0008](docs/engineering/adr/0008-analytics-attribution-and-lead-visibility.md)). `posthog-js` is lazy-loaded only after consent, so it stays out of the shared bundle
-- Analytics consent banner — shown once, defaults to declined; analytics and the attribution cookie only run after "Accept". `/privacy` and `/cookies` updated to name PostHog, list every cookie, and describe how to withdraw consent (both pages still pending legal review)
+- **GEO infrastructure pass** ([seo-strategy.md](docs/system/seo-strategy.md) §6–§7): `/llms-full.txt` — the full text of every guide in one machine-readable document; `HowTo` and guide-level `FAQPage` structured data via optional `faq` / `howToSteps` guide frontmatter; a `WebPage` node on Home linking it to the Organization; a GEO citation-tracking log at `ops/seo/`
+- Visible **Common questions** sections on the invoice-automation and WhatsApp-API guides
+- Three guides: **How to Automate Lead Follow-Ups** (with `HowTo` markup), **AI Agents for Customer Support: What They Can and Can't Do**, and **How Much Does an AI Chatbot Cost for a Small Business?** — cross-linked from the related existing guides and listed on `/guides`
+- Anvio Instagram (`instagram.com/anvio.online`) added to `Organization.sameAs` and the site footer (Company column)
 
 ### Changed
 
-- Nav wordmark is now the real Anvio mark, inlined as SVG instead of typeset text. Server-rendered with no extra request and no layout shift; letterforms stay on `currentColor` so the mark inverts over light sections. Ships flat — the amber bloom from the source artwork is opt-in (`<Logo glow />`) rather than spending the one-glow-per-viewport budget on every page.
-
-- Footer watermark band is the real mark too (`<Logo decorative mono />`), replacing the typeset `ANVIO`. Rendered monochrome and at a third of the container width, so it reads as a sign-off rather than a background slab — the mark's amber wave at band scale was louder than the CTA above it. Retires the now-unused `--text-wordmark` token.
-
-- Favicon is the brand mark instead of a typeset "A" — the wave and star, composed as a compact square form since the full lockup is 4.28:1 and illegible at 32px. Still generated as PNG rather than a static SVG, so browsers below Safari 14 don't fall back to the /favicon.ico 404 the route exists to prevent.
-
-### Notes
-
-- Only the Home hero section is implemented; the remaining ~23 section types are typed and documented in [section-library.md](docs/system/section-library.md) but not yet built — this is the scaffold, not the finished site.
+- **Automate pricing is now published as a single "Starting from ₹30,000" floor** ([ADR-0009](docs/engineering/adr/0009-automate-pricing-starting-floor.md)), replacing the inconsistent ranges and retainer figures previously shown on `/services/automate`, the chatbot leaf, Home's engagement model, and two content pages. Grow pricing stays unpublished.
+- `Organization` structured data now carries `description`, `logo`, `image`, `areaServed` (India, UAE), `knowsAbout`, and `contactPoint`; `Organization`/`WebSite` gained stable `@id`s that every other schema builder now references instead of repeating a stub. `Article` gained `publisher`, `image`, `mainEntityOfPage`; `Service` gained `areaServed`
+- **WhatsApp Business API guide** updated for Meta's per-message pricing model (effective 2026-07-01) — free-form service replies inside the 24-hour window are no longer charged; only template messages are
