@@ -22,17 +22,17 @@ The owner approved `anshika1307goel@gmail.com` as both the admin identity and th
 
 ## Verified status (2026-11-17)
 
-- Google admin code: complete locally; OAuth client configuration still required.
+- Google admin: OAuth web client created, callback configured, owner added as the sole test user; production credentials configured. Live sign-in verification follows deployment.
 - Rate limiting: replacement database is healthy and the repaired settings are live.
 - Approved live test: chat HTTP 200, plan HTTP 200, one plan saved; email acceptance false. Resend reported that `anvio.online` is not verified. That first attempt was correctly recorded as not sent; see the successful follow-up below.
-- Admin migration and unified inbox queries: validated against a temporary embedded PostgreSQL database with synthetic data; production migration not yet applied.
+- Admin migration: applied to production with approval. All four original lead tables remain; review and delivery-event tables and email-tracking columns were verified. Unified inbox queries also passed synthetic PostgreSQL validation.
 - Automated checks: type checks, lint, 27 tests and production build passed. Anonymous admin and detail pages redirected to login; calendar exports returned 401; private responses use no-store.
-- Remaining external setup: Google OAuth, Cloudflare Turnstile, Resend webhook secret, PostHog EU key.
+- Provider setup: managed Turnstile widget created for anvio.online with pre-clearance disabled; site/secret keys configured in production. Resend delivery webhook enabled for five delivery/failure events and its signing secret configured. PostHog EU ingestion key and host configured.
 
 ## Sender verification and successful retry (2026-11-17)
 
 The owner approved adding the missing `resend._domainkey` TXT record in Hostinger. Its public key was copied exactly from Resend, TTL 3600. Existing website, SPF and sending MX records were preserved. The TXT matched on public DNS; Resend then showed the domain and all sending records as Verified.
 
-The approved live retry returned chat 200 and plan 200, saved the generated plan, and returned `emailSent: true`. Resend email `01a1e9df-9e30-7a11-a41b-52bee4109166` showed Sent and Delivered to the approved owner inbox. The database held two clearly labelled internal test plans: the first failed sending and the retry was accepted. Delivery was confirmed independently in Resend, not inferred from the database boolean. Inbox/spam placement still requires the owner to check the mailbox.
+The approved live retry returned chat 200 and plan 200, saved the generated plan, and returned `emailSent: true`. Resend email `01a1e9df-9e30-7a11-a41b-52bee4109166` showed Sent and Delivered to the approved owner inbox. The database held two clearly labelled internal test plans: the first failed sending and the retry was accepted. Delivery was confirmed independently in Resend, not inferred from the database boolean. The owner confirmed receipt in their mailbox.
 
-Admin rollout, its migration, Google OAuth, Turnstile configuration, signed delivery callbacks and PostHog setup remain separate pending work. The restored live plan flow runs the existing deployed release.
+Production rollout and live verification of admin sign-in, audit protection, signed delivery callbacks and consented analytics are in progress. Metabase remains deferred; the operational inbox serves current lead management needs.
